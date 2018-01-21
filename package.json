@@ -21,7 +21,7 @@
         "url": "https://github.com/TVke/CuriousLabyrinth/issues"
     },
     "homepage": "https://alice.thomasverhelst.be",
-    "description": "",
+    "description": "This is my graduation project. I made the moving maze game digital but in the theme of Alice in Wonderland. It is a multiplayer borggame that uses session keys to play together.",
     "devDependencies": {
         "babel-core": "^6.26.0",
         "babel-preset-env": "^1.6.1",
