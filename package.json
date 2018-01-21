@@ -2,7 +2,7 @@
     "private": true,
     "name": "curiouslabyrinth",
     "version": "1.0.0",
-    "main": "gulp.js",
+    "main": "gulpfile.js",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/TVke/CuriousLabyrinth.git"
