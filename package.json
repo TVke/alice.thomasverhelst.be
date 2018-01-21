@@ -1,0 +1,38 @@
+{
+    "private": true,
+    "name": "curiouslabyrinth",
+    "version": "1.0.0",
+    "main": "gulp.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/TVke/CuriousLabyrinth.git"
+    },
+    "keywords": [
+        "graduation",
+        "project",
+        "labyrinth",
+        "maze",
+        "curious",
+        "Alice in Wonderland"
+    ],
+    "author": "Thomas",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/TVke/CuriousLabyrinth/issues"
+    },
+    "homepage": "https://alice.thomasverhelst.be",
+    "description": "",
+    "devDependencies": {
+        "babel-core": "^6.26.0",
+        "babel-preset-env": "^1.6.1",
+        "cssnano": "^3.10.0",
+        "gulp": "^3.9.1",
+        "gulp-babel": "^7.0.0",
+        "gulp-imagemin": "^4.1.0",
+        "gulp-postcss": "^7.0.1",
+        "gulp-purgecss": "^0.19.0",
+        "gulp-uglify": "^3.0.0",
+        "postcss-cssnext": "^3.0.2",
+        "tailwindcss": "^0.4.0"
+    }
+}
