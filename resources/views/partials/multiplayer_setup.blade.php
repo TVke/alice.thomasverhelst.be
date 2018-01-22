@@ -1,0 +1,1 @@
+<h2>{{ __('game.invite-title') }}</h2>

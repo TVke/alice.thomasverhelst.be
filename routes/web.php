@@ -11,4 +11,5 @@
 |
 */
 
-Route::view('/','home')->name('home');
+Route::view('/info','info')->name('info');
+Route::get('/','GameController@view')->name('game');

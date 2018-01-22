@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | General Language Lines
+    | Home Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines are used by the construction of the multiple
@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'title'   => 'het eigenaardige doolhof',
+    'title'   => 'the curious labyrinth',
     'description-info'   => '',
     'description-general'   => '',
 

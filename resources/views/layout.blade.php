@@ -6,8 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title'){{ __('general.title') }}</title>
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
-    @if(Route::currentRouteName() === "home")
-        <meta name="description" content="{{ __('general.description-home') }}">
+    @if(Route::currentRouteName() === "info")
+        <meta name="description" content="{{ __('general.description-info') }}">
+    @elseif(Route::currentRouteName() === "game")
+        <meta name="description" content="{{ __('general.description-info') }}">
     @else
         <meta name="description" content="{{ __('general.description-general') }}">
     @endif
