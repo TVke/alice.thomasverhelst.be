@@ -10,6 +10,7 @@ class GameController extends Controller
     public function view(){
         $settings = Setting::all();
         $movable_pieces = ["line","corner","tpoint","line","corner","tpoint"];
-        return view('game',compact(['settings','movable_pieces']));
+        $rotation_options = [0,90,180,270];
+        return view('game',compact(['settings','movable_pieces','rotation_options']));
     }
 }

@@ -17,9 +17,10 @@ gulp.task('prod', ['css','js','image','favicon','font','purge']);
 gulp.task('css',function(){
     return gulp.src('resources/assets/css/**/*.css')
         .pipe(postcss([
-            tailwindcss('./tailwind.js'),
             require("postcss-import")(),
+            tailwindcss('./tailwind.js'),
             require("postcss-cssnext")(),
+            require("postcss-for")(),
             require("cssnano")({ autoprefixer: false }),
         ]))
         .pipe(gulp.dest('public/css'));
@@ -75,9 +76,9 @@ gulp.task('font', function () {
 /* PURGE: purgeCSS */
 gulp.task('purge', () => {
     return gulp
-        .src('public/css/**/*.css')
+        .src('public/css/app.css')
         .pipe(purgecss({
-            content: ['resources/assets/views/**/*.php']
+            content: ['storage/framework/views/*.php']
         }))
         .pipe(gulp.dest('public/css'));
 });

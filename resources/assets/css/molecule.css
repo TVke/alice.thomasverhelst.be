@@ -1,19 +1,44 @@
 
-.board{
+.game {
+    perspective: 2000;
+}
+
+.board {
+    background: url("/img/tablecloth2.png") center;
     margin: 0 auto;
-    max-width: 707px;
+    z-index: -2;
     width: 100%;
+    transform: rotateX(40deg);
+    transform-style: preserve-3d;
 }
-.tile{
-    max-width: 100px;
-    border: 1px solid;
-    border-radius: 4px;
-    /*margin-right: 1px;*/
-    /*margin-bottom: 1px;*/
-    height: 100%;
-    max-height: 100px;
-}
-.tile img{
-    max-height: 100%;
+.board::after{
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left:0;
+    right: 0;
     width: 100%;
+    height: 25%;
+    background: url("/img/tablecloth2.png") center;
+    transform-origin: bottom center;
+    transform: rotateX(90deg);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+}
+
+.pawns {
+    transform: rotateX(40deg);
+    transform-style: preserve-3d;
+}
+.pawns> [id^="pawn-"]{
+    transform-style: preserve-3d;
+}
+
+.tile, [id^="pawn-"] {
+    transition: all .25s ease;
+}
+
+[id^="pawn-"] img {
+    transform-origin: bottom center;
+    transform: translateY(-30%) rotateX(-50deg);
 }
