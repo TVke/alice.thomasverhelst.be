@@ -194,8 +194,9 @@ module.exports = {
 
   fonts: {
     'sans': [
-      '-apple-system',
+      'system-ui',
       'BlinkMacSystemFont',
+      '-apple-system',
       'Segoe UI',
       'Roboto',
       'Oxygen',
@@ -473,6 +474,23 @@ module.exports = {
     '4/5': '80%',
     '1/6': '16.66667%',
     '5/6': '83.33333%',
+      // 1/3 already defined
+      // 1/5 already defined
+      '1/7': '14.28571%',
+      '1/9': '11.11111%',
+      '1/11': '9.09091%',
+      '1/13': '7.69231%',
+      '1/15': '6.66667%',
+      '1/17': '5.88235%',
+      '1/19': '5.26316%',
+      '1/21': '4.76190%',
+      '1/23': '4.34783%',
+      '1/25': '4%',
+      '1/27': '3.70370%',
+      '1/29': '3.44828%',
+      '1/31': '3.22581%',
+      '1/33': '3.03030%',
+      '1/35': '2.85714%',
     'full': '100%',
     'screen': '100vw'
   },
@@ -803,7 +821,7 @@ module.exports = {
   | Here is where you control which modules are generated and what variants are
   | generated for each of those modules.
   |
-  | Currently supported variants: 'responsive', 'hover', 'focus'
+  | Currently supported variants: 'responsive', 'hover', 'focus', 'group-hover'
   |
   | To disable a module completely, use `false` instead of an array.
   |

@@ -13,5 +13,8 @@ return [
     */
 
     'invite-title'   => 'nodig spelers uit',
+    'corner-alt'   => 'nodig spelers uit',
+    'line-alt'   => 'nodig spelers uit',
+    'tpoint-alt'   => 'nodig spelers uit',
 
 ];

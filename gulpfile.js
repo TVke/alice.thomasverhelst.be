@@ -18,6 +18,7 @@ gulp.task('css',function(){
     return gulp.src('resources/assets/css/**/*.css')
         .pipe(postcss([
             tailwindcss('./tailwind.js'),
+            require("postcss-import")(),
             require("postcss-cssnext")(),
             require("cssnano")({ autoprefixer: false }),
         ]))
