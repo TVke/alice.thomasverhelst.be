@@ -10,7 +10,7 @@
         @endphp
     @endforeach
     <div class="game relative w-3/4 mx-auto my-4">
-        <div class="pawns max-w-md mx-auto absolute pin z-10 block">
+        <div class="pawns max-w-md mx-auto absolute pin z-10 block pointer-events-none">
             <div id="pawn-1" class="block w-1/{{ $field_size }} h-1/{{ $field_size }} absolute place-0-0">
                 <img class="m-auto block absolute pin w-1.5/5" src="{{ asset('img/pawn_blue.png') }}" alt="{{ __('game.pawn-blue-alt') }}">
             </div>
@@ -35,9 +35,12 @@
                         @slot('row_count')
                             {{ $field_size }}
                         @endslot
-                        @slot('count')
-                            {{ $tile_count }}
-                        @endslot
+                            @slot('x')
+                                {{ $x }}
+                            @endslot
+                            @slot('y')
+                                {{ $y }}
+                            @endslot
                         @slot('rotation')
                             @if($x%2 === 0 && $y%2 === 0) {{-- if x & y are even => sticky tiles --}}
                             @if(($x===$min && $y===$min)) {{-- corners --}}
@@ -49,15 +52,15 @@
                             @elseif(($x===$max && $y===$max))
                                 180
                             @else {{-- after corners -> other tiles --}}
-                                @if($x===$max || ($x > floor($max/2) && ($y >= floor($max/2)) && $y < $max))
-                                    90
-                                @elseif($y===$max || ($y > floor($max/2) && ($x <= floor($max/2)) && $x > $min))
-                                    180
-                                @elseif($x===$min || ($x < floor($max/2)&& ($y <= floor($max/2)) && $y > $min))
-                                    270
-                                @else
-                                    0
-                                @endif
+                            @if($x===$max || ($x > floor($max/2) && ($y >= floor($max/2)) && $y < $max))
+                                90
+                            @elseif($y===$max || ($y > floor($max/2) && ($x <= floor($max/2)) && $x > $min))
+                                180
+                            @elseif($x===$min || ($x < floor($max/2)&& ($y <= floor($max/2)) && $y > $min))
+                                270
+                            @else
+                                0
+                            @endif
                             @endif
                             @else
                                 {{ array_random($rotation_options) }}
@@ -75,14 +78,11 @@
                         @else
                             tpoint
                         @endif
-                        @else
-                            {{ array_random($movable_pieces) }}
-                            {{--                    {{ array_slice($movable_pieces,rand(0,(count($movable_pieces) - 1)))[0] }}--}}
                         @endif
+                            @slot('image')
+                                {{ array_random($movable_pieces) }}
+                            @endslot
                     @endcomponent
-                    @php
-                        ++$tile_count;
-                    @endphp
                 @endfor
             @endfor
         </div>

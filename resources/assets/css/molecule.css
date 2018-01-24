@@ -34,7 +34,7 @@
     transform-style: preserve-3d;
 }
 
-.tile, [id^="pawn-"] {
+.movable-tile, [id^="pawn-"] {
     transition: all .25s ease;
 }
 
