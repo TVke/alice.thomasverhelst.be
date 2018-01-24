@@ -73,12 +73,22 @@ gulp.task('font', function () {
 
 
 
-/* PURGE: purgeCSS */
+/* PURGE: purgeCSS WIP */
 gulp.task('purge', () => {
     return gulp
         .src('public/css/app.css')
         .pipe(purgecss({
-            content: ['storage/framework/views/*.php']
+            content: [
+                'resources/views/**/*.blade.php',
+            ],
+            extractors: [{
+                extractor: class {
+                    static extract(content) {
+                        return content.match(/[A-z0-9-:\/@]+/g) || []
+                    }
+                },
+                extensions: ['php','js','html']
+            }]
         }))
         .pipe(gulp.dest('public/css'));
 });

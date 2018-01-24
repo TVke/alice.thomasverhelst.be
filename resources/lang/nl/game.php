@@ -12,15 +12,17 @@ return [
     |
     */
 
-    'invite-title'   => 'nodig spelers uit',
-    'corner-alt'   => 'een hoek tegel',
-    'line-alt'   => 'een rechte lijn tegel',
-    'tpoint-alt'   => 'een t-punt tegel',
-    'empty-alt'   => 'een lege tegel',
+    'invite-title' => 'nodig spelers uit',
+    'corner-alt' => 'een hoek tegel',
+    'line-alt' => 'een rechte lijn tegel',
+    'tpoint-alt' => 'een t-punt tegel',
+    'empty-alt' => 'een lege tegel',
 
-    'pawn-blue-alt'   => 'blauwe pion',
-    'pawn-red-alt'   => 'rode pion',
-    'pawn-black-alt'   => 'zwarte pion',
-    'pawn-green-alt'   => 'groene pion',
+    'pawn-blue-alt' => 'blauwe pion',
+    'pawn-red-alt' => 'rode pion',
+    'pawn-black-alt' => 'zwarte pion',
+    'pawn-green-alt' => 'groene pion',
+
+    'short-start-motivation' => '',
 
 ];

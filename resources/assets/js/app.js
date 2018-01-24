@@ -32,7 +32,8 @@ const Observable = function() {
 };
 
 const view = {
-
+    pawns: document.querySelectorAll(".pawns>[id^=pawn-]"),
+    tiles: document.getElementsByClassName("movable-tile"),
 };
 
 const model = {
