@@ -47,10 +47,11 @@ const model = {
 
 const GameFieldController = {
     initial: function () {
-        this.fillFieldData();
-        viewController.setTileAssets();
+        viewController.setTileAssetLink();
+        this.setupTileModels();
+        this.setupPawnModels();
     },
-    fillFieldData: function () {
+    setupTileModels: function () {
         model.field_size.publish(parseInt(view.game_field.dataset.field_size));
         let i = 0;
         for(let y = 0;y < model.field_size.publish();++y){
@@ -68,7 +69,7 @@ const GameFieldController = {
                         let tile = view.tiles[i];
                         let tileImage = tile.getElementsByTagName("img")[0];
 
-                        if(!tileImage.classList.contains("place-" + data.x + "-" + data.y)){
+                        if(!tile.classList.contains("place-" + data.x + "-" + data.y)){
                             viewController.clearClass(tile,"place");
                             tile.classList.add("place-" + data.x + "-" + data.y);
                         }
@@ -113,6 +114,35 @@ const GameFieldController = {
             console.warn("Warning: amount of tiles("+ view.tiles.length +") is not equal to the field_size^2 ("+ model.field_size.publish() +"^2 = "+ Math.pow(model.field_size.publish(),2) +")");
         }
     },
+    setupPawnModels: function () {
+        for(let i = 0,ilen = view.pawns.length;i < ilen;++i){
+            let newPawn = new Observable();
+            newPawn.publish(viewController.getCoordinates(view.pawns[i]));
+            !function(i) {
+                newPawn.subscribe(function (data) {
+                    if(!view.pawns[i].classList.contains("place-" + data.x + "-" + data.y)){
+                        viewController.clearClass(view.pawns[i],"place");
+                        view.pawns[i].classList.add("place-" + data.x + "-" + data.y);
+                    }
+
+                    // errors
+                    if(data.x >= model.field_size.publish()+1){
+                        console.warn("the x value(" + data.x + ") is to large and the pawn will appear as floating in the air");
+                    }
+                    if(data.y >= model.field_size.publish()+1){
+                        console.warn("the y value(" + data.y + ") is to large and the pawn will appear as floating in the air");
+                    }
+                    if(data.x < -1){
+                        console.warn("the x value(" + data.x + ") is to small and the style will reset to 0");
+                    }
+                    if(data.y < -1){
+                        console.warn("the y value(" + data.y + ") is to small and the style will reset to 0");
+                    }
+                });
+            }(i);
+            model.pawns.push(newPawn);
+        }
+    },
 };
 
 const viewController = {
@@ -123,11 +153,15 @@ const viewController = {
         }
 
     },
-    setTileAssets: function () {
+    setTileAssetLink: function () {
         const firstImgSrc = view.tiles[0].getElementsByTagName("img")[0].src;
         model.tileLocation.publish(firstImgSrc.match(/.+\//g)[0]);
         model.tileType.publish(firstImgSrc.match(/(?!\.)([a-z]{3,})$/gm)[0]);
     },
+    getCoordinates: function (element) {
+        let coords = element.className.match(/(?!place-)[0-9]+-[0-9]+/g)[0].split("-");
+        return {x:parseInt(coords[0]), y:parseInt(coords[1])}
+    }
 };
 
 !function () {
