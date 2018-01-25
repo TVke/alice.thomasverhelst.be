@@ -4,7 +4,7 @@
 }
 
 .board {
-    background: url("/img/tablecloth2.png") center;
+    background: url("/img/tablecloth2.png") center bottom;
     margin: 0 auto;
     z-index: -2;
     width: 100%;
@@ -40,5 +40,5 @@
 
 [id^="pawn-"] img {
     transform-origin: bottom center;
-    transform: translateY(-30%) rotateX(-50deg);
+    transform: translateY(-30%) rotateX(-40deg);
 }
