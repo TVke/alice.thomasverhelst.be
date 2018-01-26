@@ -9,7 +9,7 @@
             $tile_count = 1;
         @endphp
     @endforeach
-    <div data-field_size="{{ $field_size }}" class="game relative w-3/4 mx-auto my-4">
+    <div data-field_size="{{ $field_size }}" class="game relative w-3/4 mx-auto mb-4">
         <div class="pawns max-w-md mx-auto absolute pin z-10 block pointer-events-none">
             <div id="pawn-1" class="block w-1/{{ $field_size }} h-1/{{ $field_size }} absolute place-0-0">
                 <img class="m-auto block absolute pin w-1.5/5" src="{{ asset('img/pawn_blue.png') }}" alt="{{ __('game.pawn-blue-alt') }}">
