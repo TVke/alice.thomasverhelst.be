@@ -210,7 +210,7 @@ const pathController = {
         let found = false;
         mainList.push({x:from.x, y:from.y, step:0});
 
-        for(let i = 0,ilen = mainList.length;i < ilen && !found;++i){
+        for(let i = 0;i < mainList.length && !found;++i){
 
             // give every element in the main list an array of possible next moves
             let possibleNextMoves = [];
@@ -284,9 +284,6 @@ const pathController = {
                     }
                 }
             }
-
-            // refreshing the ilen value otherwise the loop would end
-            ilen = mainList.length;
         }
 
         if(found){
