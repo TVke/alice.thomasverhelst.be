@@ -22,7 +22,7 @@ return [
 
     'game-overview' => 'Vanaf het minimum aan spelers is bereikt kan het spel beginnen. 
     Iedere speler krijgt een voorwerp toegewezen om te zoeken in het doolhof. 
-    De spelers zijn afwisselend aan beurt en kunnen de veranderingen meevolgen op hun eigen aparaat. ',
+    De spelers zijn afwisselend aan beurt en kunnen de veranderingen meevolgen op hun eigen apparaat. ',
 
     'turn-title' => 'Elke beurt',
     'turn-step-1' => 'De actieve speler mag de losse tegel in het doolhof schuiven op één van de gemarkeerde locaties (ongedaan maken van de laatste verplaatsing is verboden). 
@@ -30,10 +30,10 @@ return [
     'turn-step-2' => 'De actieve speler mag zijn pion verplaatsen via de niet geblokkeerde wegen en mag overal de pion laten staan. ',
 
 
-    'end-of-game' => 'een speler heeft gewonnen als hij/zij alle voorwerpen heeft gevonden die werden opgelegd en is teruggekeerd naar de begin positie. ',
+    'end-of-game' => 'Een speler heeft gewonnen als hij/zij alle voorwerpen heeft gevonden die werden opgelegd en is teruggekeerd naar de begin positie. ',
 
     'extra-explanation-1' => 'Als een pion staat op het einde van een geduwde rij tegels staat. 
-    Dan zal deze aan de ondere kant op de nieuw ingeschoven tegel terechtkomen. ',
+    Dan zal deze aan de andere kant op de nieuw ingeschoven tegel terechtkomen. ',
     'extra-explanation-2' => 'Er mogen meerdere pionen staan op dezelfde tegel. ',
 
 ];

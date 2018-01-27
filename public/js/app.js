@@ -46,13 +46,14 @@ var model = {
     tileLocation: new Observable(),
     tileType: new Observable(),
     animationSpeedInSeconds: new Observable(),
-    activePlayer: new Observable()
+    activePlayer: new Observable(),
+    mover: new Observable()
 };
 var GameController = {
     initial: function initial() {
         GameFieldController.initial();
         EventController.initial();
-        model.animationSpeedInSeconds.publish(.3);
+        model.animationSpeedInSeconds.publish(.25);
         model.activePlayer.publish(0);
     }
 };
@@ -93,7 +94,7 @@ var GameFieldController = {
                             tileImage.src = model.tileLocation.publish() + data.type + "." + model.tileType.publish();
                         }
 
-                        // errors
+                        // warnings and errors
                         if (data.x >= model.field_size.publish() + 1) {
                             console.warn("the x value(" + data.x + ") is to large and the tile will appear as floating in the air");
                         }
@@ -140,7 +141,7 @@ var GameFieldController = {
                         view.pawns[i].classList.add("place-" + data.x + "-" + data.y);
                     }
 
-                    // errors
+                    // warnings and errors
                     if (data.x >= model.field_size.publish() + 1) {
                         console.warn("the x value(" + data.x + ") is to large and the pawn will appear as floating in the air");
                     }
@@ -189,11 +190,22 @@ var EventController = {
     tileListeners: function tileListeners() {
         for (var i = 0, ilen = view.tiles.length; i < ilen; ++i) {
             !function (i) {
-                view.tiles[i].addEventListener("click", function () {
+                view.tiles[i].addEventListener("click", function (e) {
+                    e.preventDefault();
+                    clearInterval(model.mover.publish());
                     var x = i % model.field_size.publish();
                     var y = Math.floor(i / model.field_size.publish());
-                    console.log("x: " + x + " y: " + y);
                     pathController.move(model.pawns[model.activePlayer.publish()], { x: x, y: y });
+                    if (!pathController.givePathToGo(model.pawns[model.activePlayer.publish()].publish(), { x: x, y: y })) {
+                        if (!view.tiles[i].classList.contains("error")) {
+                            view.tiles[i].classList.add("error");
+                        }
+                        setTimeout(function () {
+                            if (view.tiles[i].classList.contains("error")) {
+                                view.tiles[i].classList.remove("error");
+                            }
+                        }, Math.round(model.animationSpeedInSeconds.publish() * 3 * 1000));
+                    }
                 });
             }(i);
         }
@@ -202,7 +214,7 @@ var EventController = {
 
 var pathController = {
     move: function move(element, to) {
-        this.moveOnPath(element, this.cleanPath(this.givePathToGo(element.publish(), to)));
+        this.moveOnPath(element, this.cleanPath(this.givePathToGo(element.publish(), to), to));
     },
     givePathToGo: function givePathToGo(from, to) {
         var mainList = [];
@@ -391,11 +403,12 @@ var pathController = {
         }
         return isWall;
     },
-    cleanPath: function cleanPath(path) {
+    cleanPath: function cleanPath(path, to) {
         if (path) {
             var backwardsPath = path.reverse();
             var newPath = [];
-            newPath.push(backwardsPath[0]);
+            var indexOfTo = this.indexOfTileObject(to, backwardsPath);
+            newPath.push(backwardsPath[indexOfTo]);
 
             for (var i = 0, ilen = backwardsPath.length; i < ilen; ++i) {
                 var lastElement = newPath[newPath.length - 1];
@@ -404,17 +417,20 @@ var pathController = {
                     lastElement = backwardsPath[i];
                 }
             }
-
             return newPath.reverse();
         } else {
             return false;
         }
     },
+    indexOfTileObject: function indexOfTileObject(to, array) {
+        for (var i = 0, ilen = array.length; i < ilen; ++i) {
+            if (array[i].x === to.x && array[i].y === to.y) {
+                return i;
+            }
+        }
+    },
     moveOnPath: function moveOnPath(element, path) {
         var placeOnPath = 0;
-        setTimeout(function () {
-            clearInterval(move);
-        }, Math.round(model.animationSpeedInSeconds.publish() * (path.length + 1) * 1000));
 
         if (placeOnPath < path.length) {
             element.publish({
@@ -423,10 +439,10 @@ var pathController = {
             });
             ++placeOnPath;
         } else {
-            clearInterval(move);
+            clearInterval(model.mover.publish());
         }
 
-        var move = setInterval(function () {
+        model.mover.publish(setInterval(function () {
             if (placeOnPath < path.length) {
                 element.publish({
                     x: path[placeOnPath].x,
@@ -434,9 +450,9 @@ var pathController = {
                 });
                 ++placeOnPath;
             } else {
-                clearInterval(move);
+                clearInterval(model.mover.publish());
             }
-        }, Math.round(model.animationSpeedInSeconds.publish() * 1000));
+        }, Math.round(model.animationSpeedInSeconds.publish() * 1000)));
     }
 };
 

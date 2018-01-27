@@ -42,3 +42,9 @@
     transform-origin: bottom center;
     transform: translateY(-30%) rotateX(-40deg);
 }
+
+.tile.error{
+    background: #e3342f;
+    z-index: 30;
+    box-shadow: 0 0 5px #e3342f;
+}

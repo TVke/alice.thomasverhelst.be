@@ -45,12 +45,13 @@ const model = {
     tileType: new Observable(),
     animationSpeedInSeconds: new Observable(),
     activePlayer: new Observable(),
+    mover: new Observable(),
 };
 const GameController = {
     initial: function () {
         GameFieldController.initial();
         EventController.initial();
-        model.animationSpeedInSeconds.publish(.3);
+        model.animationSpeedInSeconds.publish(.25);
         model.activePlayer.publish(0);
     }
 };
@@ -90,7 +91,7 @@ const GameFieldController = {
                             tileImage.src = model.tileLocation.publish() + data.type + "." + model.tileType.publish();
                         }
 
-                        // errors
+                        // warnings and errors
                         if(data.x >= model.field_size.publish()+1){
                             console.warn("the x value(" + data.x + ") is to large and the tile will appear as floating in the air");
                         }
@@ -133,7 +134,7 @@ const GameFieldController = {
                         view.pawns[i].classList.add("place-" + data.x + "-" + data.y);
                     }
 
-                    // errors
+                    // warnings and errors
                     if(data.x >= model.field_size.publish()+1){
                         console.warn("the x value(" + data.x + ") is to large and the pawn will appear as floating in the air");
                     }
@@ -178,11 +179,22 @@ const EventController = {
     tileListeners: function () {
         for(let i = 0,ilen = view.tiles.length;i < ilen;++i){
             !function (i) {
-                view.tiles[i].addEventListener("click",function () {
+                view.tiles[i].addEventListener("click",function (e) {
+                    e.preventDefault();
+                    clearInterval(model.mover.publish());
                     const x = i%model.field_size.publish();
                     const y = Math.floor(i/model.field_size.publish());
-                    console.log("x: "+ x +" y: "+ y);
-                    pathController.move(model.pawns[model.activePlayer.publish()],{x: x,y: y})
+                    pathController.move(model.pawns[model.activePlayer.publish()], {x: x,y: y});
+                    if(!pathController.givePathToGo(model.pawns[model.activePlayer.publish()].publish(), {x: x,y: y})){
+                        if(!view.tiles[i].classList.contains("error")){
+                            view.tiles[i].classList.add("error");
+                        }
+                        setTimeout(function () {
+                            if(view.tiles[i].classList.contains("error")){
+                                view.tiles[i].classList.remove("error");
+                            }
+                        },Math.round(model.animationSpeedInSeconds.publish()*3*1000));
+                    }
                 });
             }(i);
         }
@@ -191,7 +203,7 @@ const EventController = {
 
 const pathController = {
     move: function (element, to) {
-        this.moveOnPath(element, this.cleanPath(this.givePathToGo(element.publish(), to)));
+        this.moveOnPath(element, this.cleanPath(this.givePathToGo(element.publish(), to),to));
     },
     givePathToGo: function (from, to) {
         let mainList = [];
@@ -384,11 +396,12 @@ const pathController = {
         }
         return isWall;
     },
-    cleanPath: function (path) {
+    cleanPath: function (path, to) {
         if(path){
             let backwardsPath = path.reverse();
             let newPath = [];
-            newPath.push(backwardsPath[0]);
+            let indexOfTo = this.indexOfTileObject(to,backwardsPath);
+            newPath.push(backwardsPath[indexOfTo]);
 
             for(let i = 0,ilen = backwardsPath.length;i<ilen;++i){
                 let lastElement = newPath[newPath.length-1];
@@ -403,17 +416,20 @@ const pathController = {
                     lastElement = backwardsPath[i];
                 }
             }
-
             return newPath.reverse();
         }else{
             return false;
         }
     },
+    indexOfTileObject: function (to, array) {
+        for(let i = 0,ilen = array.length;i<ilen;++i){
+            if(array[i].x === to.x && array[i].y === to.y){
+                return i;
+            }
+        }
+    },
     moveOnPath: function (element, path) {
         let placeOnPath = 0;
-        setTimeout(function () {
-            clearInterval(move);
-        }, Math.round((model.animationSpeedInSeconds.publish()*(path.length+1))*1000));
 
         if(placeOnPath < path.length){
             element.publish({
@@ -422,10 +438,11 @@ const pathController = {
             });
             ++placeOnPath;
         }else{
-            clearInterval(move);
+            clearInterval(model.mover.publish());
         }
 
-        let move = setInterval(function () {
+        model.mover.publish(
+            setInterval(function () {
             if(placeOnPath < path.length){
             element.publish({
                 x: path[placeOnPath].x,
@@ -433,9 +450,9 @@ const pathController = {
             });
                 ++placeOnPath;
             }else{
-                clearInterval(move);
+                clearInterval(model.mover.publish());
             }
-        }, Math.round(model.animationSpeedInSeconds.publish()*1000));
+        }, Math.round(model.animationSpeedInSeconds.publish()*1000)));
     },
 };
 

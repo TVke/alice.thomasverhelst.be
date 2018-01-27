@@ -174,7 +174,7 @@ return [
          */
         Alice\Providers\AppServiceProvider::class,
         Alice\Providers\AuthServiceProvider::class,
-        // Alice\Providers\BroadcastServiceProvider::class,
+        Alice\Providers\BroadcastServiceProvider::class,
         Alice\Providers\EventServiceProvider::class,
         Alice\Providers\RouteServiceProvider::class,
 
