@@ -11,5 +11,14 @@
 |
 */
 
+use Alice\Events\GameStatusUpdate;
+
 Route::view('/info','info')->name('info');
 Route::get('/','GameController@view')->name('game');
+Route::get('/game',function (){
+    GameStatusUpdate::dispatch();
+
+return "gelukt";
+});
+
+Route::get('/','GameController@');

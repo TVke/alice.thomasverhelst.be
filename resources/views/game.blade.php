@@ -11,18 +11,23 @@
     @endforeach
     <div data-field_size="{{ $field_size }}" class="game relative w-3/4 mx-auto mb-4">
         <div class="pawns max-w-md mx-auto absolute pin z-10 block pointer-events-none">
-            <div id="pawn-1" class="block w-1/{{ $field_size }} h-1/{{ $field_size }} absolute place-0-0">
-                <img class="m-auto block absolute pin w-1.5/5" src="{{ asset('img/pawn_blue.png') }}" alt="{{ __('game.pawn-blue-alt') }}">
-            </div>
-            <div id="pawn-2" class="block w-1/{{ $field_size }} h-1/{{ $field_size }} absolute place-{{ $field_size-1 }}-0">
-                <img class="m-auto block absolute pin w-1.5/5" src="{{ asset('img/pawn_red.png') }}" alt="{{ __('game.pawn-red-alt') }}">
-            </div>
-            <div id="pawn-3" class="block w-1/{{ $field_size }} h-1/{{ $field_size }} absolute place-{{ $field_size-1 }}-{{ $field_size-1 }}">
-                <img class="m-auto block absolute pin w-1.5/5" src="{{ asset('img/pawn_black.png') }}" alt="{{ __('game.pawn-black-alt') }}">
-            </div>
-            <div id="pawn-4" class="block w-1/{{ $field_size }} h-1/{{ $field_size }} absolute place-0-{{ $field_size-1 }}">
-                <img class="m-auto block absolute pin w-1.5/5" src="{{ asset('img/pawn_green.png') }}" alt="{{ __('game.pawn-green-alt') }}">
-            </div>
+            @for($i = 1; $i <= $pawn_count; ++$i)
+                @component('partials/pawn')
+                    @slot('field_size')
+                        {{ $field_size }}
+                    @endslot
+                    @slot('pawn_count')
+                        {{ $pawn_count }}
+                    @endslot
+                    @slot('x')
+                        {{ ($i===1||$i===4)?0:$field_size-1 }}
+                    @endslot
+                    @slot('y')
+                        {{ ($i <= ($pawn_count/2))?0:$field_size-1 }}
+                    @endslot
+                    {{ $i }}
+                @endcomponent
+            @endfor
         </div>
         <div class="board flex flex-wrap mx-auto max-w-md shadow relative z--20 rounded-sm">
             @for ($y = 0; $y < $field_size; ++$y)
@@ -32,7 +37,7 @@
                         $max = $field_size-1;
                     @endphp
                     @component('partials.board_tile')
-                        @slot('row_count')
+                        @slot('field_size')
                             {{ $field_size }}
                         @endslot
                             @slot('x')

@@ -18,10 +18,10 @@ return [
     'tpoint-alt' => 'een t-punt tegel',
     'empty-alt' => 'een lege tegel',
 
-    'pawn-blue-alt' => 'blauwe pion',
-    'pawn-red-alt' => 'rode pion',
-    'pawn-black-alt' => 'zwarte pion',
-    'pawn-green-alt' => 'groene pion',
+    'pawn-1-alt' => 'blauwe pion',
+    'pawn-2-alt' => 'rode pion',
+    'pawn-3-alt' => 'zwarte pion',
+    'pawn-4-alt' => 'groene pion',
 
     'short-start-motivation' => '',
 

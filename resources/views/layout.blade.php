@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title'){{ __('general.title') }}</title>
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @if(Route::currentRouteName() === "info")
         <meta name="description" content="{{ __('general.description-info') }}">
     @elseif(Route::currentRouteName() === "game")

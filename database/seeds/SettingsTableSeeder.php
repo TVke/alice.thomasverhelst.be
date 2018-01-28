@@ -14,7 +14,8 @@ class SettingsTableSeeder extends Seeder
     {
         DB::table('settings')->insert([
             ['key' => 'field_size','value' => 7,],
-//            ['key' => 'field-size','value' => 7,],
+            ['key' => 'pawn_count','value' => 4,],
+//            ['key' => 'pawn_count','value' => 4,],
         ]);
     }
 }
