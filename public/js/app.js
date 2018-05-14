@@ -4139,7 +4139,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             paused: true
         };
     },
-    mounted: function mounted() {
+    created: function created() {
         var _this = this;
 
         axios.get('/game/tiles').then(function (_ref) {
@@ -4151,172 +4151,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Event.$on('start-play', function () {
             _this.paused = false;
         });
-    }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/GameSetup.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode__ = __webpack_require__("./node_modules/@xkeshi/vue-qrcode/dist/vue-qrcode.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: "GameSetup",
-    components: { Qrcode: __WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode___default.a },
-    data: function data() {
-        return {
-            username: '',
-            pawn: '',
-            usernameErrorShow: false,
-            usernameError: 'The username needs to at least 2 characters. Try a different one. ',
-            pawnErrorShow: false,
-            pawnError: 'Please, choose a pawn. ',
-            submited: false,
-            pawnOptions: [{ name: 'Alice', value: 'Alice', taken: false }, { name: 'Queen of Hearts', value: 'Queen of Hearts', taken: false }, { name: 'Mad Hatter', value: 'Mad Hatter', taken: false }, { name: 'White Rabbit', value: 'White Rabbit', taken: false }],
-            sessionUrl: '',
-            setupDone: false,
-            players: []
-        };
-    },
-    mounted: function mounted() {
-        var _this = this;
-
-        axios.get('/game/players').then(function (_ref) {
-            var data = _ref.data;
-
-            _this.players = data;
-
-            for (var player in data) {
-                var usedPawn = '';
-
-                if (data.hasOwnProperty(player)) {
-                    usedPawn = data[player].pawn;
-                }
-
-                for (var pawn in _this.pawnOptions) {
-                    var currentPawn = _this.pawnOptions[pawn];
-
-                    if (usedPawn === currentPawn.value) {
-                        currentPawn.taken = true;
-                    }
-                }
-            }
-        });
-    },
-
-    computed: {
-        allowNewPlayer: function allowNewPlayer() {
-            return this.players.length !== 4;
-        }
-    },
-    methods: {
-        addPlayer: function addPlayer() {
-            var _this2 = this;
-
-            this.pawnErrorShow = false;
-            this.usernameErrorShow = false;
-
-            if (this.username.length < 2) {
-                this.usernameErrorShow = true;
-
-                return;
-            }
-
-            axios.put('/add/player/', { username: this.username, pawn: this.pawn }).then(function (response) {
-                _this2.sessionUrl = response.data;
-
-                _this2.players.push({
-                    id: null,
-                    pawn: _this2.pawn,
-                    username: _this2.username
-                });
-
-                _this2.submited = true;
-            }).catch(function (_ref2) {
-                var response = _ref2.response;
-
-                _this2.submited = false;
-
-                var errors = response.data.errors;
-
-                if (errors.username) {
-                    _this2.usernameError = errors.username[0];
-                    _this2.usernameErrorShow = true;
-                }
-
-                if (errors.pawn) {
-                    _this2.pawnError = errors.pawn[0];
-                    _this2.pawnErrorShow = true;
-                }
-            });
-        },
-        setupIsDone: function setupIsDone() {
-            this.setupDone = true;
-            Event.$emit('start-play');
-        }
     }
 });
 
@@ -4381,6 +4215,367 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     }
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/Player.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "Player",
+    props: ['pawn']
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/PlayerCards.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Player_vue__ = __webpack_require__("./resources/assets/js/components/players/Player.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Player_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Player_vue__);
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "PlayerCards",
+    components: { Player: __WEBPACK_IMPORTED_MODULE_0__Player_vue___default.a }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/setup/GameSetup.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode__ = __webpack_require__("./node_modules/@xkeshi/vue-qrcode/dist/vue-qrcode.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PlayerForm_vue__ = __webpack_require__("./resources/assets/js/components/setup/PlayerForm.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PlayerForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__PlayerForm_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "GameSetup",
+    components: { Qrcode: __WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode___default.a, PlayerForm: __WEBPACK_IMPORTED_MODULE_1__PlayerForm_vue___default.a },
+    data: function data() {
+        return {
+            sessionUrl: '',
+            setupDone: false,
+            players: [],
+            pawnOptions: [{ name: 'Alice', value: 'Alice', choosen: false }, { name: 'Queen of Hearts', value: 'Queen of Hearts', choosen: false }, { name: 'Mad Hatter', value: 'Mad Hatter', choosen: false }, { name: 'White Rabbit', value: 'White Rabbit', choosen: false }]
+        };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('/game/players').then(function (_ref) {
+            var data = _ref.data;
+
+            _this.players = data;
+
+            _this.updateOptions(data);
+        });
+    },
+
+    computed: {
+        allowNewPlayer: function allowNewPlayer() {
+            return this.players.length < 4;
+        },
+        gameCanStart: function gameCanStart() {
+            return this.players.length >= 2;
+        },
+        showCurrentPlayers: function showCurrentPlayers() {
+            return this.players.length >= 1;
+        }
+    },
+    methods: {
+        setupIsDone: function setupIsDone() {
+            this.setupDone = true;
+
+            Event.$emit('start-play');
+        },
+        addPlayer: function addPlayer(data) {
+            this.players.push(data);
+        },
+        updateOptions: function updateOptions(data) {
+            for (var player in data) {
+                var usedPawn = '';
+
+                if (data.hasOwnProperty(player)) {
+                    usedPawn = data[player].pawn;
+                }
+
+                for (var pawn in this.pawnOptions) {
+                    if (usedPawn === this.pawnOptions[pawn].value) {
+                        this.pawnOptions[pawn].choosen = true;
+                    }
+                }
+            }
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/setup/PlayerForm.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "PlayerForm",
+    props: ['options'],
+    data: function data() {
+        return {
+            username: '',
+            pawn: '',
+            usernameErrorShow: false,
+            usernameError: 'The username needs to at least 2 characters. Try a different one. ',
+            pawnErrorShow: false,
+            pawnError: 'Please, choose a pawn. ',
+            submited: false
+        };
+    },
+
+    methods: {
+        addPlayer: function addPlayer() {
+            var _this = this;
+
+            this.pawnErrorShow = false;
+            this.usernameErrorShow = false;
+
+            if (this.username.length < 2) {
+                this.usernameErrorShow = true;
+
+                return;
+            }
+
+            axios.put('/add/player/', { username: this.username, pawn: this.pawn }).then(function (_ref) {
+                var data = _ref.data;
+
+                _this.$emit('session-known', data);
+
+                _this.$emit('player-added', { id: null, pawn: _this.pawn, username: _this.username });
+
+                _this.submited = true;
+            }).catch(function (_ref2) {
+                var response = _ref2.response;
+
+                _this.submited = false;
+
+                var errors = response.data.errors;
+
+                if (errors.username) {
+                    _this.usernameError = errors.username[0];
+                    _this.usernameErrorShow = true;
+                }
+
+                if (errors.pawn) {
+                    _this.pawnError = errors.pawn[0];
+                    _this.pawnErrorShow = true;
+                }
+            });
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/Player.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/PlayerCards.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/lib/css-base.js":
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
 
 /***/ }),
 
@@ -10022,6 +10217,29 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2eab94d5\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Player.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("img", { attrs: { src: _vm.pawn.src, alt: _vm.pawn.alt } })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2eab94d5", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-387d813f\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Pawn.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10051,6 +10269,188 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-387d813f", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-47114c3e\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/PlayerCards.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-47114c3e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-57380e64\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/setup/PlayerForm.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("form", { staticClass: "md:flex-wrap md:flex" }, [
+    _c("div", { staticClass: "flex-1 p-2" }, [
+      _c(
+        "label",
+        {
+          staticClass: "py-2 block",
+          class: { "text-red": _vm.usernameErrorShow },
+          attrs: { for: "username" }
+        },
+        [_vm._v("Username")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.username,
+            expression: "username"
+          }
+        ],
+        staticClass: "block p-2 w-full border border-grey rounded text-base",
+        class: { "border-red": _vm.usernameErrorShow },
+        attrs: { required: "", id: "username", disabled: _vm.submited },
+        domProps: { value: _vm.username },
+        on: {
+          keydown: function($event) {
+            _vm.usernameErrorShow = false
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.username = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "p-2" }, [
+      _c(
+        "label",
+        {
+          staticClass: "py-2 block",
+          class: { "text-red": _vm.pawnErrorShow },
+          attrs: { for: "pawn" }
+        },
+        [_vm._v("Your pawn")]
+      ),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.pawn,
+              expression: "pawn"
+            }
+          ],
+          staticClass: "block w-full border border-grey text-base",
+          class: { "border-red": _vm.pawnErrorShow },
+          attrs: { id: "pawn", required: "", disabled: _vm.submited },
+          on: {
+            change: [
+              function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.pawn = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+              function($event) {
+                _vm.pawnErrorShow = false
+              }
+            ]
+          }
+        },
+        _vm._l(_vm.options, function(option) {
+          return _c(
+            "option",
+            {
+              attrs: { disabled: option.choosen },
+              domProps: { value: option.value }
+            },
+            [
+              _vm._v(
+                "\n                " + _vm._s(option.name) + "\n            "
+              )
+            ]
+          )
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "w-full p-2 block", class: { hidden: _vm.submited } },
+      [
+        _c(
+          "p",
+          {
+            staticClass: "block p-2 bg-grey-lighter rounded mb-4 -mt-2",
+            class: { hidden: !_vm.usernameErrorShow }
+          },
+          [_vm._v("\n            " + _vm._s(_vm.usernameError) + "\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "p",
+          {
+            staticClass: "block p-2 bg-grey-lighter rounded mb-4 -mt-2",
+            class: { hidden: !_vm.pawnErrorShow }
+          },
+          [_vm._v("\n            " + _vm._s(_vm.pawnError) + "\n        ")]
+        ),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "bg-alice-lighter py-2 px-3 rounded mt-2",
+          attrs: {
+            type: "submit",
+            value: "Submit choose",
+            disabled: _vm.submited
+          },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.addPlayer($event)
+            }
+          }
+        })
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-57380e64", module.exports)
   }
 }
 
@@ -10093,7 +10493,7 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7674cff8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/GameSetup.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ff4c299c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/setup/GameSetup.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -10116,166 +10516,27 @@ var render = function() {
           class: { "translateY--100": _vm.setupDone }
         },
         [
-          _c(
-            "h2",
-            { staticClass: "p-2", class: { hidden: !_vm.allowNewPlayer } },
-            [_vm._v("Choose your pawn")]
-          ),
+          _vm.allowNewPlayer
+            ? _c("h2", { staticClass: "p-2" }, [_vm._v("Choose your pawn")])
+            : _vm._e(),
           _vm._v(" "),
-          _c("form", { staticClass: "md:flex-wrap md:flex" }, [
-            _c(
-              "div",
-              {
-                staticClass: "flex-1 p-2",
-                class: { hidden: !_vm.allowNewPlayer }
-              },
-              [
-                _c(
-                  "label",
-                  {
-                    staticClass: "py-2 block",
-                    class: { "text-red": _vm.usernameErrorShow },
-                    attrs: { for: "username" }
+          _vm.allowNewPlayer
+            ? _c("player-form", {
+                attrs: { options: _vm.pawnOptions },
+                on: {
+                  "session-known": function($event) {
+                    _vm.sessionUrl = $event
                   },
-                  [_vm._v("Username")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.username,
-                      expression: "username"
-                    }
-                  ],
-                  staticClass:
-                    "block p-2 w-full border border-grey rounded text-base",
-                  class: { "border-red": _vm.usernameErrorShow },
-                  attrs: {
-                    id: "username",
-                    required: "",
-                    disabled: _vm.submited
-                  },
-                  domProps: { value: _vm.username },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.username = $event.target.value
-                    }
-                  }
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "p-2", class: { hidden: !_vm.allowNewPlayer } },
-              [
-                _c(
-                  "label",
-                  {
-                    staticClass: "py-2 block",
-                    class: { "text-red": _vm.pawnErrorShow },
-                    attrs: { for: "pawn" }
-                  },
-                  [_vm._v("Your pawn")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.pawn,
-                        expression: "pawn"
-                      }
-                    ],
-                    staticClass: "block w-full border border-grey text-base",
-                    class: { "border-red": _vm.pawnErrorShow },
-                    attrs: { id: "pawn", required: "", disabled: _vm.submited },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.pawn = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.pawnOptions, function(option) {
-                    return _c(
-                      "option",
-                      {
-                        attrs: { disabled: option.taken },
-                        domProps: { value: option.value }
-                      },
-                      [_vm._v(_vm._s(option.name) + "\n                    ")]
-                    )
-                  })
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "w-full p-2 block",
-                class: { hidden: _vm.submited || !_vm.allowNewPlayer }
-              },
-              [
-                _c(
-                  "p",
-                  {
-                    staticClass: "block p-2 bg-grey-lighter rounded mb-4 -mt-2",
-                    class: { hidden: !_vm.usernameErrorShow }
-                  },
-                  [_vm._v(_vm._s(_vm.usernameError))]
-                ),
-                _vm._v(" "),
-                _c(
-                  "p",
-                  {
-                    staticClass: "block p-2 bg-grey-lighter rounded mb-4 -mt-2",
-                    class: { hidden: !_vm.pawnErrorShow }
-                  },
-                  [_vm._v(_vm._s(_vm.pawnError))]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "bg-alice-lighter py-2 px-3 rounded mt-2",
-                  attrs: {
-                    type: "submit",
-                    value: "Submit choose",
-                    disabled: _vm.submited
-                  },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.addPlayer($event)
-                    }
-                  }
-                })
-              ]
-            )
-          ]),
+                  "player-added": _vm.addPlayer
+                }
+              })
+            : _vm._e(),
           _vm._v(" "),
           _c(
             "section",
             {
               staticClass: "w-full p-2 py-4 block",
-              class: { hidden: _vm.sessionUrl === "" }
+              class: { hidden: !_vm.sessionUrl }
             },
             [
               _c("h2", { staticClass: "py-2" }, [_vm._v("Share this url")]),
@@ -10302,7 +10563,7 @@ var render = function() {
               "h3",
               {
                 staticClass: "block py-2 pb-3",
-                class: { hidden: _vm.players.length < 1 }
+                class: { hidden: !_vm.showCurrentPlayers }
               },
               [_vm._v("Current players")]
             ),
@@ -10311,11 +10572,17 @@ var render = function() {
               "ul",
               {
                 staticClass: "block list-reset",
-                class: { hidden: _vm.players.length < 1 }
+                class: { hidden: !_vm.showCurrentPlayers }
               },
               _vm._l(_vm.players, function(player) {
                 return _c("li", { key: player.id }, [
-                  _vm._v(" - " + _vm._s(player.username) + ": "),
+                  _vm._v(
+                    "\n                    - " +
+                      _vm._s(player.username) +
+                      " is " +
+                      _vm._s(player.pawn !== "Alice" ? "the " : "") +
+                      "\n                    "
+                  ),
                   _c("strong", { staticClass: "text-grey-dark" }, [
                     _vm._v(_vm._s(player.pawn))
                   ])
@@ -10328,7 +10595,7 @@ var render = function() {
               {
                 staticClass:
                   "block bg-alice-lighter text-base py-2 px-3 border-none rounded mt-6 mx-auto",
-                class: { hidden: _vm.players.length < 2 },
+                class: { hidden: !_vm.gameCanStart },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -10339,7 +10606,8 @@ var render = function() {
               [_vm._v("Start the game\n            ")]
             )
           ])
-        ]
+        ],
+        1
       )
     ]
   )
@@ -10350,9 +10618,326 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7674cff8", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-ff4c299c", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/Player.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/Player.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("4459f3c6", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Player.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Player.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/PlayerCards.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/PlayerCards.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("2538a258", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PlayerCards.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PlayerCards.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/lib/addStylesClient.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__("./node_modules/vue-style-loader/lib/listToStyles.js")
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/lib/listToStyles.js":
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
 
 /***/ }),
 
@@ -21379,7 +21964,8 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 window.Event = new Vue();
 
-Vue.component("game-setup", __webpack_require__("./resources/assets/js/components/GameSetup.vue"));
+Vue.component("game-setup", __webpack_require__("./resources/assets/js/components/setup/GameSetup.vue"));
+Vue.component("player-cards", __webpack_require__("./resources/assets/js/components/players/PlayerCards.vue"));
 Vue.component("game-board", __webpack_require__("./resources/assets/js/components/GameBoard.vue"));
 
 new Vue({
@@ -21486,54 +22072,6 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/GameSetup.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/GameSetup.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7674cff8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/GameSetup.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/GameSetup.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7674cff8", Component.options)
-  } else {
-    hotAPI.reload("data-v-7674cff8", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ "./resources/assets/js/components/Pawn.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21619,6 +22157,206 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-6befec65", Component.options)
   } else {
     hotAPI.reload("data-v-6befec65", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/players/Player.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/Player.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/Player.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2eab94d5\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Player.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-2eab94d5"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/players/Player.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2eab94d5", Component.options)
+  } else {
+    hotAPI.reload("data-v-2eab94d5", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/players/PlayerCards.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/PlayerCards.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/PlayerCards.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-47114c3e\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/PlayerCards.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-47114c3e"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/players/PlayerCards.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-47114c3e", Component.options)
+  } else {
+    hotAPI.reload("data-v-47114c3e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/setup/GameSetup.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/setup/GameSetup.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ff4c299c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/setup/GameSetup.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/setup/GameSetup.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ff4c299c", Component.options)
+  } else {
+    hotAPI.reload("data-v-ff4c299c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/setup/PlayerForm.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/setup/PlayerForm.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-57380e64\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/setup/PlayerForm.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/setup/PlayerForm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-57380e64", Component.options)
+  } else {
+    hotAPI.reload("data-v-57380e64", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

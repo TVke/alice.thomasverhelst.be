@@ -2,8 +2,13 @@
 
 @section('content')
 
+    <noscript class="flex absolute pin">
+        <p class="m-auto">This game only works with Javascript turned on.</p>
+    </noscript>
+
     <div id="game">
         <game-setup></game-setup>
+        <player-cards></player-cards>
         <game-board></game-board>
     </div>
 

@@ -26,7 +26,7 @@
                 paused: true,
             };
         },
-        mounted() {
+        created() {
             axios.get('/game/tiles')
                 .then(({data}) => {
                     this.tiles = data

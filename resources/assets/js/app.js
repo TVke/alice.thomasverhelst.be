@@ -16,9 +16,10 @@ window.Vue = require("vue");
 
 window.Event = new Vue();
 
-Vue.component("game-setup", require("./components/GameSetup.vue"));
+Vue.component("game-setup", require("./components/setup/GameSetup.vue"));
+Vue.component("player-cards", require("./components/players/PlayerCards.vue"));
 Vue.component("game-board", require("./components/GameBoard.vue"));
 
 new Vue({
-    el: "#game"
+    el: "#game",
 });
