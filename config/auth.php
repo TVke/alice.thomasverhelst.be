@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'players',
     ],
 
     /*
@@ -38,12 +38,12 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'players',
         ],
 
         'api' => [
             'driver' => 'token',
-            'provider' => 'users',
+            'provider' => 'players',
         ],
     ],
 
@@ -65,15 +65,10 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'players' => [
             'driver' => 'eloquent',
-            'model' => Alice\User::class,
+            'model' => App\Player::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
@@ -92,8 +87,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'players' => [
+            'provider' => 'players',
             'table' => 'password_resets',
             'expire' => 60,
         ],

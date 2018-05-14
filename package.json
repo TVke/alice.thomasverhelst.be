@@ -1,44 +1,40 @@
 {
+    "name": "alice's_maze",
     "private": true,
-    "name": "curiouslabyrinth",
-    "version": "1.0.0",
-    "main": "gulpfile.js",
+    "license": "MIT",
+    "authors": [
+        "Thomas Verhelst <tvke91@gmail.com>"
+    ],
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/TVke/CuriousLabyrinth.git"
+        "url": "git@github.com:TVke/alice.thomasverhelst.be.git"
     },
-    "keywords": [
-        "graduation",
-        "project",
-        "labyrinth",
-        "maze",
-        "curious",
-        "Alice in Wonderland"
-    ],
-    "author": "Thomas",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/TVke/CuriousLabyrinth/issues"
-    },
-    "homepage": "https://alice.thomasverhelst.be",
-    "description": "This is my graduation project. I made the moving maze game digital but in the theme of Alice in Wonderland. It is a multiplayer borggame that uses session keys to play together.",
-    "devDependencies": {
-        "babel-core": "^6.26.0",
-        "babel-preset-env": "^1.6.1",
-        "cssnano": "^3.10.0",
-        "gulp": "^3.9.1",
-        "gulp-babel": "^7.0.1",
-        "gulp-imagemin": "^4.1.0",
-        "gulp-postcss": "^7.0.1",
-        "gulp-purgecss": "^0.19.0",
-        "gulp-uglify": "^3.0.0",
-        "postcss-cssnext": "^3.1.0",
-        "postcss-for": "^2.1.1",
-        "postcss-import": "^11.0.0",
-        "tailwindcss": "^0.4.1"
+    "scripts": {
+        "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "format": "prettier --write 'resources/assets/**/*.{css,js,vue}'",
+        "lint": "eslint resources/assets/js --fix --ext js,vue"
     },
     "dependencies": {
-        "laravel-echo": "^1.3.4",
-        "pusher-js": "^4.2.2"
+        "@xkeshi/vue-qrcode": "^0.3.0",
+        "axios": "^0.18",
+        "babel-plugin-syntax-dynamic-import": "^6.18.0",
+        "caniuse-lite": "^1.0.30000839",
+        "eslint": "^4.19.1",
+        "eslint-config-prettier": "^2.9.0",
+        "eslint-plugin-vue": "^4.4.0",
+        "glhd-tailwindcss-transitions": "^0.3.0",
+        "laravel-echo": "^1.3.5",
+        "laravel-mix": "^2.1.0",
+        "laravel-mix-purgecss": "^2.1.0",
+        "npm": "^6.0.1",
+        "npm-check-updates": "^2.14.2",
+        "postcss-cssnext": "^3.0.2",
+        "postcss-easy-import": "^3.0.0",
+        "prettier": "^1.10.2",
+        "pusher-js": "^4.2.2",
+        "tailwindcss": "^0.5.3",
+        "vue": "^2.5.7"
     }
 }

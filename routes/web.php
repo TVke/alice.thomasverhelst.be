@@ -11,14 +11,13 @@
 |
 */
 
-use Alice\Events\GameStatusUpdate;
+Route::get('/', 'PageController@info')->name('info');
 
-Route::view('/info','info')->name('info');
-Route::get('/','GameController@view')->name('game');
-Route::get('/game',function (){
-    GameStatusUpdate::dispatch();
+Route::get('/game/tiles', 'TileController@index');
+Route::get('/game/players', 'PlayerController@index');
 
-return "gelukt";
-});
+Route::put('/add/player', 'PlayerController@store');
 
-Route::get('/','GameController@');
+Route::get('/game/{session?}', 'GameController@index')->name('game');
+
+Auth::routes();
