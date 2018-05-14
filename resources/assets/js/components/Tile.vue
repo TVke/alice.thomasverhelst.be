@@ -24,7 +24,7 @@
             },
             objectImage() {
                 const tileUrl = `/storage/images/objects`;
-                const extension = 'min.svg';
+                const extension = 'svg';
 
                 return {
                     src: `${tileUrl}/${this.tile.object.name}.${extension}`,

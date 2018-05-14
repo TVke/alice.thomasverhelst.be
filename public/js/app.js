@@ -4206,7 +4206,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         objectImage: function objectImage() {
             var tileUrl = '/storage/images/objects';
-            var extension = 'min.svg';
+            var extension = 'svg';
 
             return {
                 src: tileUrl + '/' + this.tile.object.name + '.' + extension,
