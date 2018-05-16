@@ -1,24 +1,23 @@
 <template>
-    <div class="flex bg-black-transparent absolute pin transition transition-delay-longer"
+    <div class="flex bg-black-transparent absolute pin transition transition-delay-longer pointer-events-none"
          :class="{'opacity-0': setupDone}">
-        <div class="mx-auto mb-auto w-5/6 bg-white max-w-md rounded-b-lg p-6 pt-24 transition shadow border border-t-0"
-             :class="{'translateY--100': setupDone}">
-            <h2 class="p-2" v-if="allowNewPlayer">Choose your pawn</h2>
+        <div class="mx-auto mb-auto w-5/6 bg-white max-w-md rounded-b-lg p-6 pt-24 transition transition-slow shadow border border-t-0 pointer-events-auto"
+             :class="{'move-up': setupDone}">
+            <h2 class="p-2 font-noteworthy font-light" v-if="allowNewPlayer">Choose your pawn</h2>
             <player-form v-if="allowNewPlayer"
                          :options="pawnOptions"
                          @session-known="sessionUrl = $event"
                          @player-added="addPlayer">
             </player-form>
-
             <section class="w-full p-2 py-4 block" :class="{hidden: !sessionUrl}">
-                <h2 class="py-2">Share this url</h2>
+                <h2 class="py-2 font-noteworthy font-light">Share this url</h2>
                 <div class="flex">
                     <qrcode :value="sessionUrl" tag="img"></qrcode>
                     <p class="m-auto">{{ sessionUrl }}</p>
                 </div>
             </section>
             <section class="w-full p-2 pt-4 block">
-                <h3 class="block py-2 pb-3"
+                <h3 class="block py-2 pb-3 font-noteworthy font-light"
                     :class="{hidden: !showCurrentPlayers}">Current players</h3>
                 <ul class="block list-reset"
                     :class="{hidden: !showCurrentPlayers}">
@@ -80,7 +79,7 @@
             setupIsDone() {
                 this.setupDone = true;
 
-                Event.$emit('start-play');
+                Event.$emit('start-play',this.players);
             },
             addPlayer(data) {
                 this.players.push(data)

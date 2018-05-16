@@ -4148,8 +4148,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.tiles = data;
         });
 
-        Event.$on('start-play', function () {
+        Event.$on('start-play', function (event) {
             _this.paused = false;
+
+            _this.players = event;
         });
     }
 });
@@ -4168,9 +4170,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "pawn"
+    name: "pawn",
+    props: ['player'],
+    computed: {
+        placement: function placement() {
+            var places = {
+                top: false,
+                right: false,
+                bottom: false,
+                left: false
+            };
+
+            if (this.player.pawn === 'Alice' || this.player.pawn === 'White Rabbit') {
+                places.top = true;
+            }
+            if (this.player.pawn === 'White Rabbit' || this.player.pawn === 'Queen of Hearts') {
+                places.right = true;
+            }
+            if (this.player.pawn === 'Queen of Hearts' || this.player.pawn === 'Mad Hatter') {
+                places.bottom = true;
+            }
+            if (this.player.pawn === 'Mad Hatter' || this.player.pawn === 'Alice') {
+                places.left = true;
+            }
+
+            return places;
+        }
+    }
 });
 
 /***/ }),
@@ -4180,6 +4214,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
 //
 //
 //
@@ -4223,6 +4261,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pawn_vue__ = __webpack_require__("./resources/assets/js/components/Pawn.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pawn_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4230,9 +4287,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Player",
-    props: ['pawn']
+    components: { Pawn: __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default.a },
+    props: {
+        player: {
+            required: true,
+            type: Object
+        },
+        active: {
+            type: Number
+        }
+    },
+    computed: {
+        placement: function placement() {
+            var places = {
+                top: false,
+                right: false,
+                bottom: false,
+                left: false
+            };
+
+            if (this.player.pawn === 'Alice' || this.player.pawn === 'White Rabbit') {
+                places.top = true;
+            }
+            if (this.player.pawn === 'White Rabbit' || this.player.pawn === 'Queen of Hearts') {
+                places.right = true;
+            }
+            if (this.player.pawn === 'Queen of Hearts' || this.player.pawn === 'Mad Hatter') {
+                places.bottom = true;
+            }
+            if (this.player.pawn === 'Mad Hatter' || this.player.pawn === 'Alice') {
+                places.left = true;
+            }
+
+            return places;
+        }
+    }
 });
 
 /***/ }),
@@ -4248,12 +4341,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "PlayerCards",
-    components: { Player: __WEBPACK_IMPORTED_MODULE_0__Player_vue___default.a }
+    components: { Player: __WEBPACK_IMPORTED_MODULE_0__Player_vue___default.a },
+    data: function data() {
+        return {
+            players: [],
+            activePlayer: 0
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        Event.$on('start-play', function (event) {
+            _this.players = event;
+
+            var option = Math.floor(Math.random() * _this.players.length);
+
+            _this.activePlayer = _this.players[option];
+
+            if (_this.players[option].pawn === 'Alice') {
+                _this.activePlayer = 1;
+            }
+            if (_this.players[option].pawn === 'Mad Hatter') {
+                _this.activePlayer = 2;
+            }
+            if (_this.players[option].pawn === 'Queen of Hearts') {
+                _this.activePlayer = 3;
+            }
+            if (_this.players[option].pawn === 'White Rabbit') {
+                _this.activePlayer = 4;
+            }
+        });
+    }
 });
 
 /***/ }),
@@ -4267,7 +4392,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PlayerForm_vue__ = __webpack_require__("./resources/assets/js/components/setup/PlayerForm.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PlayerForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__PlayerForm_vue__);
-//
 //
 //
 //
@@ -4346,7 +4470,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         setupIsDone: function setupIsDone() {
             this.setupDone = true;
 
-            Event.$emit('start-play');
+            Event.$emit('start-play', this.players);
         },
         addPlayer: function addPlayer(data) {
             this.players.push(data);
@@ -4463,119 +4587,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     }
 });
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/Player.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/PlayerCards.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/lib/css-base.js":
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
 
 /***/ }),
 
@@ -10172,7 +10183,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "mx-auto max-w-md relative z--20 w-full mb-4 perspective p-8",
+        "mx-auto max-w-md relative z--20 w-full mb-4 perspective mt-32 sm:mt-16 p-8",
       class: { "sm:w-3/4 sm:p-0": !_vm.paused }
     },
     [
@@ -10180,14 +10191,11 @@ var render = function() {
         "div",
         {
           staticClass:
-            "preserve3d max-w-md mx-auto absolute pin z-10 block pointer-events-none transition p-8",
-          class: { "sm:rotateX-50 sm:translateX--20 sm:p-0": !_vm.paused }
+            "preserve3d max-w-md m-auto absolute pin z-10 block transition pointer-events-none transition-timing-ease-out transition-slow transition-delay-longest size-board",
+          class: { "sm:tilt-board tilt-board-sm md:tilt-board-md": !_vm.paused }
         },
         _vm._l(_vm.players, function(player) {
-          return _c("pawn", {
-            key: player.username,
-            attrs: { name: player.pawn }
-          })
+          return _c("pawn", { key: player.id, attrs: { player: player } })
         })
       ),
       _vm._v(" "),
@@ -10195,8 +10203,10 @@ var render = function() {
         "div",
         {
           staticClass:
-            "flex flex-wrap preserve3d tablecloth rounded transition p-1",
-          class: { "sm:rotateX-50 sm:translateX--20 sm:shadow": !_vm.paused }
+            "m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest pointer-events-auto size-board",
+          class: {
+            "sm:tilt-board tilt-board-sm sm:shadow md:tilt-board-md": !_vm.paused
+          }
         },
         _vm._l(_vm.tiles, function(tile) {
           return _c("tile", { key: tile.name, attrs: { tile: tile } })
@@ -10217,16 +10227,59 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2eab94d5\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Player.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2eab94d5\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Player.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("img", { attrs: { src: _vm.pawn.src, alt: _vm.pawn.alt } })
-  ])
+  return _c(
+    "div",
+    {
+      staticClass:
+        "absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded",
+      class: {
+        "pin-t": _vm.placement.top,
+        "pin-r": _vm.placement.right,
+        "pin-b": _vm.placement.bottom,
+        "pin-l": _vm.placement.left,
+        "flex-row-reverse": _vm.placement.right,
+        "text-right": _vm.placement.right
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "h-full rounded-full w-12 md:w-1/4 bg-white",
+          class: {
+            "border border-pawn-blue shadow-blue-active":
+              _vm.active === 1 && _vm.player.pawn === "Alice",
+            "border border-pawn-green shadow-green-active":
+              _vm.active === 2 && _vm.player.pawn === "Mad Hatter",
+            "border border-pawn-red shadow-red-active":
+              _vm.active === 3 && _vm.player.pawn === "Queen of Hearts",
+            "border border-black shadow-white-active":
+              _vm.active === 4 && _vm.player.pawn === "White Rabbit"
+          }
+        },
+        [
+          _c("img", {
+            staticClass: "block p-1",
+            attrs: {
+              src: "/storage/images/pawns/" + _vm.player.pawn + ".svg",
+              alt: _vm.player.pawn + " pawn"
+            }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _c("p", { staticClass: "my-auto p-2 truncate w-full md:w-3/4" }, [
+        _vm._v(_vm._s(_vm.player.username))
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -10247,22 +10300,30 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "block w-1/7 h-1/7 absolute preserve3d" }, [
+  return _c(
+    "div",
+    {
+      staticClass: "block w-1/7 h-1/7 absolute preserve3d",
+      class: {
+        "place-0-0": _vm.placement.top && _vm.placement.left,
+        "place-0-6": _vm.placement.bottom && _vm.placement.left,
+        "place-6-6": _vm.placement.bottom && _vm.placement.right,
+        "place-6-0": _vm.placement.top && _vm.placement.right
+      }
+    },
+    [
       _c("img", {
         staticClass:
-          "m-auto block absolute pin w-3/5 rotateX--50 translateY--3/10 origin-bottom",
-        attrs: { src: "/storage/images/pawns/Alice.svg", alt: "blauwe pion" }
+          "m-auto block absolute pin w-3/5 straighten-pawn origin-bottom",
+        attrs: {
+          src: "/storage/images/pawns/" + _vm.player.pawn + ".svg",
+          alt: _vm.player.pawn + " pawn"
+        }
       })
-    ])
-  }
-]
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -10274,14 +10335,23 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-47114c3e\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/PlayerCards.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-47114c3e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/PlayerCards.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    { staticClass: "absolute pin pointer-events-none" },
+    _vm._l(_vm.players, function(player) {
+      return _c("player", {
+        key: player.id,
+        attrs: { player: player, active: _vm.activePlayer }
+      })
+    })
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -10465,17 +10535,28 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "w-1/7 h-1/7 shadow-outset relative rounded-lg" },
+    {
+      staticClass: "w-1/7 h-1/7 shadow-outset absolute rounded-lg",
+      class: "place-" + _vm.tile.x + "-" + _vm.tile.y
+    },
     [
       _c("img", {
-        staticClass: "w-full block rounded-lg rotate-0 relative z--10",
-        attrs: { src: _vm.tileImage.src, alt: _vm.tileImage.alt }
+        staticClass: "w-full block rounded-lg relative z--10",
+        class: "rotate-" + _vm.tile.rotation,
+        attrs: {
+          src: "/storage/images/tiles/" + _vm.tile.type.name + ".png",
+          alt: _vm.tile.type.description
+        }
       }),
       _vm._v(" "),
       _vm.tile.object
         ? _c("img", {
             staticClass: "absolute w-2/5 h-2/5 pin m-auto block",
-            attrs: { src: _vm.objectImage.src, alt: _vm.objectImage.alt }
+            class: "rotate-" + _vm.tile.rotation,
+            attrs: {
+              src: "/storage/images/objects/" + _vm.tile.object.name + ".svg",
+              alt: _vm.tile.object.description
+            }
           })
         : _vm._e()
     ]
@@ -10504,7 +10585,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "flex bg-black-transparent absolute pin transition transition-delay-longer",
+        "flex bg-black-transparent absolute pin transition transition-delay-longer pointer-events-none",
       class: { "opacity-0": _vm.setupDone }
     },
     [
@@ -10512,12 +10593,14 @@ var render = function() {
         "div",
         {
           staticClass:
-            "mx-auto mb-auto w-5/6 bg-white max-w-md rounded-b-lg p-6 pt-24 transition shadow border border-t-0",
-          class: { "translateY--100": _vm.setupDone }
+            "mx-auto mb-auto w-5/6 bg-white max-w-md rounded-b-lg p-6 pt-24 transition transition-slow shadow border border-t-0 pointer-events-auto",
+          class: { "move-up": _vm.setupDone }
         },
         [
           _vm.allowNewPlayer
-            ? _c("h2", { staticClass: "p-2" }, [_vm._v("Choose your pawn")])
+            ? _c("h2", { staticClass: "p-2 font-noteworthy font-light" }, [
+                _vm._v("Choose your pawn")
+              ])
             : _vm._e(),
           _vm._v(" "),
           _vm.allowNewPlayer
@@ -10539,7 +10622,9 @@ var render = function() {
               class: { hidden: !_vm.sessionUrl }
             },
             [
-              _c("h2", { staticClass: "py-2" }, [_vm._v("Share this url")]),
+              _c("h2", { staticClass: "py-2 font-noteworthy font-light" }, [
+                _vm._v("Share this url")
+              ]),
               _vm._v(" "),
               _c(
                 "div",
@@ -10562,7 +10647,7 @@ var render = function() {
             _c(
               "h3",
               {
-                staticClass: "block py-2 pb-3",
+                staticClass: "block py-2 pb-3 font-noteworthy font-light",
                 class: { hidden: !_vm.showCurrentPlayers }
               },
               [_vm._v("Current players")]
@@ -10621,323 +10706,6 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-ff4c299c", module.exports)
   }
 }
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/Player.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/Player.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("4459f3c6", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Player.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Player.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/PlayerCards.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/PlayerCards.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("2538a258", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PlayerCards.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PlayerCards.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/lib/addStylesClient.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-  Modified by Evan You @yyx990803
-*/
-
-var hasDocument = typeof document !== 'undefined'
-
-if (typeof DEBUG !== 'undefined' && DEBUG) {
-  if (!hasDocument) {
-    throw new Error(
-    'vue-style-loader cannot be used in a non-browser environment. ' +
-    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
-  ) }
-}
-
-var listToStyles = __webpack_require__("./node_modules/vue-style-loader/lib/listToStyles.js")
-
-/*
-type StyleObject = {
-  id: number;
-  parts: Array<StyleObjectPart>
-}
-
-type StyleObjectPart = {
-  css: string;
-  media: string;
-  sourceMap: ?string
-}
-*/
-
-var stylesInDom = {/*
-  [id: number]: {
-    id: number,
-    refs: number,
-    parts: Array<(obj?: StyleObjectPart) => void>
-  }
-*/}
-
-var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
-var singletonElement = null
-var singletonCounter = 0
-var isProduction = false
-var noop = function () {}
-var options = null
-var ssrIdKey = 'data-vue-ssr-id'
-
-// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-// tags it will allow on a page
-var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
-
-module.exports = function (parentId, list, _isProduction, _options) {
-  isProduction = _isProduction
-
-  options = _options || {}
-
-  var styles = listToStyles(parentId, list)
-  addStylesToDom(styles)
-
-  return function update (newList) {
-    var mayRemove = []
-    for (var i = 0; i < styles.length; i++) {
-      var item = styles[i]
-      var domStyle = stylesInDom[item.id]
-      domStyle.refs--
-      mayRemove.push(domStyle)
-    }
-    if (newList) {
-      styles = listToStyles(parentId, newList)
-      addStylesToDom(styles)
-    } else {
-      styles = []
-    }
-    for (var i = 0; i < mayRemove.length; i++) {
-      var domStyle = mayRemove[i]
-      if (domStyle.refs === 0) {
-        for (var j = 0; j < domStyle.parts.length; j++) {
-          domStyle.parts[j]()
-        }
-        delete stylesInDom[domStyle.id]
-      }
-    }
-  }
-}
-
-function addStylesToDom (styles /* Array<StyleObject> */) {
-  for (var i = 0; i < styles.length; i++) {
-    var item = styles[i]
-    var domStyle = stylesInDom[item.id]
-    if (domStyle) {
-      domStyle.refs++
-      for (var j = 0; j < domStyle.parts.length; j++) {
-        domStyle.parts[j](item.parts[j])
-      }
-      for (; j < item.parts.length; j++) {
-        domStyle.parts.push(addStyle(item.parts[j]))
-      }
-      if (domStyle.parts.length > item.parts.length) {
-        domStyle.parts.length = item.parts.length
-      }
-    } else {
-      var parts = []
-      for (var j = 0; j < item.parts.length; j++) {
-        parts.push(addStyle(item.parts[j]))
-      }
-      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
-    }
-  }
-}
-
-function createStyleElement () {
-  var styleElement = document.createElement('style')
-  styleElement.type = 'text/css'
-  head.appendChild(styleElement)
-  return styleElement
-}
-
-function addStyle (obj /* StyleObjectPart */) {
-  var update, remove
-  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
-
-  if (styleElement) {
-    if (isProduction) {
-      // has SSR styles and in production mode.
-      // simply do nothing.
-      return noop
-    } else {
-      // has SSR styles but in dev mode.
-      // for some reason Chrome can't handle source map in server-rendered
-      // style tags - source maps in <style> only works if the style tag is
-      // created and inserted dynamically. So we remove the server rendered
-      // styles and inject new ones.
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  if (isOldIE) {
-    // use singleton mode for IE9.
-    var styleIndex = singletonCounter++
-    styleElement = singletonElement || (singletonElement = createStyleElement())
-    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
-    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
-  } else {
-    // use multi-style-tag mode in all other cases
-    styleElement = createStyleElement()
-    update = applyToTag.bind(null, styleElement)
-    remove = function () {
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  update(obj)
-
-  return function updateStyle (newObj /* StyleObjectPart */) {
-    if (newObj) {
-      if (newObj.css === obj.css &&
-          newObj.media === obj.media &&
-          newObj.sourceMap === obj.sourceMap) {
-        return
-      }
-      update(obj = newObj)
-    } else {
-      remove()
-    }
-  }
-}
-
-var replaceText = (function () {
-  var textStore = []
-
-  return function (index, replacement) {
-    textStore[index] = replacement
-    return textStore.filter(Boolean).join('\n')
-  }
-})()
-
-function applyToSingletonTag (styleElement, index, remove, obj) {
-  var css = remove ? '' : obj.css
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = replaceText(index, css)
-  } else {
-    var cssNode = document.createTextNode(css)
-    var childNodes = styleElement.childNodes
-    if (childNodes[index]) styleElement.removeChild(childNodes[index])
-    if (childNodes.length) {
-      styleElement.insertBefore(cssNode, childNodes[index])
-    } else {
-      styleElement.appendChild(cssNode)
-    }
-  }
-}
-
-function applyToTag (styleElement, obj) {
-  var css = obj.css
-  var media = obj.media
-  var sourceMap = obj.sourceMap
-
-  if (media) {
-    styleElement.setAttribute('media', media)
-  }
-  if (options.ssrId) {
-    styleElement.setAttribute(ssrIdKey, obj.id)
-  }
-
-  if (sourceMap) {
-    // https://developer.chrome.com/devtools/docs/javascript-debugging
-    // this makes source maps inside style tags work properly in Chrome
-    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
-    // http://stackoverflow.com/a/26603875
-    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
-  }
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild)
-    }
-    styleElement.appendChild(document.createTextNode(css))
-  }
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/lib/listToStyles.js":
-/***/ (function(module, exports) {
-
-/**
- * Translates the list format produced by css-loader into something
- * easier to manipulate.
- */
-module.exports = function listToStyles (parentId, list) {
-  var styles = []
-  var newStyles = {}
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i]
-    var id = item[0]
-    var css = item[1]
-    var media = item[2]
-    var sourceMap = item[3]
-    var part = {
-      id: parentId + ':' + i,
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    }
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = { id: id, parts: [part] })
-    } else {
-      newStyles[id].parts.push(part)
-    }
-  }
-  return styles
-}
-
 
 /***/ }),
 
@@ -22172,21 +21940,17 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2eab94d5\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/Player.vue")
-}
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/Player.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2eab94d5\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Player.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2eab94d5\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Player.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-2eab94d5"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -22224,21 +21988,17 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47114c3e\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/players/PlayerCards.vue")
-}
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/PlayerCards.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-47114c3e\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/PlayerCards.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-47114c3e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/PlayerCards.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-47114c3e"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(

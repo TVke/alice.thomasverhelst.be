@@ -63,16 +63,16 @@ class Tile
                 $rotation = collect([0, 90, 180, 270])->random();
 
                 if ($x === 0 && $y === 0) {
-                    $rotation = 0;
+                    $rotation = 270;
                 }
                 if ($x === 0 && $y === 6) {
-                    $rotation = 90;
-                }
-                if ($x === 6 && $y === 0) {
                     $rotation = 180;
                 }
+                if ($x === 6 && $y === 0) {
+                    $rotation = 0;
+                }
                 if ($x === 6 && $y === 6) {
-                    $rotation = 270;
+                    $rotation = 90;
                 }
 
                 $tiles[$x][$y] = [

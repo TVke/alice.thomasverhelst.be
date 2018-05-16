@@ -37,8 +37,6 @@ class PlayerController extends Controller
 
         $session->players()->create(request(['username', 'pawn']));
 
-        session(['player' => $request->username]);
-
         return "{$baseUrl}/game/{$sessionToken}";
     }
 

@@ -45,14 +45,19 @@ View the full documentation at https://tailwindcss.com.
 let colors = {
     transparent: "transparent",
     "black-transparent": "rgba(0,0,0,0.6)",
+    "white-transparent": "rgba(255,255,255,0.6)",
 
-    'alice-lightest': '#ECF7FC',
-    'alice-lighter': '#B1DDF2',
-    'alice-light': '#77C4E9',
-    alice: '#3DAADF',
-    'alice-dark': '#3799C9',
-    'alice-darker': '#256686',
-    'alice-darkest': '#123343',
+    'pawn-blue': '#36A9E1',
+    'pawn-green': '#95C11F',
+    'pawn-red': '#BE1622',
+
+    'alice-lightest': '#EBF6FC',
+    'alice-lighter': '#AFDDF3',
+    'alice-light': '#72C3EA',
+    alice: '#36A9E1',
+    'alice-dark': '#3198CB',
+    'alice-darker': '#206587',
+    'alice-darkest': '#103344',
 
     black: "#22292f",
     "grey-darkest": "#3d4852",
@@ -137,25 +142,25 @@ let colors = {
     "pink-lightest": "#ffebef",
 
     get ["brand-darkest"]() {
-        return this["orange-darkest"];
+        return this["alice-darkest"];
     },
     get ["brand-darker"]() {
-        return this["orange-darker"];
+        return this["alice-darker"];
     },
     get ["brand-dark"]() {
-        return this["orange-dark"];
+        return this["alice-dark"];
     },
     get ["brand"]() {
-        return this["orange"];
+        return this["alice"];
     },
     get ["brand-light"]() {
-        return this["orange-light"];
+        return this["alice-light"];
     },
     get ["brand-lighter"]() {
-        return this["orange-lighter"];
+        return this["alice-lighter"];
     },
     get ["brand-lightest"]() {
-        return this["orange-lightest"];
+        return this["alice-lightest"];
     }
 };
 
@@ -220,6 +225,21 @@ module.exports = {
     */
 
     fonts: {
+        noteworthy: [
+            "'Noteworthy'",
+            "system-ui",
+            "BlinkMacSystemFont",
+            "-apple-system",
+            "Segoe UI",
+            "Roboto",
+            "Oxygen",
+            "Ubuntu",
+            "Cantarell",
+            "Fira Sans",
+            "Droid Sans",
+            "Helvetica Neue",
+            "sans-serif"
+        ],
         sans: [
             "system-ui",
             "BlinkMacSystemFont",
@@ -793,6 +813,10 @@ module.exports = {
         lg: "0 15px 30px 0 rgba(0,0,0,0.11), 0 5px 15px 0 rgba(0,0,0,0.08)",
         inner: "inset 0 2px 4px 0 rgba(0,0,0,0.06)",
         outset: "inset 1px 1px 1px rgba(255, 255, 255, 0.1), inset -1px -1px 1px rgba(0, 0, 0, 0.1)",
+        'blue-active': "0 0 4px 0 " + colors['pawn-blue'],
+        'green-active': "0 0 4px 0 " + colors['pawn-green'],
+        'red-active': "0 0 4px 0 " + colors['pawn-red'],
+        'white-active': "0 0 4px 0 " + colors['black'],
         none: "none"
     },
 
@@ -1006,25 +1030,75 @@ module.exports = {
     plugins: [
         require('glhd-tailwindcss-transitions')(),
         function ({e, addUtilities}) {
-            const transforms = {
-                '.rotateX-50': {
-                    transform: 'rotateX(50deg)',
+            let placements = [];
+
+            const amountOfTiles = 7;
+
+            for (let y = -1; y <= amountOfTiles; ++y) {
+                for (let x = -1; x <= amountOfTiles; ++x) {
+                    placements.push({
+                        [`.place-${x}-${y}`]: {
+                            transform: `translate(${x * 100}%, ${y * 100}%)`,
+                        },
+                    });
+                }
+            }
+
+            addUtilities(placements);
+        },
+        function ({addUtilities}) {
+            const rotation = {
+                '.rotate-90': {
+                    transform: 'rotate(90deg)',
                 },
-                '.rotateX-50.translateX--20': {
-                    transform: 'rotateX(50deg) translateX(-20px)',
+                '.rotate-180': {
+                    transform: 'rotate(180deg)',
                 },
-                '.rotateX--50': {
-                    transform: 'rotateX(-50deg)',
-                },
-                [`.rotateX--50.translateY--${e('3/10')}`]: {
-                    transform: 'translateY(-30%) rotateX(-50deg)',
-                },
-                '.translateY--100': {
-                    transform: 'translateY(-100%)',
+                '.rotate-270': {
+                    transform: 'rotate(270deg)',
                 },
             };
 
-            addUtilities(transforms, ['responsive', 'hover']);
+            addUtilities(rotation);
+        },
+        function ({e, addUtilities}) {
+            const transforms = {
+                '.tilt-board': {
+                    transform: 'translateY(-20px) rotateX(50deg)',
+                },
+                '.tilt-board-sm': {
+                    transform: 'translateY(0px) rotateX(30deg)',
+                },
+                '.tilt-board-md': {
+                    transform: 'translateY(-100px) rotateX(50deg)',
+                },
+                '.straighten-pawn': {
+                    transform: 'translateY(-30%) rotateX(-50deg)',
+                },
+                '.move-up': {
+                    transform: 'translateY(-150%)',
+                },
+                '.size-board': {
+                    width: '80vw',
+                    height: '75vw',
+                    maxWidth: '100%',
+                    maxHeight: '39.816rem',
+                }
+            };
+
+            addUtilities(transforms, ['responsive']);
+        },
+        function ({addUtilities}) {
+            const transformSpecifics = {
+                '.preserve3d': {
+                    transformStyle: 'preserve-3d',
+                },
+                '.origin-bottom': {
+                    transformOrigin: 'bottom center',
+                },
+            };
+
+            addUtilities(transformSpecifics);
         },
         function ({addComponents}) {
             const tablecloth = {
@@ -1048,18 +1122,6 @@ module.exports = {
             };
 
             addComponents(tablecloth);
-        },
-        function ({addUtilities}) {
-            const transformSpecifics = {
-                '.preserve3d': {
-                    transformStyle: 'preserve-3d',
-                },
-                '.origin-bottom': {
-                    transformOrigin: 'bottom center',
-                },
-            };
-
-            addUtilities(transformSpecifics);
         },
     ],
 
