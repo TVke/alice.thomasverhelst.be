@@ -8,6 +8,12 @@
         <div class="m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest pointer-events-auto size-board"
              :class="{'sm:tilt-board tilt-board-sm sm:shadow md:tilt-board-md': !paused}">
             <tile v-for="(tile, index) in tiles" :tile="tile" :key="index"></tile>
+            <div>
+                <ghost-tile v-for="leftTile in 7" :x="-1" :y="leftTile - 1" :key="leftTile"></ghost-tile>
+                <ghost-tile v-for="topTile in 7" :x="topTile - 1" :y="-1" :key="topTile + 7"></ghost-tile>
+                <ghost-tile v-for="rightTile in 7" :x="7" :y="rightTile - 1" :key="rightTile + 14"></ghost-tile>
+                <ghost-tile v-for="bottomTile in 7" :x="bottomTile - 1" :y="7" :key="bottomTile + 21"></ghost-tile>
+            </div>
         </div>
     </div>
 </template>
@@ -15,9 +21,10 @@
 <script>
     import Pawn from "./Pawn.vue";
     import Tile from "./Tile.vue";
+    import GhostTile from "./GhostTile.vue";
 
     export default {
-        components: {Tile, Pawn},
+        components: {Tile, Pawn, GhostTile},
         name: 'game-board',
         data() {
             return {

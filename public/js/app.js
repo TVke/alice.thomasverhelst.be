@@ -4111,6 +4111,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pawn_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Tile_vue__ = __webpack_require__("./resources/assets/js/components/Tile.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Tile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Tile_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__GhostTile_vue__ = __webpack_require__("./resources/assets/js/components/GhostTile.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__GhostTile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__GhostTile_vue__);
 //
 //
 //
@@ -4125,12 +4127,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { Tile: __WEBPACK_IMPORTED_MODULE_1__Tile_vue___default.a, Pawn: __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default.a },
+    components: { Tile: __WEBPACK_IMPORTED_MODULE_1__Tile_vue___default.a, Pawn: __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default.a, GhostTile: __WEBPACK_IMPORTED_MODULE_2__GhostTile_vue___default.a },
     name: 'game-board',
     data: function data() {
         return {
@@ -4174,6 +4183,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             return { x: x, y: y };
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/GhostTile.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "GhostTile",
+    props: ['x', 'y'],
+    methods: {
+        hover: function hover() {
+            console.log('hover');
         }
     }
 });
@@ -10198,9 +10231,46 @@ var render = function() {
             "sm:tilt-board tilt-board-sm sm:shadow md:tilt-board-md": !_vm.paused
           }
         },
-        _vm._l(_vm.tiles, function(tile, index) {
-          return _c("tile", { key: index, attrs: { tile: tile } })
-        })
+        [
+          _vm._l(_vm.tiles, function(tile, index) {
+            return _c("tile", { key: index, attrs: { tile: tile } })
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _vm._l(7, function(leftTile) {
+                return _c("ghost-tile", {
+                  key: leftTile,
+                  attrs: { x: -1, y: leftTile - 1 }
+                })
+              }),
+              _vm._v(" "),
+              _vm._l(7, function(topTile) {
+                return _c("ghost-tile", {
+                  key: topTile + 7,
+                  attrs: { x: topTile - 1, y: -1 }
+                })
+              }),
+              _vm._v(" "),
+              _vm._l(7, function(rightTile) {
+                return _c("ghost-tile", {
+                  key: rightTile + 14,
+                  attrs: { x: 7, y: rightTile - 1 }
+                })
+              }),
+              _vm._v(" "),
+              _vm._l(7, function(bottomTile) {
+                return _c("ghost-tile", {
+                  key: bottomTile + 21,
+                  attrs: { x: bottomTile - 1, y: 7 }
+                })
+              })
+            ],
+            2
+          )
+        ],
+        2
       )
     ]
   )
@@ -10506,6 +10576,32 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-57380e64", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6171db36\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/GhostTile.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", {
+    staticClass:
+      "w-1/7 h-1/7 shadow-inner absolute rounded-lg transition bg-grey-lighter opacity-75",
+    class: "place-" + this.x + "-" + this.y,
+    on: { mouseover: _vm.hover }
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6171db36", module.exports)
   }
 }
 
@@ -21814,6 +21910,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-0827efed", Component.options)
   } else {
     hotAPI.reload("data-v-0827efed", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/GhostTile.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/GhostTile.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6171db36\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/GhostTile.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GhostTile.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6171db36", Component.options)
+  } else {
+    hotAPI.reload("data-v-6171db36", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
