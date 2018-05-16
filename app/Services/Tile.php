@@ -85,6 +85,22 @@ class Tile
             }
         }
 
-        return collect($tiles)->flatten(1);
+        $extraTile = $types->pop();
+
+        $object = null;
+
+        if (collect($extraTile)->has(0)) {
+            $object = collect($extraTile)->get(0);
+
+            collect($extraTile)->forget(0);
+        }
+
+        return collect($tiles)->flatten(1)->push(collect([
+            'x' => -1,
+            'y' => -1,
+            'object' => $object,
+            'type' => $extraTile,
+            'rotation' => 0,
+        ]));
     }
 }

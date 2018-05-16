@@ -4136,6 +4136,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             players: [],
             tiles: [],
+            looseTile: {},
             paused: true
         };
     },
@@ -4145,6 +4146,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         axios.get('/game/tiles').then(function (_ref) {
             var data = _ref.data;
 
+            _this.looseTile = data.pop();
+
             _this.tiles = data;
         });
 
@@ -4153,6 +4156,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             _this.players = event;
         });
+    },
+
+    methods: {
+        position: function position(_ref2) {
+            var pawn = _ref2.pawn;
+
+            var x = 0;
+
+            if (pawn === 'Queen of Hearts' || pawn === 'Mad Hatter') {
+                x = 6;
+            }
+            var y = 0;
+
+            if (pawn === 'White Rabbit' || pawn === 'Queen of Hearts') {
+                y = 6;
+            }
+
+            return { x: x, y: y };
+        }
     }
 });
 
@@ -4171,39 +4193,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "pawn",
-    props: ['player'],
-    computed: {
-        placement: function placement() {
-            var places = {
-                top: false,
-                right: false,
-                bottom: false,
-                left: false
-            };
-
-            if (this.player.pawn === 'Alice' || this.player.pawn === 'White Rabbit') {
-                places.top = true;
-            }
-            if (this.player.pawn === 'White Rabbit' || this.player.pawn === 'Queen of Hearts') {
-                places.right = true;
-            }
-            if (this.player.pawn === 'Queen of Hearts' || this.player.pawn === 'Mad Hatter') {
-                places.bottom = true;
-            }
-            if (this.player.pawn === 'Mad Hatter' || this.player.pawn === 'Alice') {
-                places.left = true;
-            }
-
-            return places;
-        }
+    props: ['start', 'pawn'],
+    data: function data() {
+        return {
+            x: this.start.x,
+            y: this.start.y
+        };
     }
 });
 
@@ -4232,25 +4230,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "tile",
     props: ['tile'],
-    computed: {
-        tileImage: function tileImage() {
-            var tileUrl = '/storage/images/tiles';
-            var extension = 'min.svg';
-
-            return {
-                src: tileUrl + '/' + this.tile.type.name + '.' + extension,
-                alt: this.tile.type.description
-            };
-        },
-        objectImage: function objectImage() {
-            var tileUrl = '/storage/images/objects';
-            var extension = 'svg';
-
-            return {
-                src: tileUrl + '/' + this.tile.object.name + '.' + extension,
-                alt: this.tile.object.description
-            };
-        }
+    data: function data() {
+        return {
+            x: this.tile.x,
+            y: this.tile.y,
+            rotation: this.tile.rotation,
+            type: this.tile.type,
+            object: this.tile.object
+        };
     }
 });
 
@@ -10195,7 +10182,10 @@ var render = function() {
           class: { "sm:tilt-board tilt-board-sm md:tilt-board-md": !_vm.paused }
         },
         _vm._l(_vm.players, function(player) {
-          return _c("pawn", { key: player.id, attrs: { player: player } })
+          return _c("pawn", {
+            key: player.id,
+            attrs: { start: _vm.position(player), pawn: player.pawn }
+          })
         })
       ),
       _vm._v(" "),
@@ -10208,8 +10198,8 @@ var render = function() {
             "sm:tilt-board tilt-board-sm sm:shadow md:tilt-board-md": !_vm.paused
           }
         },
-        _vm._l(_vm.tiles, function(tile) {
-          return _c("tile", { key: tile.name, attrs: { tile: tile } })
+        _vm._l(_vm.tiles, function(tile, index) {
+          return _c("tile", { key: index, attrs: { tile: tile } })
         })
       )
     ]
@@ -10303,21 +10293,16 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "block w-1/7 h-1/7 absolute preserve3d",
-      class: {
-        "place-0-0": _vm.placement.top && _vm.placement.left,
-        "place-0-6": _vm.placement.bottom && _vm.placement.left,
-        "place-6-6": _vm.placement.bottom && _vm.placement.right,
-        "place-6-0": _vm.placement.top && _vm.placement.right
-      }
+      staticClass: "block w-1/7 h-1/7 absolute preserve3d transition",
+      class: "place-" + _vm.x + "-" + _vm.y
     },
     [
       _c("img", {
         staticClass:
           "m-auto block absolute pin w-3/5 straighten-pawn origin-bottom",
         attrs: {
-          src: "/storage/images/pawns/" + _vm.player.pawn + ".svg",
-          alt: _vm.player.pawn + " pawn"
+          src: "/storage/images/pawns/" + _vm.pawn + ".svg",
+          alt: _vm.pawn + " pawn"
         }
       })
     ]
@@ -10536,15 +10521,15 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "w-1/7 h-1/7 shadow-outset absolute rounded-lg",
-      class: "place-" + _vm.tile.x + "-" + _vm.tile.y
+      staticClass: "w-1/7 h-1/7 shadow-outset absolute rounded-lg transition",
+      class: "place-" + _vm.x + "-" + _vm.y
     },
     [
       _c("img", {
         staticClass: "w-full block rounded-lg relative z--10",
-        class: "rotate-" + _vm.tile.rotation,
+        class: "rotate-" + _vm.rotation,
         attrs: {
-          src: "/storage/images/tiles/" + _vm.tile.type.name + ".png",
+          src: "/storage/images/tiles/" + _vm.type.name + ".png",
           alt: _vm.tile.type.description
         }
       }),
@@ -10552,9 +10537,9 @@ var render = function() {
       _vm.tile.object
         ? _c("img", {
             staticClass: "absolute w-2/5 h-2/5 pin m-auto block",
-            class: "rotate-" + _vm.tile.rotation,
+            class: "rotate-" + _vm.rotation,
             attrs: {
-              src: "/storage/images/objects/" + _vm.tile.object.name + ".svg",
+              src: "/storage/images/objects/" + _vm.object.name + ".svg",
               alt: _vm.tile.object.description
             }
           })
