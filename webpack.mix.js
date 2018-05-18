@@ -41,6 +41,4 @@ mix
         },
     })
 
-    .purgeCss({
-        whitelistPatterns: [/active/],
-    });
+    .purgeCss();

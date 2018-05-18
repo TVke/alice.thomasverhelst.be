@@ -4,11 +4,11 @@
         <img class="w-full block rounded-lg relative z--10"
              :class="`rotate-${rotation}`"
              :src="`/storage/images/tiles/${type.name}.png`"
-             :alt="tile.type.description">
-        <img class="absolute w-2/5 h-2/5 pin m-auto block" v-if="tile.object"
+             :alt="type.description">
+        <img class="absolute w-2/5 h-2/5 pin m-auto block" v-if="object"
              :class="`rotate-${rotation}`"
              :src="`/storage/images/objects/${object.name}.svg`"
-             :alt="tile.object.description">
+             :alt="object.description">
     </div>
 </template>
 

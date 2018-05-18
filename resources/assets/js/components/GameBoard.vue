@@ -9,10 +9,18 @@
              :class="{'sm:tilt-board tilt-board-sm sm:shadow md:tilt-board-md': !paused}">
             <tile v-for="(tile, index) in tiles" :tile="tile" :key="index"></tile>
             <div>
-                <ghost-tile v-for="leftTile in 7" :x="-1" :y="leftTile - 1" :key="leftTile"></ghost-tile>
-                <ghost-tile v-for="topTile in 7" :x="topTile - 1" :y="-1" :key="topTile + 7"></ghost-tile>
-                <ghost-tile v-for="rightTile in 7" :x="7" :y="rightTile - 1" :key="rightTile + 14"></ghost-tile>
-                <ghost-tile v-for="bottomTile in 7" :x="bottomTile - 1" :y="7" :key="bottomTile + 21"></ghost-tile>
+                <ghost-tile v-for="leftTile in 7" :x="-1" :y="leftTile - 1" :tile="looseTile" :key="leftTile"
+                @add-tile="addTile">
+                </ghost-tile>
+                <ghost-tile v-for="topTile in 7" :x="topTile - 1" :y="-1" :tile="looseTile" :key="topTile + 7"
+                @add-tile="addTile">
+                </ghost-tile>
+                <ghost-tile v-for="rightTile in 7" :x="7" :y="rightTile - 1" :tile="looseTile" :key="rightTile + 14"
+                @add-tile="addTile">
+                </ghost-tile>
+                <ghost-tile v-for="bottomTile in 7" :x="bottomTile - 1" :y="7" :tile="looseTile" :key="bottomTile + 21"
+                @add-tile="addTile">
+                </ghost-tile>
             </div>
         </div>
     </div>
@@ -53,15 +61,38 @@
                 let x = 0;
 
                 if (pawn === 'Queen of Hearts' || pawn === 'Mad Hatter') {
-                    x = 6
+                    x = 6;
                 }
                 let y = 0;
 
                 if (pawn === 'White Rabbit' || pawn === 'Queen of Hearts') {
-                    y = 6
+                    y = 6;
                 }
 
                 return {x: x, y: y};
+            },
+            addTile(position){
+                let x = position.x;
+                let y = position.y;
+
+                if (x === -1) {
+                    this.moveRow(y, 1);
+                }
+                if (y === -1) {
+                    this.moveColumn(x, 1);
+                }
+                if (x === 7) {
+                    this.moveRow(y, -1);
+                }
+                if (y === 7) {
+                    this.moveColumn(x, -1);
+                }
+            },
+            moveRow(row, amount) {
+
+            },
+            moveColumn(column, amount) {
+
             },
         }
     };

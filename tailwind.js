@@ -929,6 +929,7 @@ module.exports = {
         'opacity': 'opacity',
         'color': 'color',
         'shadow': 'box-shadow',
+        'transform': 'transform',
     },
     transitionTimingFunction: {
         'default': 'ease-in-out',

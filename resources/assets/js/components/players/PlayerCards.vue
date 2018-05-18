@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute pin pointer-events-none">
+    <div class="absolute pin">
         <player v-for="player in players" :player="player" :active="activePlayer" :key="player.id"></player>
     </div>
 </template>

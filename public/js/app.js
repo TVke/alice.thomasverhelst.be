@@ -4133,6 +4133,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4183,7 +4191,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             return { x: x, y: y };
-        }
+        },
+        addTile: function addTile(position) {
+            var x = position.x;
+            var y = position.y;
+
+            if (x === -1) {
+                this.moveRow(y, 1);
+            }
+            if (y === -1) {
+                this.moveColumn(x, 1);
+            }
+            if (x === 7) {
+                this.moveRow(y, -1);
+            }
+            if (y === 7) {
+                this.moveColumn(x, -1);
+            }
+        },
+        moveRow: function moveRow(row, amount) {},
+        moveColumn: function moveColumn(column, amount) {}
     }
 });
 
@@ -4200,14 +4227,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "GhostTile",
-    props: ['x', 'y'],
-    methods: {
-        hover: function hover() {
-            console.log('hover');
-        }
+    props: ['x', 'y', 'tile'],
+    data: function data() {
+        return {
+            xPos: this.x,
+            yPos: this.y
+        };
     }
 });
 
@@ -10242,28 +10278,32 @@ var render = function() {
               _vm._l(7, function(leftTile) {
                 return _c("ghost-tile", {
                   key: leftTile,
-                  attrs: { x: -1, y: leftTile - 1 }
+                  attrs: { x: -1, y: leftTile - 1, tile: _vm.looseTile },
+                  on: { "add-tile": _vm.addTile }
                 })
               }),
               _vm._v(" "),
               _vm._l(7, function(topTile) {
                 return _c("ghost-tile", {
                   key: topTile + 7,
-                  attrs: { x: topTile - 1, y: -1 }
+                  attrs: { x: topTile - 1, y: -1, tile: _vm.looseTile },
+                  on: { "add-tile": _vm.addTile }
                 })
               }),
               _vm._v(" "),
               _vm._l(7, function(rightTile) {
                 return _c("ghost-tile", {
                   key: rightTile + 14,
-                  attrs: { x: 7, y: rightTile - 1 }
+                  attrs: { x: 7, y: rightTile - 1, tile: _vm.looseTile },
+                  on: { "add-tile": _vm.addTile }
                 })
               }),
               _vm._v(" "),
               _vm._l(7, function(bottomTile) {
                 return _c("ghost-tile", {
                   key: bottomTile + 21,
-                  attrs: { x: bottomTile - 1, y: 7 }
+                  attrs: { x: bottomTile - 1, y: 7, tile: _vm.looseTile },
+                  on: { "add-tile": _vm.addTile }
                 })
               })
             ],
@@ -10399,7 +10439,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "absolute pin pointer-events-none" },
+    { staticClass: "absolute pin" },
     _vm._l(_vm.players, function(player) {
       return _c("player", {
         key: player.id,
@@ -10588,12 +10628,44 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", {
-    staticClass:
-      "w-1/7 h-1/7 shadow-inner absolute rounded-lg transition bg-grey-lighter opacity-75",
-    class: "place-" + this.x + "-" + this.y,
-    on: { mouseover: _vm.hover }
-  })
+  return _c(
+    "a",
+    {
+      staticClass:
+        "w-1/7 h-1/7 shadow-inner absolute rounded-lg transition-property-transform tr bg-grey-lighter opacity-75 hover:opacity-100 group",
+      class: "place-" + _vm.xPos + "-" + _vm.yPos,
+      attrs: { href: "#" },
+      on: {
+        click: function($event) {
+          _vm.$emit("add-tile", { x: _vm.xPos, y: _vm.yPos })
+        }
+      }
+    },
+    [
+      this.tile.type
+        ? _c("img", {
+            staticClass:
+              "w-full rounded-lg relative z--10 opacity-25 group-hover:opacity-100",
+            class: "rotate-" + this.tile.rotation,
+            attrs: {
+              src: "/storage/images/tiles/" + this.tile.type.name + ".png",
+              alt: this.tile.type.description
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      this.tile.object
+        ? _c("img", {
+            staticClass: "absolute w-2/5 h-2/5 pin m-auto block",
+            class: "rotate-" + this.tile.rotation,
+            attrs: {
+              src: "/storage/images/objects/" + this.tile.object.name + ".svg",
+              alt: this.tile.object.description
+            }
+          })
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -10626,17 +10698,17 @@ var render = function() {
         class: "rotate-" + _vm.rotation,
         attrs: {
           src: "/storage/images/tiles/" + _vm.type.name + ".png",
-          alt: _vm.tile.type.description
+          alt: _vm.type.description
         }
       }),
       _vm._v(" "),
-      _vm.tile.object
+      _vm.object
         ? _c("img", {
             staticClass: "absolute w-2/5 h-2/5 pin m-auto block",
             class: "rotate-" + _vm.rotation,
             attrs: {
               src: "/storage/images/objects/" + _vm.object.name + ".svg",
-              alt: _vm.tile.object.description
+              alt: _vm.object.description
             }
           })
         : _vm._e()
@@ -10666,7 +10738,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "flex bg-black-transparent absolute pin transition transition-delay-longer pointer-events-none",
+        "flex bg-black-transparent absolute pin transition transition-delay-longer",
       class: { "opacity-0": _vm.setupDone }
     },
     [
@@ -10715,9 +10787,14 @@ var render = function() {
                     attrs: { value: _vm.sessionUrl, tag: "img" }
                   }),
                   _vm._v(" "),
-                  _c("p", { staticClass: "m-auto" }, [
-                    _vm._v(_vm._s(_vm.sessionUrl))
-                  ])
+                  _c(
+                    "a",
+                    {
+                      staticClass: " block m-auto",
+                      attrs: { href: _vm.sessionUrl }
+                    },
+                    [_vm._v(_vm._s(_vm.sessionUrl))]
+                  )
                 ],
                 1
               )

@@ -14821,6 +14821,13 @@ button,
   transition-property: box-shadow, -webkit-box-shadow;
 }
 
+.transition-property-transform {
+  -webkit-transition-property: -webkit-transform;
+  transition-property: -webkit-transform;
+  transition-property: transform;
+  transition-property: transform, -webkit-transform;
+}
+
 .transition {
   -webkit-transition-timing-function: ease-in-out;
           transition-timing-function: ease-in-out;

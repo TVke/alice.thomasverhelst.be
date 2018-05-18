@@ -1,5 +1,5 @@
 <template>
-    <div class="flex bg-black-transparent absolute pin transition transition-delay-longer pointer-events-none"
+    <div class="flex bg-black-transparent absolute pin transition transition-delay-longer"
          :class="{'opacity-0': setupDone}">
         <div class="mx-auto mb-auto w-5/6 bg-white max-w-md rounded-b-lg p-6 pt-24 transition transition-slow shadow border border-t-0 pointer-events-auto"
              :class="{'move-up': setupDone}">
@@ -13,7 +13,7 @@
                 <h2 class="py-2 font-noteworthy font-light">Share this url</h2>
                 <div class="flex">
                     <qrcode :value="sessionUrl" tag="img"></qrcode>
-                    <p class="m-auto">{{ sessionUrl }}</p>
+                    <a :href="sessionUrl" class=" block m-auto">{{ sessionUrl }}</a>
                 </div>
             </section>
             <section class="w-full p-2 pt-4 block">
