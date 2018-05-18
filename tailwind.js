@@ -584,9 +584,18 @@ module.exports = {
         "32": "8rem",
         "48": "12rem",
         "64": "16rem",
+        "1/2": "50%",
         "1/3": "33.33333%",
+        "2/3": "66.66667%",
+        "1/4": "25%",
+        "3/4": "75%",
         "1/5": "20%",
         "1.5/5": "30%",
+        "2/5": "40%",
+        "3/5": "60%",
+        "4/5": "80%",
+        "1/6": "16.66667%",
+        "5/6": "83.33333%",
         "1/7": "14.28571%",
         "1/9": "11.11111%",
         "1/11": "9.09091%",
@@ -661,6 +670,7 @@ module.exports = {
     */
 
     maxWidth: {
+        '1/4': "25%",
         xs: "20rem",
         sm: "30rem",
         md: "40rem",
@@ -670,7 +680,8 @@ module.exports = {
         "3xl": "80rem",
         "4xl": "90rem",
         "5xl": "100rem",
-        full: "100%"
+        full: "100%",
+        screen: "100vh"
     },
 
     /*
@@ -688,6 +699,16 @@ module.exports = {
     */
 
     maxHeight: {
+        '1/4': "25%",
+        xs: "20rem",
+        sm: "30rem",
+        md: "40rem",
+        lg: "50rem",
+        xl: "60rem",
+        "2xl": "70rem",
+        "3xl": "80rem",
+        "4xl": "90rem",
+        "5xl": "100rem",
         full: "100%",
         screen: "100vh"
     },
@@ -1084,6 +1105,9 @@ module.exports = {
                     height: '75vw',
                     maxWidth: '100%',
                     maxHeight: '39.816rem',
+                },
+                '.size-board.paused': {
+                    maxHeight: '35.816rem',
                 }
             };
 
@@ -1116,7 +1140,6 @@ module.exports = {
                         height: '20%',
                         transformOrigin: 'bottom center',
                         transform: 'rotateX(90deg)',
-                        boxShadow: '0 2px 4px 0 rgba(0, 0, 0, .1)',
                         background: 'url(\'/storage/images/tablecloth2.png\') 50%',
                     },
                 },

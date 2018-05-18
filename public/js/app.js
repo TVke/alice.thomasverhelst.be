@@ -4235,6 +4235,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "GhostTile",
@@ -4244,6 +4248,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             xPos: this.x,
             yPos: this.y
         };
+    },
+
+    computed: {
+        rotateTo: function rotateTo() {
+            var newRotation = this.tile.rotation + 90;
+
+            if (newRotation === 270 + 90) {
+                newRotation = 0;
+            }
+
+            return newRotation;
+        }
     }
 });
 
@@ -10264,7 +10280,8 @@ var render = function() {
           staticClass:
             "m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest pointer-events-auto size-board",
           class: {
-            "sm:tilt-board tilt-board-sm sm:shadow md:tilt-board-md": !_vm.paused
+            paused: _vm.paused,
+            "sm:tilt-board tilt-board-sm md:tilt-board-md": !_vm.paused
           }
         },
         [
@@ -10279,15 +10296,25 @@ var render = function() {
                 return _c("ghost-tile", {
                   key: leftTile,
                   attrs: { x: -1, y: leftTile - 1, tile: _vm.looseTile },
-                  on: { "add-tile": _vm.addTile }
+                  on: {
+                    "add-tile": _vm.addTile,
+                    rotate: function($event) {
+                      _vm.looseTile.rotation = $event
+                    }
+                  }
                 })
               }),
               _vm._v(" "),
               _vm._l(7, function(topTile) {
                 return _c("ghost-tile", {
                   key: topTile + 7,
-                  attrs: { x: topTile - 1, y: -1, tile: _vm.looseTile },
-                  on: { "add-tile": _vm.addTile }
+                  attrs: { x: 7 - topTile, y: -1, tile: _vm.looseTile },
+                  on: {
+                    "add-tile": _vm.addTile,
+                    rotate: function($event) {
+                      _vm.looseTile.rotation = $event
+                    }
+                  }
                 })
               }),
               _vm._v(" "),
@@ -10295,15 +10322,25 @@ var render = function() {
                 return _c("ghost-tile", {
                   key: rightTile + 14,
                   attrs: { x: 7, y: rightTile - 1, tile: _vm.looseTile },
-                  on: { "add-tile": _vm.addTile }
+                  on: {
+                    "add-tile": _vm.addTile,
+                    rotate: function($event) {
+                      _vm.looseTile.rotation = $event
+                    }
+                  }
                 })
               }),
               _vm._v(" "),
               _vm._l(7, function(bottomTile) {
                 return _c("ghost-tile", {
                   key: bottomTile + 21,
-                  attrs: { x: bottomTile - 1, y: 7, tile: _vm.looseTile },
-                  on: { "add-tile": _vm.addTile }
+                  attrs: { x: 7 - bottomTile, y: 7, tile: _vm.looseTile },
+                  on: {
+                    "add-tile": _vm.addTile,
+                    rotate: function($event) {
+                      _vm.looseTile.rotation = $event
+                    }
+                  }
                 })
               })
             ],
@@ -10632,20 +10669,41 @@ var render = function() {
     "a",
     {
       staticClass:
-        "w-1/7 h-1/7 shadow-inner absolute rounded-lg transition-property-transform tr bg-grey-lighter opacity-75 hover:opacity-100 group",
+        "w-1/7 h-1/7 shadow-inner absolute rounded-lg tr bg-grey-lighter opacity-75 hover:opacity-100 group",
       class: "place-" + _vm.xPos + "-" + _vm.yPos,
       attrs: { href: "#" },
       on: {
         click: function($event) {
+          $event.preventDefault()
           _vm.$emit("add-tile", { x: _vm.xPos, y: _vm.yPos })
         }
       }
     },
     [
+      _c(
+        "a",
+        {
+          staticClass:
+            "absolute opacity-0 group-hover:opacity-100 pin-t pin-r bg-alice rounded-full p-2 z-50 shadow -mt-2 -mr-2",
+          attrs: { href: "#" },
+          on: {
+            click: function($event) {
+              $event.stopPropagation()
+              _vm.$emit("rotate", _vm.rotateTo)
+            }
+          }
+        },
+        [
+          _c("img", {
+            attrs: { src: "/storage/images/rotate.svg", alt: "Rotate the tile" }
+          })
+        ]
+      ),
+      _vm._v(" "),
       this.tile.type
         ? _c("img", {
             staticClass:
-              "w-full rounded-lg relative z--10 opacity-25 group-hover:opacity-100",
+              "w-full rounded-lg relative z--10 opacity-25 group-hover:opacity-100 transition transition-property-transform",
             class: "rotate-" + this.tile.rotation,
             attrs: {
               src: "/storage/images/tiles/" + this.tile.type.name + ".png",
@@ -10656,7 +10714,8 @@ var render = function() {
       _vm._v(" "),
       this.tile.object
         ? _c("img", {
-            staticClass: "absolute w-2/5 h-2/5 pin m-auto block",
+            staticClass:
+              "absolute w-2/5 h-2/5 pin m-auto block transition transition-property-transform",
             class: "rotate-" + this.tile.rotation,
             attrs: {
               src: "/storage/images/objects/" + this.tile.object.name + ".svg",
@@ -10689,7 +10748,7 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "w-1/7 h-1/7 shadow-outset absolute rounded-lg transition",
+      staticClass: "w-1/7 h-1/7 absolute rounded-lg transition",
       class: "place-" + _vm.x + "-" + _vm.y
     },
     [

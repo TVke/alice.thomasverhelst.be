@@ -1,5 +1,5 @@
 <template>
-    <div class="w-1/7 h-1/7 shadow-outset absolute rounded-lg transition"
+    <div class="w-1/7 h-1/7 absolute rounded-lg transition"
          :class="`place-${x}-${y}`">
         <img class="w-full block rounded-lg relative z--10"
              :class="`rotate-${rotation}`"

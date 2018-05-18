@@ -6,20 +6,20 @@
             <pawn v-for="player in players" :start="position(player)" :pawn="player.pawn" :key="player.id"></pawn>
         </div>
         <div class="m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest pointer-events-auto size-board"
-             :class="{'sm:tilt-board tilt-board-sm sm:shadow md:tilt-board-md': !paused}">
+             :class="{'paused': paused, 'sm:tilt-board tilt-board-sm md:tilt-board-md': !paused}">
             <tile v-for="(tile, index) in tiles" :tile="tile" :key="index"></tile>
             <div>
                 <ghost-tile v-for="leftTile in 7" :x="-1" :y="leftTile - 1" :tile="looseTile" :key="leftTile"
-                @add-tile="addTile">
+                @add-tile="addTile" @rotate="looseTile.rotation = $event">
                 </ghost-tile>
-                <ghost-tile v-for="topTile in 7" :x="topTile - 1" :y="-1" :tile="looseTile" :key="topTile + 7"
-                @add-tile="addTile">
+                <ghost-tile v-for="topTile in 7" :x="7 - topTile" :y="-1" :tile="looseTile" :key="topTile + 7"
+                @add-tile="addTile" @rotate="looseTile.rotation = $event">
                 </ghost-tile>
                 <ghost-tile v-for="rightTile in 7" :x="7" :y="rightTile - 1" :tile="looseTile" :key="rightTile + 14"
-                @add-tile="addTile">
+                @add-tile="addTile" @rotate="looseTile.rotation = $event">
                 </ghost-tile>
-                <ghost-tile v-for="bottomTile in 7" :x="bottomTile - 1" :y="7" :tile="looseTile" :key="bottomTile + 21"
-                @add-tile="addTile">
+                <ghost-tile v-for="bottomTile in 7" :x="7 - bottomTile" :y="7" :tile="looseTile" :key="bottomTile + 21"
+                @add-tile="addTile" @rotate="looseTile.rotation = $event">
                 </ghost-tile>
             </div>
         </div>

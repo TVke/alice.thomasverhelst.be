@@ -667,8 +667,6 @@ button,
           transform-origin: bottom center;
   -webkit-transform: rotateX(90deg);
           transform: rotateX(90deg);
-  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
-          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
   background: url('/storage/images/tablecloth2.png') 50%;
 }
 
@@ -5370,8 +5368,24 @@ button,
   height: 1px;
 }
 
+.h-1\/2 {
+  height: 50%;
+}
+
 .h-1\/3 {
   height: 33.33333%;
+}
+
+.h-2\/3 {
+  height: 66.66667%;
+}
+
+.h-1\/4 {
+  height: 25%;
+}
+
+.h-3\/4 {
+  height: 75%;
 }
 
 .h-1\/5 {
@@ -5380,6 +5394,26 @@ button,
 
 .h-1\.5\/5 {
   height: 30%;
+}
+
+.h-2\/5 {
+  height: 40%;
+}
+
+.h-3\/5 {
+  height: 60%;
+}
+
+.h-4\/5 {
+  height: 80%;
+}
+
+.h-1\/6 {
+  height: 16.66667%;
+}
+
+.h-5\/6 {
+  height: 83.33333%;
 }
 
 .h-1\/7 {
@@ -6063,12 +6097,65 @@ button,
   margin-left: 1px;
 }
 
+.max-h-1\/4 {
+  max-height: 25%;
+}
+
+.max-h-xs {
+  max-height: 320px;
+  max-height: 20rem;
+}
+
+.max-h-sm {
+  max-height: 480px;
+  max-height: 30rem;
+}
+
+.max-h-md {
+  max-height: 640px;
+  max-height: 40rem;
+}
+
+.max-h-lg {
+  max-height: 800px;
+  max-height: 50rem;
+}
+
+.max-h-xl {
+  max-height: 960px;
+  max-height: 60rem;
+}
+
+.max-h-2xl {
+  max-height: 1120px;
+  max-height: 70rem;
+}
+
+.max-h-3xl {
+  max-height: 1280px;
+  max-height: 80rem;
+}
+
+.max-h-4xl {
+  max-height: 1440px;
+  max-height: 90rem;
+}
+
+.max-h-5xl {
+  max-height: 1600px;
+  max-height: 100rem;
+}
+
 .max-h-full {
   max-height: 100%;
 }
 
 .max-h-screen {
   max-height: 100vh;
+}
+
+.max-w-1\/4 {
+  max-width: 25%;
 }
 
 .max-w-xs {
@@ -6118,6 +6205,10 @@ button,
 
 .max-w-full {
   max-width: 100%;
+}
+
+.max-w-screen {
+  max-width: 100vh;
 }
 
 .min-h-0 {
@@ -15336,6 +15427,11 @@ button,
   max-height: 39.816rem;
 }
 
+.size-board.paused {
+  max-height: 573.056px;
+  max-height: 35.816rem;
+}
+
 .preserve3d {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
@@ -19990,8 +20086,24 @@ button,
     height: 1px;
   }
 
+  .sm\:h-1\/2 {
+    height: 50%;
+  }
+
   .sm\:h-1\/3 {
     height: 33.33333%;
+  }
+
+  .sm\:h-2\/3 {
+    height: 66.66667%;
+  }
+
+  .sm\:h-1\/4 {
+    height: 25%;
+  }
+
+  .sm\:h-3\/4 {
+    height: 75%;
   }
 
   .sm\:h-1\/5 {
@@ -20000,6 +20112,26 @@ button,
 
   .sm\:h-1\.5\/5 {
     height: 30%;
+  }
+
+  .sm\:h-2\/5 {
+    height: 40%;
+  }
+
+  .sm\:h-3\/5 {
+    height: 60%;
+  }
+
+  .sm\:h-4\/5 {
+    height: 80%;
+  }
+
+  .sm\:h-1\/6 {
+    height: 16.66667%;
+  }
+
+  .sm\:h-5\/6 {
+    height: 83.33333%;
   }
 
   .sm\:h-1\/7 {
@@ -20566,12 +20698,56 @@ button,
     margin-left: 1px;
   }
 
+  .sm\:max-h-1\/4 {
+    max-height: 25%;
+  }
+
+  .sm\:max-h-xs {
+    max-height: 20rem;
+  }
+
+  .sm\:max-h-sm {
+    max-height: 30rem;
+  }
+
+  .sm\:max-h-md {
+    max-height: 40rem;
+  }
+
+  .sm\:max-h-lg {
+    max-height: 50rem;
+  }
+
+  .sm\:max-h-xl {
+    max-height: 60rem;
+  }
+
+  .sm\:max-h-2xl {
+    max-height: 70rem;
+  }
+
+  .sm\:max-h-3xl {
+    max-height: 80rem;
+  }
+
+  .sm\:max-h-4xl {
+    max-height: 90rem;
+  }
+
+  .sm\:max-h-5xl {
+    max-height: 100rem;
+  }
+
   .sm\:max-h-full {
     max-height: 100%;
   }
 
   .sm\:max-h-screen {
     max-height: 100vh;
+  }
+
+  .sm\:max-w-1\/4 {
+    max-width: 25%;
   }
 
   .sm\:max-w-xs {
@@ -20612,6 +20788,10 @@ button,
 
   .sm\:max-w-full {
     max-width: 100%;
+  }
+
+  .sm\:max-w-screen {
+    max-width: 100vh;
   }
 
   .sm\:min-h-0 {
@@ -28128,6 +28308,10 @@ button,
     max-width: 100%;
     max-height: 39.816rem;
   }
+
+  .sm\:size-board.paused {
+    max-height: 35.816rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -32754,8 +32938,24 @@ button,
     height: 1px;
   }
 
+  .md\:h-1\/2 {
+    height: 50%;
+  }
+
   .md\:h-1\/3 {
     height: 33.33333%;
+  }
+
+  .md\:h-2\/3 {
+    height: 66.66667%;
+  }
+
+  .md\:h-1\/4 {
+    height: 25%;
+  }
+
+  .md\:h-3\/4 {
+    height: 75%;
   }
 
   .md\:h-1\/5 {
@@ -32764,6 +32964,26 @@ button,
 
   .md\:h-1\.5\/5 {
     height: 30%;
+  }
+
+  .md\:h-2\/5 {
+    height: 40%;
+  }
+
+  .md\:h-3\/5 {
+    height: 60%;
+  }
+
+  .md\:h-4\/5 {
+    height: 80%;
+  }
+
+  .md\:h-1\/6 {
+    height: 16.66667%;
+  }
+
+  .md\:h-5\/6 {
+    height: 83.33333%;
   }
 
   .md\:h-1\/7 {
@@ -33330,12 +33550,56 @@ button,
     margin-left: 1px;
   }
 
+  .md\:max-h-1\/4 {
+    max-height: 25%;
+  }
+
+  .md\:max-h-xs {
+    max-height: 20rem;
+  }
+
+  .md\:max-h-sm {
+    max-height: 30rem;
+  }
+
+  .md\:max-h-md {
+    max-height: 40rem;
+  }
+
+  .md\:max-h-lg {
+    max-height: 50rem;
+  }
+
+  .md\:max-h-xl {
+    max-height: 60rem;
+  }
+
+  .md\:max-h-2xl {
+    max-height: 70rem;
+  }
+
+  .md\:max-h-3xl {
+    max-height: 80rem;
+  }
+
+  .md\:max-h-4xl {
+    max-height: 90rem;
+  }
+
+  .md\:max-h-5xl {
+    max-height: 100rem;
+  }
+
   .md\:max-h-full {
     max-height: 100%;
   }
 
   .md\:max-h-screen {
     max-height: 100vh;
+  }
+
+  .md\:max-w-1\/4 {
+    max-width: 25%;
   }
 
   .md\:max-w-xs {
@@ -33376,6 +33640,10 @@ button,
 
   .md\:max-w-full {
     max-width: 100%;
+  }
+
+  .md\:max-w-screen {
+    max-width: 100vh;
   }
 
   .md\:min-h-0 {
@@ -40892,6 +41160,10 @@ button,
     max-width: 100%;
     max-height: 39.816rem;
   }
+
+  .md\:size-board.paused {
+    max-height: 35.816rem;
+  }
 }
 
 @media (min-width: 992px) {
@@ -45518,8 +45790,24 @@ button,
     height: 1px;
   }
 
+  .lg\:h-1\/2 {
+    height: 50%;
+  }
+
   .lg\:h-1\/3 {
     height: 33.33333%;
+  }
+
+  .lg\:h-2\/3 {
+    height: 66.66667%;
+  }
+
+  .lg\:h-1\/4 {
+    height: 25%;
+  }
+
+  .lg\:h-3\/4 {
+    height: 75%;
   }
 
   .lg\:h-1\/5 {
@@ -45528,6 +45816,26 @@ button,
 
   .lg\:h-1\.5\/5 {
     height: 30%;
+  }
+
+  .lg\:h-2\/5 {
+    height: 40%;
+  }
+
+  .lg\:h-3\/5 {
+    height: 60%;
+  }
+
+  .lg\:h-4\/5 {
+    height: 80%;
+  }
+
+  .lg\:h-1\/6 {
+    height: 16.66667%;
+  }
+
+  .lg\:h-5\/6 {
+    height: 83.33333%;
   }
 
   .lg\:h-1\/7 {
@@ -46094,12 +46402,56 @@ button,
     margin-left: 1px;
   }
 
+  .lg\:max-h-1\/4 {
+    max-height: 25%;
+  }
+
+  .lg\:max-h-xs {
+    max-height: 20rem;
+  }
+
+  .lg\:max-h-sm {
+    max-height: 30rem;
+  }
+
+  .lg\:max-h-md {
+    max-height: 40rem;
+  }
+
+  .lg\:max-h-lg {
+    max-height: 50rem;
+  }
+
+  .lg\:max-h-xl {
+    max-height: 60rem;
+  }
+
+  .lg\:max-h-2xl {
+    max-height: 70rem;
+  }
+
+  .lg\:max-h-3xl {
+    max-height: 80rem;
+  }
+
+  .lg\:max-h-4xl {
+    max-height: 90rem;
+  }
+
+  .lg\:max-h-5xl {
+    max-height: 100rem;
+  }
+
   .lg\:max-h-full {
     max-height: 100%;
   }
 
   .lg\:max-h-screen {
     max-height: 100vh;
+  }
+
+  .lg\:max-w-1\/4 {
+    max-width: 25%;
   }
 
   .lg\:max-w-xs {
@@ -46140,6 +46492,10 @@ button,
 
   .lg\:max-w-full {
     max-width: 100%;
+  }
+
+  .lg\:max-w-screen {
+    max-width: 100vh;
   }
 
   .lg\:min-h-0 {
@@ -53656,6 +54012,10 @@ button,
     max-width: 100%;
     max-height: 39.816rem;
   }
+
+  .lg\:size-board.paused {
+    max-height: 35.816rem;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -58282,8 +58642,24 @@ button,
     height: 1px;
   }
 
+  .xl\:h-1\/2 {
+    height: 50%;
+  }
+
   .xl\:h-1\/3 {
     height: 33.33333%;
+  }
+
+  .xl\:h-2\/3 {
+    height: 66.66667%;
+  }
+
+  .xl\:h-1\/4 {
+    height: 25%;
+  }
+
+  .xl\:h-3\/4 {
+    height: 75%;
   }
 
   .xl\:h-1\/5 {
@@ -58292,6 +58668,26 @@ button,
 
   .xl\:h-1\.5\/5 {
     height: 30%;
+  }
+
+  .xl\:h-2\/5 {
+    height: 40%;
+  }
+
+  .xl\:h-3\/5 {
+    height: 60%;
+  }
+
+  .xl\:h-4\/5 {
+    height: 80%;
+  }
+
+  .xl\:h-1\/6 {
+    height: 16.66667%;
+  }
+
+  .xl\:h-5\/6 {
+    height: 83.33333%;
   }
 
   .xl\:h-1\/7 {
@@ -58858,12 +59254,56 @@ button,
     margin-left: 1px;
   }
 
+  .xl\:max-h-1\/4 {
+    max-height: 25%;
+  }
+
+  .xl\:max-h-xs {
+    max-height: 20rem;
+  }
+
+  .xl\:max-h-sm {
+    max-height: 30rem;
+  }
+
+  .xl\:max-h-md {
+    max-height: 40rem;
+  }
+
+  .xl\:max-h-lg {
+    max-height: 50rem;
+  }
+
+  .xl\:max-h-xl {
+    max-height: 60rem;
+  }
+
+  .xl\:max-h-2xl {
+    max-height: 70rem;
+  }
+
+  .xl\:max-h-3xl {
+    max-height: 80rem;
+  }
+
+  .xl\:max-h-4xl {
+    max-height: 90rem;
+  }
+
+  .xl\:max-h-5xl {
+    max-height: 100rem;
+  }
+
   .xl\:max-h-full {
     max-height: 100%;
   }
 
   .xl\:max-h-screen {
     max-height: 100vh;
+  }
+
+  .xl\:max-w-1\/4 {
+    max-width: 25%;
   }
 
   .xl\:max-w-xs {
@@ -58904,6 +59344,10 @@ button,
 
   .xl\:max-w-full {
     max-width: 100%;
+  }
+
+  .xl\:max-w-screen {
+    max-width: 100vh;
   }
 
   .xl\:min-h-0 {
@@ -66419,5 +66863,9 @@ button,
     height: 75vw;
     max-width: 100%;
     max-height: 39.816rem;
+  }
+
+  .xl\:size-board.paused {
+    max-height: 35.816rem;
   }
 }
