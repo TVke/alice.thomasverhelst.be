@@ -39,7 +39,7 @@
     import PlayerForm from './PlayerForm.vue';
 
     export default {
-        name: "GameSetup",
+        name: 'GameSetup',
         components: {Qrcode, PlayerForm},
         data() {
             return {

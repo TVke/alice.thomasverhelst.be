@@ -18,7 +18,7 @@
 
 <script>
     export default {
-        name: "GhostTile",
+        name: 'GhostTile',
         props: ['x', 'y', 'tile'],
         data(){
             return{

@@ -30,7 +30,7 @@
 
 <script>
     export default {
-        name: "PlayerForm",
+        name: 'PlayerForm',
         props: ['options'],
         data() {
             return {

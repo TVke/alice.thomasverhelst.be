@@ -8,18 +8,19 @@
         <div class="m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest pointer-events-auto size-board"
              :class="{'paused': paused, 'sm:tilt-board tilt-board-sm md:tilt-board-md': !paused}">
             <tile v-for="(tile, index) in tiles" :tile="tile" :key="index"></tile>
-            <div>
+            <div class="opacity-0 transition transition-slow pointer-events-none"
+                 :class="{'opacity-100 pointer-events-auto': moveMaze}">
                 <ghost-tile v-for="leftTile in 7" :x="-1" :y="leftTile - 1" :tile="looseTile" :key="leftTile"
-                @add-tile="addTile" @rotate="looseTile.rotation = $event">
+                            @add-tile="addTile" @rotate="looseTile.rotation = $event">
                 </ghost-tile>
                 <ghost-tile v-for="topTile in 7" :x="7 - topTile" :y="-1" :tile="looseTile" :key="topTile + 7"
-                @add-tile="addTile" @rotate="looseTile.rotation = $event">
+                            @add-tile="addTile" @rotate="looseTile.rotation = $event">
                 </ghost-tile>
                 <ghost-tile v-for="rightTile in 7" :x="7" :y="rightTile - 1" :tile="looseTile" :key="rightTile + 14"
-                @add-tile="addTile" @rotate="looseTile.rotation = $event">
+                            @add-tile="addTile" @rotate="looseTile.rotation = $event">
                 </ghost-tile>
                 <ghost-tile v-for="bottomTile in 7" :x="7 - bottomTile" :y="7" :tile="looseTile" :key="bottomTile + 21"
-                @add-tile="addTile" @rotate="looseTile.rotation = $event">
+                            @add-tile="addTile" @rotate="looseTile.rotation = $event">
                 </ghost-tile>
             </div>
         </div>
@@ -27,9 +28,9 @@
 </template>
 
 <script>
-    import Pawn from "./Pawn.vue";
-    import Tile from "./Tile.vue";
-    import GhostTile from "./GhostTile.vue";
+    import Pawn from './Pawn.vue';
+    import Tile from './Tile.vue';
+    import GhostTile from './GhostTile.vue';
 
     export default {
         components: {Tile, Pawn, GhostTile},
@@ -39,7 +40,10 @@
                 players: [],
                 tiles: [],
                 looseTile: {},
+                activePawn: '',
                 paused: true,
+                moveMaze: false,
+                movePawn: false,
             };
         },
         created() {
@@ -53,6 +57,8 @@
             Event.$on('start-play', (event) => {
                 this.paused = false;
 
+                this.moveMaze = true;
+
                 this.players = event;
             });
         },
@@ -60,18 +66,18 @@
             position({pawn}) {
                 let x = 0;
 
-                if (pawn === 'Queen of Hearts' || pawn === 'Mad Hatter') {
+                if (pawn === 'Queen of Hearts' || pawn === 'White Rabbit') {
                     x = 6;
                 }
                 let y = 0;
 
-                if (pawn === 'White Rabbit' || pawn === 'Queen of Hearts') {
+                if (pawn === 'Mad Hatter' || pawn === 'Queen of Hearts') {
                     y = 6;
                 }
 
                 return {x: x, y: y};
             },
-            addTile(position){
+            addTile(position) {
                 let x = position.x;
                 let y = position.y;
 
@@ -87,12 +93,53 @@
                 if (y === 7) {
                     this.moveColumn(x, -1);
                 }
+
+                this.moveMaze = false;
+                this.movePawn = true;
             },
             moveRow(row, amount) {
+                this.looseTile.y = row;
+                this.looseTile.x = (amount > 0) ? 0 : 6;
 
+                let newLooseTile, toRemove;
+
+                this.tiles.forEach((tile, index) => {
+                    if (tile.y === row) {
+                        tile.x += amount;
+                        if (tile.x > 6 || tile.x < 0) {
+
+                            newLooseTile = tile;
+
+                            toRemove = index;
+                        }
+                    }
+                });
+
+                this.tiles.splice(toRemove, 1, this.looseTile);
+
+                this.looseTile = newLooseTile;
             },
             moveColumn(column, amount) {
+                this.looseTile.x = column;
+                this.looseTile.y = (amount > 0) ? 0 : 6;
 
+                let newLooseTile, toRemove;
+
+                this.tiles.forEach((tile, index) => {
+                    if (tile.x === column) {
+                        tile.y += amount;
+                        if (tile.y > 6 || tile.y < 0) {
+
+                            newLooseTile = tile;
+
+                            toRemove = index;
+                        }
+                    }
+                });
+
+                this.tiles.splice(toRemove, 1, this.looseTile);
+
+                this.looseTile = newLooseTile;
             },
         }
     };

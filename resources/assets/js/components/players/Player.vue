@@ -2,18 +2,16 @@
     <div class="absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded"
          :class="{
          'pin-t': placement.top,
-         'pin-r': placement.right,
          'pin-b': placement.bottom,
          'pin-l': placement.left,
-         'flex-row-reverse': placement.right,
-         'text-right': placement.right,
+         'pin-r flex-row-reverse text-right': placement.right,
          }">
         <div class="h-full rounded-full w-12 md:w-1/4 bg-white"
              :class="{
-             'border border-pawn-blue shadow-blue-active': active === 1 && player.pawn === 'Alice',
-             'border border-pawn-green shadow-green-active': active === 2 && player.pawn === 'Mad Hatter',
-             'border border-pawn-red shadow-red-active': active === 3 && player.pawn === 'Queen of Hearts',
-             'border border-black shadow-white-active': active === 4 && player.pawn === 'White Rabbit',
+             'border border-pawn-blue shadow-blue-active': active === player.pawn && player.pawn === 'Alice',
+             'border border-pawn-green shadow-green-active': active === player.pawn && player.pawn === 'Mad Hatter',
+             'border border-pawn-red shadow-red-active': active === player.pawn && player.pawn === 'Queen of Hearts',
+             'border border-black shadow-white-active': active === player.pawn && player.pawn === 'White Rabbit',
              }">
             <img class="block p-1" :src="`/storage/images/pawns/${player.pawn}.svg`" :alt="`${player.pawn} pawn`">
         </div>
@@ -25,7 +23,7 @@
     import Pawn from '../Pawn.vue';
 
     export default {
-        name: "Player",
+        name: 'Player',
         components: {Pawn},
         props: {
             player: {
@@ -33,7 +31,7 @@
                 type: Object,
             },
             active: {
-                type: Number,
+                type: String,
             },
         },
         computed: {

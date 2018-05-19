@@ -5,15 +5,15 @@
 </template>
 
 <script>
-    import Player from "./Player.vue";
+    import Player from './Player.vue';
 
     export default {
-        name: "PlayerCards",
+        name: 'Players',
         components: {Player},
         data() {
             return {
                 players: [],
-                activePlayer: 0,
+                activePlayer: '',
             }
         },
         created() {
@@ -24,18 +24,9 @@
 
                 this.activePlayer = this.players[option];
 
-                if (this.players[option].pawn === 'Alice') {
-                    this.activePlayer = 1;
-                }
-                if (this.players[option].pawn === 'Mad Hatter') {
-                    this.activePlayer = 2;
-                }
-                if (this.players[option].pawn === 'Queen of Hearts') {
-                    this.activePlayer = 3;
-                }
-                if (this.players[option].pawn === 'White Rabbit') {
-                    this.activePlayer = 4;
-                }
+                this.activePlayer = this.players[option].pawn;
+
+                Event.$emit('active-player',this.activePlayer);
             });
         },
     }

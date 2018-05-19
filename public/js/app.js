@@ -4141,6 +4141,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -4154,7 +4155,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             players: [],
             tiles: [],
             looseTile: {},
-            paused: true
+            activePawn: '',
+            paused: true,
+            moveMaze: false,
+            movePawn: false
         };
     },
     created: function created() {
@@ -4171,6 +4175,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Event.$on('start-play', function (event) {
             _this.paused = false;
 
+            _this.moveMaze = true;
+
             _this.players = event;
         });
     },
@@ -4181,12 +4187,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var x = 0;
 
-            if (pawn === 'Queen of Hearts' || pawn === 'Mad Hatter') {
+            if (pawn === 'Queen of Hearts' || pawn === 'White Rabbit') {
                 x = 6;
             }
             var y = 0;
 
-            if (pawn === 'White Rabbit' || pawn === 'Queen of Hearts') {
+            if (pawn === 'Mad Hatter' || pawn === 'Queen of Hearts') {
                 y = 6;
             }
 
@@ -4208,9 +4214,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (y === 7) {
                 this.moveColumn(x, -1);
             }
+
+            this.moveMaze = false;
+            this.movePawn = true;
         },
-        moveRow: function moveRow(row, amount) {},
-        moveColumn: function moveColumn(column, amount) {}
+        moveRow: function moveRow(row, amount) {
+            this.looseTile.y = row;
+            this.looseTile.x = amount > 0 ? 0 : 6;
+
+            var newLooseTile = void 0,
+                toRemove = void 0;
+
+            this.tiles.forEach(function (tile, index) {
+                if (tile.y === row) {
+                    tile.x += amount;
+                    if (tile.x > 6 || tile.x < 0) {
+
+                        newLooseTile = tile;
+
+                        toRemove = index;
+                    }
+                }
+            });
+
+            this.tiles.splice(toRemove, 1, this.looseTile);
+
+            this.looseTile = newLooseTile;
+        },
+        moveColumn: function moveColumn(column, amount) {
+            this.looseTile.x = column;
+            this.looseTile.y = amount > 0 ? 0 : 6;
+
+            var newLooseTile = void 0,
+                toRemove = void 0;
+
+            this.tiles.forEach(function (tile, index) {
+                if (tile.x === column) {
+                    tile.y += amount;
+                    if (tile.y > 6 || tile.y < 0) {
+
+                        newLooseTile = tile;
+
+                        toRemove = index;
+                    }
+                }
+            });
+
+            this.tiles.splice(toRemove, 1, this.looseTile);
+
+            this.looseTile = newLooseTile;
+        }
     }
 });
 
@@ -4241,7 +4294,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "GhostTile",
+    name: 'GhostTile',
     props: ['x', 'y', 'tile'],
     data: function data() {
         return {
@@ -4280,13 +4333,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "pawn",
-    props: ['start', 'pawn'],
+    name: 'pawn',
+    props: {
+        start: {
+            type: Object
+        },
+        pawn: {
+            type: String
+        }
+    },
     data: function data() {
         return {
             x: this.start.x,
-            y: this.start.y
+            y: this.start.y,
+            activePlayer: ''
         };
+    },
+    created: function created() {
+        var _this = this;
+
+        Event.$on('active-player', function (event) {
+            _this.activePlayer = event;
+        });
+        Event.$on('move-to', function (event) {});
+    },
+
+    computed: {
+        order: function order() {
+            if (this.pawn === 'White Rabbit') {
+                return 20;
+            }
+            if (this.pawn === 'Alice') {
+                return 30;
+            }
+            if (this.pawn === 'Queen of Hearts') {
+                return 40;
+            }
+            return 10;
+        }
     }
 });
 
@@ -4313,17 +4397,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "tile",
-    props: ['tile'],
-    data: function data() {
-        return {
-            x: this.tile.x,
-            y: this.tile.y,
-            rotation: this.tile.rotation,
-            type: this.tile.type,
-            object: this.tile.object
-        };
-    }
+    name: 'tile',
+    props: ['tile']
 });
 
 /***/ }),
@@ -4356,13 +4431,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "Player",
+    name: 'Player',
     components: { Pawn: __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default.a },
     props: {
         player: {
@@ -4370,7 +4443,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: Object
         },
         active: {
-            type: Number
+            type: String
         }
     },
     computed: {
@@ -4402,7 +4475,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/PlayerCards.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/Players.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4419,12 +4492,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "PlayerCards",
+    name: 'Players',
     components: { Player: __WEBPACK_IMPORTED_MODULE_0__Player_vue___default.a },
     data: function data() {
         return {
             players: [],
-            activePlayer: 0
+            activePlayer: ''
         };
     },
     created: function created() {
@@ -4437,18 +4510,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             _this.activePlayer = _this.players[option];
 
-            if (_this.players[option].pawn === 'Alice') {
-                _this.activePlayer = 1;
-            }
-            if (_this.players[option].pawn === 'Mad Hatter') {
-                _this.activePlayer = 2;
-            }
-            if (_this.players[option].pawn === 'Queen of Hearts') {
-                _this.activePlayer = 3;
-            }
-            if (_this.players[option].pawn === 'White Rabbit') {
-                _this.activePlayer = 4;
-            }
+            _this.activePlayer = _this.players[option].pawn;
+
+            Event.$emit('active-player', _this.activePlayer);
         });
     }
 });
@@ -4505,7 +4569,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "GameSetup",
+    name: 'GameSetup',
     components: { Qrcode: __WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode___default.a, PlayerForm: __WEBPACK_IMPORTED_MODULE_1__PlayerForm_vue___default.a },
     data: function data() {
         return {
@@ -4604,7 +4668,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "PlayerForm",
+    name: 'PlayerForm',
     props: ['options'],
     data: function data() {
         return {
@@ -10291,6 +10355,11 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
+            {
+              staticClass:
+                "opacity-0 transition transition-slow pointer-events-none",
+              class: { "opacity-100 pointer-events-auto": _vm.moveMaze }
+            },
             [
               _vm._l(7, function(leftTile) {
                 return _c("ghost-tile", {
@@ -10378,11 +10447,9 @@ var render = function() {
         "absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded",
       class: {
         "pin-t": _vm.placement.top,
-        "pin-r": _vm.placement.right,
         "pin-b": _vm.placement.bottom,
         "pin-l": _vm.placement.left,
-        "flex-row-reverse": _vm.placement.right,
-        "text-right": _vm.placement.right
+        "pin-r flex-row-reverse text-right": _vm.placement.right
       }
     },
     [
@@ -10392,13 +10459,16 @@ var render = function() {
           staticClass: "h-full rounded-full w-12 md:w-1/4 bg-white",
           class: {
             "border border-pawn-blue shadow-blue-active":
-              _vm.active === 1 && _vm.player.pawn === "Alice",
+              _vm.active === _vm.player.pawn && _vm.player.pawn === "Alice",
             "border border-pawn-green shadow-green-active":
-              _vm.active === 2 && _vm.player.pawn === "Mad Hatter",
+              _vm.active === _vm.player.pawn &&
+              _vm.player.pawn === "Mad Hatter",
             "border border-pawn-red shadow-red-active":
-              _vm.active === 3 && _vm.player.pawn === "Queen of Hearts",
+              _vm.active === _vm.player.pawn &&
+              _vm.player.pawn === "Queen of Hearts",
             "border border-black shadow-white-active":
-              _vm.active === 4 && _vm.player.pawn === "White Rabbit"
+              _vm.active === _vm.player.pawn &&
+              _vm.player.pawn === "White Rabbit"
           }
         },
         [
@@ -10441,7 +10511,7 @@ var render = function() {
     "div",
     {
       staticClass: "block w-1/7 h-1/7 absolute preserve3d transition",
-      class: "place-" + _vm.x + "-" + _vm.y
+      class: "place-" + _vm.x + "-" + _vm.y + " z-" + _vm.order
     },
     [
       _c("img", {
@@ -10462,36 +10532,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-387d813f", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-47114c3e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/PlayerCards.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "absolute pin" },
-    _vm._l(_vm.players, function(player) {
-      return _c("player", {
-        key: player.id,
-        attrs: { player: player, active: _vm.activePlayer }
-      })
-    })
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-47114c3e", module.exports)
   }
 }
 
@@ -10749,25 +10789,25 @@ var render = function() {
     "div",
     {
       staticClass: "w-1/7 h-1/7 absolute rounded-lg transition",
-      class: "place-" + _vm.x + "-" + _vm.y
+      class: "place-" + _vm.tile.x + "-" + _vm.tile.y
     },
     [
       _c("img", {
         staticClass: "w-full block rounded-lg relative z--10",
-        class: "rotate-" + _vm.rotation,
+        class: "rotate-" + _vm.tile.rotation,
         attrs: {
-          src: "/storage/images/tiles/" + _vm.type.name + ".png",
-          alt: _vm.type.description
+          src: "/storage/images/tiles/" + _vm.tile.type.name + ".png",
+          alt: _vm.tile.type.description
         }
       }),
       _vm._v(" "),
-      _vm.object
+      _vm.tile.object
         ? _c("img", {
             staticClass: "absolute w-2/5 h-2/5 pin m-auto block",
-            class: "rotate-" + _vm.rotation,
+            class: "rotate-" + _vm.tile.rotation,
             attrs: {
-              src: "/storage/images/objects/" + _vm.object.name + ".svg",
-              alt: _vm.object.description
+              src: "/storage/images/objects/" + _vm.tile.object.name + ".svg",
+              alt: _vm.tile.object.description
             }
           })
         : _vm._e()
@@ -10781,6 +10821,36 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-6befec65", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ab1ab224\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Players.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "absolute pin" },
+    _vm._l(_vm.players, function(player) {
+      return _c("player", {
+        key: player.id,
+        attrs: { player: player, active: _vm.activePlayer }
+      })
+    })
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ab1ab224", module.exports)
   }
 }
 
@@ -21950,10 +22020,10 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 window.Event = new Vue();
 
 Vue.component("game-setup", __webpack_require__("./resources/assets/js/components/setup/GameSetup.vue"));
-Vue.component("player-cards", __webpack_require__("./resources/assets/js/components/players/PlayerCards.vue"));
+Vue.component("player-cards", __webpack_require__("./resources/assets/js/components/players/Players.vue"));
 Vue.component("game-board", __webpack_require__("./resources/assets/js/components/GameBoard.vue"));
 
-new Vue({
+var vm = new Vue({
   el: "#game"
 });
 
@@ -22249,15 +22319,15 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/players/PlayerCards.vue":
+/***/ "./resources/assets/js/components/players/Players.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/PlayerCards.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/Players.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-47114c3e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/PlayerCards.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ab1ab224\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Players.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -22274,7 +22344,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/players/PlayerCards.vue"
+Component.options.__file = "resources/assets/js/components/players/Players.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -22283,9 +22353,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-47114c3e", Component.options)
+    hotAPI.createRecord("data-v-ab1ab224", Component.options)
   } else {
-    hotAPI.reload("data-v-47114c3e", Component.options)
+    hotAPI.reload("data-v-ab1ab224", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
