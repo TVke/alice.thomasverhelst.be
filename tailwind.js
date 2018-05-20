@@ -1094,11 +1094,29 @@ module.exports = {
                 '.tilt-board-md': {
                     transform: 'translateY(-100px) rotateX(50deg)',
                 },
+                '.pawn-start': {
+                    transform: 'translateY(-150%) rotateX(50deg)',
+                },
+                '.pawn-start-sm': {
+                    transform: 'translateY(-150%) rotateX(30deg)',
+                },
                 '.straighten-pawn': {
                     transform: 'translateY(-30%) rotateX(-50deg)',
                 },
                 '.move-up': {
                     transform: 'translateY(-150%)',
+                },
+                '.left-out': {
+                    transform: 'translateX(-100%)',
+                },
+                '.right-out': {
+                    transform: 'translateX(100%)',
+                },
+                '.left-in': {
+                    transform: 'translateX(0)',
+                },
+                '.right-in': {
+                    transform: 'translateX(0)',
                 },
                 '.size-board': {
                     width: '80vw',

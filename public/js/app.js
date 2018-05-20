@@ -4111,19 +4111,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pawn_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Tile_vue__ = __webpack_require__("./resources/assets/js/components/Tile.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Tile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Tile_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__GhostTile_vue__ = __webpack_require__("./resources/assets/js/components/GhostTile.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__GhostTile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__GhostTile_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__moveMaze_MoveMaze_vue__ = __webpack_require__("./resources/assets/js/components/moveMaze/MoveMaze.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__moveMaze_MoveMaze_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__moveMaze_MoveMaze_vue__);
 //
 //
 //
@@ -4148,8 +4137,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { Tile: __WEBPACK_IMPORTED_MODULE_1__Tile_vue___default.a, Pawn: __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default.a, GhostTile: __WEBPACK_IMPORTED_MODULE_2__GhostTile_vue___default.a },
     name: 'game-board',
+    components: { Tile: __WEBPACK_IMPORTED_MODULE_1__Tile_vue___default.a, Pawn: __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default.a, MoveMaze: __WEBPACK_IMPORTED_MODULE_2__moveMaze_MoveMaze_vue___default.a },
     data: function data() {
         return {
             players: [],
@@ -4157,7 +4146,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             looseTile: {},
             activePawn: '',
             paused: true,
-            moveMaze: false,
+            moveMazeMode: false,
             movePawn: false
         };
     },
@@ -4175,7 +4164,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Event.$on('start-play', function (event) {
             _this.paused = false;
 
-            _this.moveMaze = true;
+            _this.moveMazeMode = true;
 
             _this.players = event;
         });
@@ -4198,120 +4187,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             return { x: x, y: y };
         },
-        addTile: function addTile(position) {
-            var x = position.x;
-            var y = position.y;
+        moveMaze: function moveMaze(event) {
+            var direction = event.direction;
+            var lineDirection = event.lineDirection;
+            var line = event.line;
+            var amount = event.amount;
 
-            if (x === -1) {
-                this.moveRow(y, 1);
-            }
-            if (y === -1) {
-                this.moveColumn(x, 1);
-            }
-            if (x === 7) {
-                this.moveRow(y, -1);
-            }
-            if (y === 7) {
-                this.moveColumn(x, -1);
-            }
+            var newLooseTile = void 0,
+                toRemove = void 0;
 
-            this.moveMaze = false;
+            this.looseTile[lineDirection] = line;
+            this.looseTile[direction] = amount > 0 ? 0 : 6;
+
+            this.tiles.forEach(function (tile, index) {
+                if (tile[lineDirection] === line) {
+                    tile[direction] += amount;
+                    if (tile[direction] > 6 || tile[direction] < 0) {
+
+                        newLooseTile = tile;
+
+                        toRemove = index;
+                    }
+                }
+            });
+
+            this.tiles.splice(toRemove, 1, this.looseTile);
+
+            this.looseTile = newLooseTile;
+
+            this.moveMazeMode = false;
             this.movePawn = true;
-        },
-        moveRow: function moveRow(row, amount) {
-            this.looseTile.y = row;
-            this.looseTile.x = amount > 0 ? 0 : 6;
-
-            var newLooseTile = void 0,
-                toRemove = void 0;
-
-            this.tiles.forEach(function (tile, index) {
-                if (tile.y === row) {
-                    tile.x += amount;
-                    if (tile.x > 6 || tile.x < 0) {
-
-                        newLooseTile = tile;
-
-                        toRemove = index;
-                    }
-                }
-            });
-
-            this.tiles.splice(toRemove, 1, this.looseTile);
-
-            this.looseTile = newLooseTile;
-        },
-        moveColumn: function moveColumn(column, amount) {
-            this.looseTile.x = column;
-            this.looseTile.y = amount > 0 ? 0 : 6;
-
-            var newLooseTile = void 0,
-                toRemove = void 0;
-
-            this.tiles.forEach(function (tile, index) {
-                if (tile.x === column) {
-                    tile.y += amount;
-                    if (tile.y > 6 || tile.y < 0) {
-
-                        newLooseTile = tile;
-
-                        toRemove = index;
-                    }
-                }
-            });
-
-            this.tiles.splice(toRemove, 1, this.looseTile);
-
-            this.looseTile = newLooseTile;
-        }
-    }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/GhostTile.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'GhostTile',
-    props: ['x', 'y', 'tile'],
-    data: function data() {
-        return {
-            xPos: this.x,
-            yPos: this.y
-        };
-    },
-
-    computed: {
-        rotateTo: function rotateTo() {
-            var newRotation = this.tile.rotation + 90;
-
-            if (newRotation === 270 + 90) {
-                newRotation = 0;
-            }
-
-            return newRotation;
         }
     }
 });
@@ -4403,6 +4308,137 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/moveMaze/GhostTile.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'GhostTile',
+    props: ['x', 'y', 'tile'],
+    data: function data() {
+        return {
+            xPos: this.x,
+            yPos: this.y
+        };
+    },
+
+    computed: {
+        rotateTo: function rotateTo() {
+            var newRotation = this.tile.rotation + 90;
+
+            if (newRotation === 270 + 90) {
+                newRotation = 0;
+            }
+
+            if (newRotation > 90 && this.tile.type.name === 'line') {
+                newRotation = 0;
+            }
+
+            return newRotation;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/moveMaze/MoveMaze.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GhostTile_vue__ = __webpack_require__("./resources/assets/js/components/moveMaze/GhostTile.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GhostTile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__GhostTile_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'MoveMaze',
+    components: { GhostTile: __WEBPACK_IMPORTED_MODULE_0__GhostTile_vue___default.a },
+    props: ['active', 'tile'],
+    methods: {
+        addTile: function addTile(position) {
+            var x = position.x;
+            var y = position.y;
+
+            if (x === -1) {
+                this.$emit('move-maze', {
+                    direction: 'x',
+                    lineDirection: 'y',
+                    line: y,
+                    amount: 1
+                });
+            }
+            if (y === -1) {
+                this.$emit('move-maze', {
+                    direction: 'y',
+                    lineDirection: 'x',
+                    line: x,
+                    amount: 1
+                });
+            }
+            if (x === 7) {
+                this.$emit('move-maze', {
+                    direction: 'x',
+                    lineDirection: 'y',
+                    line: y,
+                    amount: -1
+                });
+            }
+            if (y === 7) {
+                this.$emit('move-maze', {
+                    direction: 'y',
+                    lineDirection: 'x',
+                    line: x,
+                    amount: -1
+                });
+            }
+
+            this.$emit('end-move');
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/Player.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4410,6 +4446,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pawn_vue__ = __webpack_require__("./resources/assets/js/components/Pawn.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pawn_vue__);
+//
+//
+//
+//
 //
 //
 //
@@ -4444,6 +4484,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         active: {
             type: String
+        },
+        paused: {
+            type: Boolean
         }
     },
     computed: {
@@ -4497,7 +4540,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             players: [],
-            activePlayer: ''
+            activePlayer: '',
+            paused: true
         };
     },
     created: function created() {
@@ -4505,6 +4549,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         Event.$on('start-play', function (event) {
             _this.players = event;
+
+            setTimeout(function () {
+                _this.paused = false;
+            }, 25);
 
             var option = Math.floor(Math.random() * _this.players.length);
 
@@ -10328,7 +10376,10 @@ var render = function() {
         {
           staticClass:
             "preserve3d max-w-md m-auto absolute pin z-10 block transition pointer-events-none transition-timing-ease-out transition-slow transition-delay-longest size-board",
-          class: { "sm:tilt-board tilt-board-sm md:tilt-board-md": !_vm.paused }
+          class: {
+            "tilt-board-sm sm:tilt-board md:tilt-board-md": !_vm.paused,
+            "pawn-start-sm sm:pawn-start": _vm.paused
+          }
         },
         _vm._l(_vm.players, function(player) {
           return _c("pawn", {
@@ -10353,68 +10404,15 @@ var render = function() {
             return _c("tile", { key: index, attrs: { tile: tile } })
           }),
           _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "opacity-0 transition transition-slow pointer-events-none",
-              class: { "opacity-100 pointer-events-auto": _vm.moveMaze }
-            },
-            [
-              _vm._l(7, function(leftTile) {
-                return _c("ghost-tile", {
-                  key: leftTile,
-                  attrs: { x: -1, y: leftTile - 1, tile: _vm.looseTile },
-                  on: {
-                    "add-tile": _vm.addTile,
-                    rotate: function($event) {
-                      _vm.looseTile.rotation = $event
-                    }
-                  }
-                })
-              }),
-              _vm._v(" "),
-              _vm._l(7, function(topTile) {
-                return _c("ghost-tile", {
-                  key: topTile + 7,
-                  attrs: { x: 7 - topTile, y: -1, tile: _vm.looseTile },
-                  on: {
-                    "add-tile": _vm.addTile,
-                    rotate: function($event) {
-                      _vm.looseTile.rotation = $event
-                    }
-                  }
-                })
-              }),
-              _vm._v(" "),
-              _vm._l(7, function(rightTile) {
-                return _c("ghost-tile", {
-                  key: rightTile + 14,
-                  attrs: { x: 7, y: rightTile - 1, tile: _vm.looseTile },
-                  on: {
-                    "add-tile": _vm.addTile,
-                    rotate: function($event) {
-                      _vm.looseTile.rotation = $event
-                    }
-                  }
-                })
-              }),
-              _vm._v(" "),
-              _vm._l(7, function(bottomTile) {
-                return _c("ghost-tile", {
-                  key: bottomTile + 21,
-                  attrs: { x: 7 - bottomTile, y: 7, tile: _vm.looseTile },
-                  on: {
-                    "add-tile": _vm.addTile,
-                    rotate: function($event) {
-                      _vm.looseTile.rotation = $event
-                    }
-                  }
-                })
-              })
-            ],
-            2
-          )
+          _c("move-maze", {
+            attrs: { active: _vm.moveMazeMode, tile: _vm.looseTile },
+            on: {
+              "move-maze": _vm.moveMaze,
+              rotate: function($event) {
+                _vm.looseTile.rotation = $event
+              }
+            }
+          })
         ],
         2
       )
@@ -10433,6 +10431,88 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2d349616\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/moveMaze/GhostTile.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "a",
+    {
+      staticClass:
+        "w-1/7 h-1/7 shadow-inner absolute rounded-lg tr bg-grey-lighter opacity-75 hover:opacity-100 group",
+      class: "place-" + _vm.xPos + "-" + _vm.yPos,
+      attrs: { href: "#" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          _vm.$emit("add-tile", { x: _vm.xPos, y: _vm.yPos })
+        }
+      }
+    },
+    [
+      _c(
+        "a",
+        {
+          staticClass:
+            "absolute opacity-0 group-hover:opacity-100 pin-t pin-r bg-alice rounded-full p-2 z-50 shadow -mt-2 -mr-2 w-8 h-8",
+          attrs: { href: "#" },
+          on: {
+            click: function($event) {
+              $event.stopPropagation()
+              $event.preventDefault()
+              _vm.$emit("rotate", _vm.rotateTo)
+            }
+          }
+        },
+        [
+          _c("img", {
+            staticClass: "w-full",
+            attrs: { src: "/storage/images/rotate.svg", alt: "Rotate the tile" }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      this.tile.type
+        ? _c("img", {
+            staticClass:
+              "w-full rounded-lg relative z--10 opacity-25 group-hover:opacity-100 transition transition-property-transform",
+            class: "rotate-" + this.tile.rotation,
+            attrs: {
+              src: "/storage/images/tiles/" + this.tile.type.name + ".png",
+              alt: this.tile.type.description
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      this.tile.object
+        ? _c("img", {
+            staticClass:
+              "absolute w-2/5 h-2/5 pin m-auto block transition transition-property-transform",
+            class: "rotate-" + this.tile.rotation,
+            attrs: {
+              src: "/storage/images/objects/" + this.tile.object.name + ".svg",
+              alt: this.tile.object.description
+            }
+          })
+        : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2d349616", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2eab94d5\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Player.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10444,12 +10524,16 @@ var render = function() {
     "div",
     {
       staticClass:
-        "absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded",
+        "absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded transition-delay-longest transition",
       class: {
         "pin-t": _vm.placement.top,
         "pin-b": _vm.placement.bottom,
         "pin-l": _vm.placement.left,
-        "pin-r flex-row-reverse text-right": _vm.placement.right
+        "pin-r flex-row-reverse text-right": _vm.placement.right,
+        "left-out": _vm.paused && _vm.placement.left,
+        "right-out": _vm.paused && _vm.placement.right,
+        "left-in": !_vm.paused && _vm.placement.left,
+        "right-in": !_vm.paused && _vm.placement.right
       }
     },
     [
@@ -10532,6 +10616,87 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-387d813f", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-49398a70\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/moveMaze/MoveMaze.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "block transition transition-slow",
+      class: { hidden: !_vm.active }
+    },
+    [
+      _vm._l(7, function(leftTile) {
+        return _c("ghost-tile", {
+          key: leftTile,
+          attrs: { x: -1, y: leftTile - 1, tile: _vm.tile },
+          on: {
+            "add-tile": _vm.addTile,
+            rotate: function($event) {
+              _vm.$emit("rotate", $event)
+            }
+          }
+        })
+      }),
+      _vm._v(" "),
+      _vm._l(7, function(topTile) {
+        return _c("ghost-tile", {
+          key: topTile + 7,
+          attrs: { x: 7 - topTile, y: -1, tile: _vm.tile },
+          on: {
+            "add-tile": _vm.addTile,
+            rotate: function($event) {
+              _vm.$emit("rotate", $event)
+            }
+          }
+        })
+      }),
+      _vm._v(" "),
+      _vm._l(7, function(rightTile) {
+        return _c("ghost-tile", {
+          key: rightTile + 14,
+          attrs: { x: 7, y: rightTile - 1, tile: _vm.tile },
+          on: {
+            "add-tile": _vm.addTile,
+            rotate: function($event) {
+              _vm.$emit("rotate", $event)
+            }
+          }
+        })
+      }),
+      _vm._v(" "),
+      _vm._l(7, function(bottomTile) {
+        return _c("ghost-tile", {
+          key: bottomTile + 21,
+          attrs: { x: 7 - bottomTile, y: 7, tile: _vm.tile },
+          on: {
+            "add-tile": _vm.addTile,
+            rotate: function($event) {
+              _vm.$emit("rotate", $event)
+            }
+          }
+        })
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-49398a70", module.exports)
   }
 }
 
@@ -10698,86 +10863,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6171db36\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/GhostTile.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "a",
-    {
-      staticClass:
-        "w-1/7 h-1/7 shadow-inner absolute rounded-lg tr bg-grey-lighter opacity-75 hover:opacity-100 group",
-      class: "place-" + _vm.xPos + "-" + _vm.yPos,
-      attrs: { href: "#" },
-      on: {
-        click: function($event) {
-          $event.preventDefault()
-          _vm.$emit("add-tile", { x: _vm.xPos, y: _vm.yPos })
-        }
-      }
-    },
-    [
-      _c(
-        "a",
-        {
-          staticClass:
-            "absolute opacity-0 group-hover:opacity-100 pin-t pin-r bg-alice rounded-full p-2 z-50 shadow -mt-2 -mr-2",
-          attrs: { href: "#" },
-          on: {
-            click: function($event) {
-              $event.stopPropagation()
-              _vm.$emit("rotate", _vm.rotateTo)
-            }
-          }
-        },
-        [
-          _c("img", {
-            attrs: { src: "/storage/images/rotate.svg", alt: "Rotate the tile" }
-          })
-        ]
-      ),
-      _vm._v(" "),
-      this.tile.type
-        ? _c("img", {
-            staticClass:
-              "w-full rounded-lg relative z--10 opacity-25 group-hover:opacity-100 transition transition-property-transform",
-            class: "rotate-" + this.tile.rotation,
-            attrs: {
-              src: "/storage/images/tiles/" + this.tile.type.name + ".png",
-              alt: this.tile.type.description
-            }
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      this.tile.object
-        ? _c("img", {
-            staticClass:
-              "absolute w-2/5 h-2/5 pin m-auto block transition transition-property-transform",
-            class: "rotate-" + this.tile.rotation,
-            attrs: {
-              src: "/storage/images/objects/" + this.tile.object.name + ".svg",
-              alt: this.tile.object.description
-            }
-          })
-        : _vm._e()
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6171db36", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6befec65\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Tile.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10839,7 +10924,7 @@ var render = function() {
     _vm._l(_vm.players, function(player) {
       return _c("player", {
         key: player.id,
-        attrs: { player: player, active: _vm.activePlayer }
+        attrs: { player: player, active: _vm.activePlayer, paused: _vm.paused }
       })
     })
   )
@@ -22127,54 +22212,6 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/GhostTile.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/GhostTile.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6171db36\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/GhostTile.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/GhostTile.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6171db36", Component.options)
-  } else {
-    hotAPI.reload("data-v-6171db36", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ "./resources/assets/js/components/Pawn.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22260,6 +22297,102 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-6befec65", Component.options)
   } else {
     hotAPI.reload("data-v-6befec65", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/moveMaze/GhostTile.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/moveMaze/GhostTile.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2d349616\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/moveMaze/GhostTile.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/moveMaze/GhostTile.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2d349616", Component.options)
+  } else {
+    hotAPI.reload("data-v-2d349616", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/moveMaze/MoveMaze.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/moveMaze/MoveMaze.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-49398a70\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/moveMaze/MoveMaze.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/moveMaze/MoveMaze.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-49398a70", Component.options)
+  } else {
+    hotAPI.reload("data-v-49398a70", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

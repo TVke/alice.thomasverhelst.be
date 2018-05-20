@@ -15409,6 +15409,16 @@ button,
           transform: translateY(-100px) rotateX(50deg);
 }
 
+.pawn-start {
+  -webkit-transform: translateY(-150%) rotateX(50deg);
+          transform: translateY(-150%) rotateX(50deg);
+}
+
+.pawn-start-sm {
+  -webkit-transform: translateY(-150%) rotateX(30deg);
+          transform: translateY(-150%) rotateX(30deg);
+}
+
 .straighten-pawn {
   -webkit-transform: translateY(-30%) rotateX(-50deg);
           transform: translateY(-30%) rotateX(-50deg);
@@ -15417,6 +15427,26 @@ button,
 .move-up {
   -webkit-transform: translateY(-150%);
           transform: translateY(-150%);
+}
+
+.left-out {
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+
+.right-out {
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+}
+
+.left-in {
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+
+.right-in {
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
 }
 
 .size-board {
@@ -28292,6 +28322,16 @@ button,
             transform: translateY(-100px) rotateX(50deg);
   }
 
+  .sm\:pawn-start {
+    -webkit-transform: translateY(-150%) rotateX(50deg);
+            transform: translateY(-150%) rotateX(50deg);
+  }
+
+  .sm\:pawn-start-sm {
+    -webkit-transform: translateY(-150%) rotateX(30deg);
+            transform: translateY(-150%) rotateX(30deg);
+  }
+
   .sm\:straighten-pawn {
     -webkit-transform: translateY(-30%) rotateX(-50deg);
             transform: translateY(-30%) rotateX(-50deg);
@@ -28300,6 +28340,26 @@ button,
   .sm\:move-up {
     -webkit-transform: translateY(-150%);
             transform: translateY(-150%);
+  }
+
+  .sm\:left-out {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+  }
+
+  .sm\:right-out {
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+  }
+
+  .sm\:left-in {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+
+  .sm\:right-in {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
   }
 
   .sm\:size-board {
@@ -41144,6 +41204,16 @@ button,
             transform: translateY(-100px) rotateX(50deg);
   }
 
+  .md\:pawn-start {
+    -webkit-transform: translateY(-150%) rotateX(50deg);
+            transform: translateY(-150%) rotateX(50deg);
+  }
+
+  .md\:pawn-start-sm {
+    -webkit-transform: translateY(-150%) rotateX(30deg);
+            transform: translateY(-150%) rotateX(30deg);
+  }
+
   .md\:straighten-pawn {
     -webkit-transform: translateY(-30%) rotateX(-50deg);
             transform: translateY(-30%) rotateX(-50deg);
@@ -41152,6 +41222,26 @@ button,
   .md\:move-up {
     -webkit-transform: translateY(-150%);
             transform: translateY(-150%);
+  }
+
+  .md\:left-out {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+  }
+
+  .md\:right-out {
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+  }
+
+  .md\:left-in {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+
+  .md\:right-in {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
   }
 
   .md\:size-board {
@@ -53996,6 +54086,16 @@ button,
             transform: translateY(-100px) rotateX(50deg);
   }
 
+  .lg\:pawn-start {
+    -webkit-transform: translateY(-150%) rotateX(50deg);
+            transform: translateY(-150%) rotateX(50deg);
+  }
+
+  .lg\:pawn-start-sm {
+    -webkit-transform: translateY(-150%) rotateX(30deg);
+            transform: translateY(-150%) rotateX(30deg);
+  }
+
   .lg\:straighten-pawn {
     -webkit-transform: translateY(-30%) rotateX(-50deg);
             transform: translateY(-30%) rotateX(-50deg);
@@ -54004,6 +54104,26 @@ button,
   .lg\:move-up {
     -webkit-transform: translateY(-150%);
             transform: translateY(-150%);
+  }
+
+  .lg\:left-out {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+  }
+
+  .lg\:right-out {
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+  }
+
+  .lg\:left-in {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+
+  .lg\:right-in {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
   }
 
   .lg\:size-board {
@@ -66848,6 +66968,16 @@ button,
             transform: translateY(-100px) rotateX(50deg);
   }
 
+  .xl\:pawn-start {
+    -webkit-transform: translateY(-150%) rotateX(50deg);
+            transform: translateY(-150%) rotateX(50deg);
+  }
+
+  .xl\:pawn-start-sm {
+    -webkit-transform: translateY(-150%) rotateX(30deg);
+            transform: translateY(-150%) rotateX(30deg);
+  }
+
   .xl\:straighten-pawn {
     -webkit-transform: translateY(-30%) rotateX(-50deg);
             transform: translateY(-30%) rotateX(-50deg);
@@ -66856,6 +66986,26 @@ button,
   .xl\:move-up {
     -webkit-transform: translateY(-150%);
             transform: translateY(-150%);
+  }
+
+  .xl\:left-out {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+  }
+
+  .xl\:right-out {
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+  }
+
+  .xl\:left-in {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+
+  .xl\:right-in {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
   }
 
   .xl\:size-board {

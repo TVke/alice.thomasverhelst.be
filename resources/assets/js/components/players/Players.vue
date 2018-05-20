@@ -1,6 +1,6 @@
 <template>
     <div class="absolute pin">
-        <player v-for="player in players" :player="player" :active="activePlayer" :key="player.id"></player>
+        <player v-for="player in players" :player="player" :active="activePlayer" :key="player.id" :paused="paused"></player>
     </div>
 </template>
 
@@ -14,11 +14,17 @@
             return {
                 players: [],
                 activePlayer: '',
+                paused: true,
             }
         },
         created() {
             Event.$on('start-play', (event) => {
                 this.players = event;
+
+                setTimeout(() => {
+                    this.paused = false;
+                },25);
+
 
                 let option = Math.floor(Math.random() * this.players.length);
 

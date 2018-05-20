@@ -2,27 +2,16 @@
     <div class="mx-auto max-w-md relative z--20 w-full mb-4 perspective mt-32 sm:mt-16 p-8"
          :class="{'sm:w-3/4 sm:p-0': !paused}">
         <div class="preserve3d max-w-md m-auto absolute pin z-10 block transition pointer-events-none transition-timing-ease-out transition-slow transition-delay-longest size-board"
-             :class="{'sm:tilt-board tilt-board-sm md:tilt-board-md': !paused}">
+             :class="{
+             'tilt-board-sm sm:tilt-board md:tilt-board-md': !paused,
+             'pawn-start-sm sm:pawn-start': paused,
+             }">
             <pawn v-for="player in players" :start="position(player)" :pawn="player.pawn" :key="player.id"></pawn>
         </div>
         <div class="m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest pointer-events-auto size-board"
              :class="{'paused': paused, 'sm:tilt-board tilt-board-sm md:tilt-board-md': !paused}">
             <tile v-for="(tile, index) in tiles" :tile="tile" :key="index"></tile>
-            <div class="opacity-0 transition transition-slow pointer-events-none"
-                 :class="{'opacity-100 pointer-events-auto': moveMaze}">
-                <ghost-tile v-for="leftTile in 7" :x="-1" :y="leftTile - 1" :tile="looseTile" :key="leftTile"
-                            @add-tile="addTile" @rotate="looseTile.rotation = $event">
-                </ghost-tile>
-                <ghost-tile v-for="topTile in 7" :x="7 - topTile" :y="-1" :tile="looseTile" :key="topTile + 7"
-                            @add-tile="addTile" @rotate="looseTile.rotation = $event">
-                </ghost-tile>
-                <ghost-tile v-for="rightTile in 7" :x="7" :y="rightTile - 1" :tile="looseTile" :key="rightTile + 14"
-                            @add-tile="addTile" @rotate="looseTile.rotation = $event">
-                </ghost-tile>
-                <ghost-tile v-for="bottomTile in 7" :x="7 - bottomTile" :y="7" :tile="looseTile" :key="bottomTile + 21"
-                            @add-tile="addTile" @rotate="looseTile.rotation = $event">
-                </ghost-tile>
-            </div>
+            <move-maze :active="moveMazeMode" :tile="looseTile" @move-maze="moveMaze" @rotate="looseTile.rotation = $event"></move-maze>
         </div>
     </div>
 </template>
@@ -30,11 +19,11 @@
 <script>
     import Pawn from './Pawn.vue';
     import Tile from './Tile.vue';
-    import GhostTile from './GhostTile.vue';
+    import MoveMaze from './moveMaze/MoveMaze.vue';
 
     export default {
-        components: {Tile, Pawn, GhostTile},
         name: 'game-board',
+        components: {Tile, Pawn, MoveMaze},
         data() {
             return {
                 players: [],
@@ -42,7 +31,7 @@
                 looseTile: {},
                 activePawn: '',
                 paused: true,
-                moveMaze: false,
+                moveMazeMode: false,
                 movePawn: false,
             };
         },
@@ -57,7 +46,7 @@
             Event.$on('start-play', (event) => {
                 this.paused = false;
 
-                this.moveMaze = true;
+                this.moveMazeMode = true;
 
                 this.players = event;
             });
@@ -77,36 +66,21 @@
 
                 return {x: x, y: y};
             },
-            addTile(position) {
-                let x = position.x;
-                let y = position.y;
-
-                if (x === -1) {
-                    this.moveRow(y, 1);
-                }
-                if (y === -1) {
-                    this.moveColumn(x, 1);
-                }
-                if (x === 7) {
-                    this.moveRow(y, -1);
-                }
-                if (y === 7) {
-                    this.moveColumn(x, -1);
-                }
-
-                this.moveMaze = false;
-                this.movePawn = true;
-            },
-            moveRow(row, amount) {
-                this.looseTile.y = row;
-                this.looseTile.x = (amount > 0) ? 0 : 6;
+            moveMaze(event) {
+                let direction = event.direction;
+                let lineDirection = event.lineDirection;
+                let line = event.line;
+                let amount = event.amount;
 
                 let newLooseTile, toRemove;
 
+                this.looseTile[lineDirection] = line;
+                this.looseTile[direction] = (amount > 0) ? 0 : 6;
+
                 this.tiles.forEach((tile, index) => {
-                    if (tile.y === row) {
-                        tile.x += amount;
-                        if (tile.x > 6 || tile.x < 0) {
+                    if (tile[lineDirection] === line) {
+                        tile[direction] += amount;
+                        if (tile[direction] > 6 || tile[direction] < 0) {
 
                             newLooseTile = tile;
 
@@ -118,28 +92,9 @@
                 this.tiles.splice(toRemove, 1, this.looseTile);
 
                 this.looseTile = newLooseTile;
-            },
-            moveColumn(column, amount) {
-                this.looseTile.x = column;
-                this.looseTile.y = (amount > 0) ? 0 : 6;
 
-                let newLooseTile, toRemove;
-
-                this.tiles.forEach((tile, index) => {
-                    if (tile.x === column) {
-                        tile.y += amount;
-                        if (tile.y > 6 || tile.y < 0) {
-
-                            newLooseTile = tile;
-
-                            toRemove = index;
-                        }
-                    }
-                });
-
-                this.tiles.splice(toRemove, 1, this.looseTile);
-
-                this.looseTile = newLooseTile;
+                this.moveMazeMode = false;
+                this.movePawn = true
             },
         }
     };

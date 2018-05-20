@@ -1,10 +1,14 @@
 <template>
-    <div class="absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded"
+    <div class="absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded transition-delay-longest transition"
          :class="{
          'pin-t': placement.top,
          'pin-b': placement.bottom,
          'pin-l': placement.left,
          'pin-r flex-row-reverse text-right': placement.right,
+         'left-out': paused && placement.left,
+         'right-out': paused && placement.right,
+         'left-in': !paused && placement.left,
+         'right-in': !paused && placement.right,
          }">
         <div class="h-full rounded-full w-12 md:w-1/4 bg-white"
              :class="{
@@ -32,6 +36,9 @@
             },
             active: {
                 type: String,
+            },
+            paused: {
+                type: Boolean,
             },
         },
         computed: {

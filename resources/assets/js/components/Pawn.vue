@@ -44,10 +44,7 @@
                     return 40;
                 }
                 return 10;
-            },
-            // makePath(x, y){
-            //
-            // }
+            }
         }
     }
 </script>

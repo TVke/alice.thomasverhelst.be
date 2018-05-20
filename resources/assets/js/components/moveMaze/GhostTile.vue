@@ -1,9 +1,10 @@
 <template>
     <a href="#" class="w-1/7 h-1/7 shadow-inner absolute rounded-lg tr bg-grey-lighter opacity-75 hover:opacity-100 group"
          :class="`place-${xPos}-${yPos}`" @click.prevent="$emit('add-tile',{ x:xPos, y:yPos })">
-        <a href="#" class="absolute opacity-0 group-hover:opacity-100 pin-t pin-r bg-alice rounded-full p-2 z-50 shadow -mt-2 -mr-2"
-           @click.stop="$emit('rotate',rotateTo)">
-            <img src="/storage/images/rotate.svg" alt="Rotate the tile">
+        <a href="#"
+           class="absolute opacity-0 group-hover:opacity-100 pin-t pin-r bg-alice rounded-full p-2 z-50 shadow -mt-2 -mr-2 w-8 h-8"
+           @click.stop.prevent="$emit('rotate',rotateTo)">
+            <img src="/storage/images/rotate.svg" alt="Rotate the tile" class="w-full">
         </a>
         <img class="w-full rounded-lg relative z--10 opacity-25 group-hover:opacity-100 transition transition-property-transform" v-if="this.tile.type"
              :class="`rotate-${this.tile.rotation}`"
@@ -31,6 +32,10 @@
                 let newRotation = this.tile.rotation + 90;
 
                 if (newRotation === 270 + 90) {
+                    newRotation = 0;
+                }
+
+                if (newRotation > 90 && this.tile.type.name === 'line') {
                     newRotation = 0;
                 }
 
