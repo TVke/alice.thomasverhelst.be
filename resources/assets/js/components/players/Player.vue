@@ -7,8 +7,7 @@
          'pin-r flex-row-reverse text-right': placement.right,
          'left-out': paused && placement.left,
          'right-out': paused && placement.right,
-         'left-in': !paused && placement.left,
-         'right-in': !paused && placement.right,
+         'translateX-0': !paused,
          }">
         <div class="h-full rounded-full w-12 md:w-1/4 bg-white"
              :class="{
@@ -20,15 +19,16 @@
             <img class="block p-1" :src="`/storage/images/pawns/${player.pawn}.svg`" :alt="`${player.pawn} pawn`">
         </div>
         <p class="my-auto p-2 truncate w-full md:w-3/4">{{ player.username }}</p>
+        <!--<object-card v-for="object in objects" :object="object" :key="object.name"></object-card>-->
     </div>
 </template>
 
 <script>
-    import Pawn from '../Pawn.vue';
+    import ObjectCard from '../ObjectCard.vue';
 
     export default {
         name: 'Player',
-        components: {Pawn},
+        components: {ObjectCard},
         props: {
             player: {
                 required: true,
@@ -40,6 +40,11 @@
             paused: {
                 type: Boolean,
             },
+        },
+        data(){
+            return{
+                objects: [],
+            }
         },
         computed: {
             placement() {

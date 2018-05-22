@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\GameSession;
+use Spatie\Valuestore\Valuestore;
 
 class GameController extends Controller
 {
@@ -17,5 +18,11 @@ class GameController extends Controller
         }
 
         return view('game');
+    }
+
+    public function objects(){
+        $objects = Valuestore::make(resource_path('data/objects.json'));
+
+        return collect($objects->all());
     }
 }

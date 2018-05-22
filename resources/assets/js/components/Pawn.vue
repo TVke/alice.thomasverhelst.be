@@ -1,8 +1,8 @@
 <template>
     <div class="block w-1/7 h-1/7 absolute preserve3d transition"
-         :class="`place-${x}-${y} z-${order}`">
+         :class="`place-${player.position.x}-${player.position.y} z-${order}`">
         <img class="m-auto block absolute pin w-3/5 straighten-pawn origin-bottom"
-             :src="`/storage/images/pawns/${pawn}.svg`" :alt="`${pawn} pawn`">
+             :src="`/storage/images/pawns/${player.pawn}.svg`" :alt="`${player.pawn} pawn`">
     </div>
 </template>
 
@@ -10,27 +10,14 @@
     export default {
         name: 'pawn',
         props: {
-            start: {
+            player: {
                 type: Object,
+                required: true,
             },
-            pawn: {
+            active: {
                 type: String,
-            },
-        },
-        data() {
-            return {
-                x: this.start.x,
-                y: this.start.y,
-                activePlayer: '',
+                required: true,
             }
-        },
-        created(){
-            Event.$on('active-player', (event) => {
-                this.activePlayer = event;
-            });
-            Event.$on('move-to', (event) => {
-
-            });
         },
         computed: {
             order() {
@@ -44,7 +31,7 @@
                     return 40;
                 }
                 return 10;
-            }
-        }
+            },
+        },
     }
 </script>

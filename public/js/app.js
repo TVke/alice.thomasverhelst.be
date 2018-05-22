@@ -4131,6 +4131,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4144,6 +4158,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             players: [],
             tiles: [],
             looseTile: {},
+            tileError: {},
             activePawn: '',
             paused: true,
             moveMazeMode: false,
@@ -4167,19 +4182,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.moveMazeMode = true;
 
             _this.players = event;
+
+            for (var i = 0, ilen = _this.players.length; i < ilen; ++i) {
+                _this.players[i] = Object.assign({}, _this.players[i], {
+                    position: _this.position(_this.players[i])
+                });
+            }
+        });
+
+        Event.$on('active-player', function (event) {
+            _this.activePawn = event;
         });
     },
 
+    computed: {
+        activePawnPosition: function activePawnPosition() {
+            var _this2 = this;
+
+            var position = {};
+
+            this.players.forEach(function (player) {
+                if (player.pawn === _this2.activePawn) {
+                    position = player.position;
+                }
+            });
+
+            return position;
+        }
+    },
     methods: {
         position: function position(_ref2) {
             var pawn = _ref2.pawn;
 
             var x = 0;
+            var y = 0;
 
             if (pawn === 'Queen of Hearts' || pawn === 'White Rabbit') {
                 x = 6;
             }
-            var y = 0;
 
             if (pawn === 'Mad Hatter' || pawn === 'Queen of Hearts') {
                 y = 6;
@@ -4217,7 +4257,242 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.moveMazeMode = false;
             this.movePawn = true;
+        },
+        checkMoveTo: function checkMoveTo(event) {
+            var _this3 = this;
+
+            this.tileError = {};
+
+            var start = this.activePawnPosition;
+            var end = event;
+
+            var mainList = [];
+            var found = false;
+            mainList.push({ x: start.x, y: start.y, step: 0 });
+
+            if (start.x === end.x && start.y === end.y) {
+                found = true;
+            }
+
+            var _loop = function _loop(i) {
+                var possibleNextMoves = [];
+
+                if (_this3.isOnTheBoard(mainList[i].x + 1)) {
+                    var option = { x: mainList[i].x + 1, y: mainList[i].y, step: mainList[i].step + 1 };
+                    if (!_this3.isWallBetween(mainList[i], option)) {
+                        possibleNextMoves.push(option);
+                    }
+                }
+
+                if (_this3.isOnTheBoard(mainList[i].x - 1)) {
+                    var _option = { x: mainList[i].x - 1, y: mainList[i].y, step: mainList[i].step + 1 };
+                    if (!_this3.isWallBetween(mainList[i], _option)) {
+                        possibleNextMoves.push(_option);
+                    }
+                }
+
+                if (_this3.isOnTheBoard(mainList[i].y + 1)) {
+                    var _option2 = { x: mainList[i].x, y: mainList[i].y + 1, step: mainList[i].step + 1 };
+                    if (!_this3.isWallBetween(mainList[i], _option2)) {
+                        possibleNextMoves.push(_option2);
+                    }
+                }
+
+                if (_this3.isOnTheBoard(mainList[i].y - 1)) {
+                    var _option3 = { x: mainList[i].x, y: mainList[i].y - 1, step: mainList[i].step + 1 };
+                    if (!_this3.isWallBetween(mainList[i], _option3)) {
+                        possibleNextMoves.push(_option3);
+                    }
+                }
+
+                var toRemove = [];
+
+                possibleNextMoves.forEach(function (possibility, index) {
+                    mainList.forEach(function (position) {
+                        if (position.x === possibility.x && position.y === possibility.y && position.step <= possibility.step) {
+                            toRemove.push(index);
+                        }
+                    });
+                });
+
+                toRemove.forEach(function (index) {
+                    possibleNextMoves.splice(index, 1);
+                });
+
+                possibleNextMoves.forEach(function (possibility) {
+                    mainList.push(possibility);
+
+                    if (possibility.x === end.x && possibility.y === end.y) {
+                        found = true;
+                    }
+                });
+            };
+
+            for (var i = 0; i < mainList.length && !found; ++i) {
+                _loop(i);
+            }
+
+            if (!found) {
+                this.tileError = { x: end.x, y: end.y };
+
+                return;
+            }
+
+            mainList.reverse();
+
+            var endStep = mainList.filter(function (item) {
+                if (item.x === end.x && item.y === end.y) {
+                    return item.step;
+                }
+            })[0];
+
+            console.log(mainList);
+            console.log(endStep);
+        },
+        isOnTheBoard: function isOnTheBoard(position) {
+            return position >= 0 && position < 7;
+        },
+        isWallBetween: function isWallBetween(positionOne, positionTwo) {
+            var tileOne = this.getTileobject(positionOne.x, positionOne.y);
+            var tileTwo = this.getTileobject(positionTwo.x, positionTwo.y);
+
+            var direction = this.getDirection(positionOne, positionTwo);
+
+            var tileOneWalls = this.getWalls(tileOne);
+            var tileTwoWalls = this.getWalls(tileTwo);
+
+            if (direction === 'down') {
+                return tileOneWalls.bottom || tileTwoWalls.top;
+            }
+
+            if (direction === 'up') {
+                return tileOneWalls.top || tileTwoWalls.bottom;
+            }
+
+            if (direction === 'left') {
+                return tileOneWalls.right || tileTwoWalls.left;
+            }
+
+            if (direction === 'right') {
+                return tileOneWalls.left || tileTwoWalls.right;
+            }
+
+            return false;
+        },
+        getTileobject: function getTileobject(x, y) {
+            var tileObject = {};
+
+            this.tiles.forEach(function (tile) {
+                if (tile.x === x && tile.y === y) {
+                    tileObject = tile;
+                }
+            });
+
+            return tileObject;
+        },
+        getDirection: function getDirection(positionOne, positionTwo) {
+            if (positionOne.x === positionTwo.x) {
+                if (positionOne.y < positionTwo.y) {
+                    return 'down';
+                }
+
+                if (positionOne.y > positionTwo.y) {
+                    return 'up';
+                }
+            }
+            if (positionOne.y === positionTwo.y) {
+                if (positionOne.x < positionTwo.x) {
+                    return 'left';
+                }
+
+                if (positionOne.x > positionTwo.x) {
+                    return 'right';
+                }
+            }
+        },
+        getWalls: function getWalls(tile) {
+            var walls = {
+                top: false,
+                right: false,
+                bottom: false,
+                left: false
+            };
+
+            if (tile.type.name === 'line') {
+                if (tile.rotation === 0 || tile.rotation === 180) {
+                    walls.top = true;
+                    walls.bottom = true;
+                }
+
+                if (tile.rotation === 90 || tile.rotation === 270) {
+                    walls.left = true;
+                    walls.right = true;
+                }
+            }
+
+            if (tile.type.name === 'corner') {
+                if (tile.rotation === 0) {
+                    walls.top = true;
+                    walls.right = true;
+                }
+                if (tile.rotation === 90) {
+                    walls.right = true;
+                    walls.bottom = true;
+                }
+                if (tile.rotation === 180) {
+                    walls.bottom = true;
+                    walls.left = true;
+                }
+                if (tile.rotation === 270) {
+                    walls.left = true;
+                    walls.top = true;
+                }
+            }
+
+            if (tile.type.name === 'tpoint') {
+                if (tile.rotation === 0) {
+                    walls.bottom = true;
+                }
+                if (tile.rotation === 90) {
+                    walls.left = true;
+                }
+                if (tile.rotation === 180) {
+                    walls.top = true;
+                }
+                if (tile.rotation === 270) {
+                    walls.right = true;
+                }
+            }
+
+            return walls;
         }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ObjectCard.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'ObjectCard',
+    props: ['object'],
+    data: function data() {
+        return {
+            flipped: true
+        };
     }
 });
 
@@ -4240,29 +4515,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'pawn',
     props: {
-        start: {
-            type: Object
+        player: {
+            type: Object,
+            required: true
         },
-        pawn: {
-            type: String
+        active: {
+            type: String,
+            required: true
         }
     },
-    data: function data() {
-        return {
-            x: this.start.x,
-            y: this.start.y,
-            activePlayer: ''
-        };
-    },
-    created: function created() {
-        var _this = this;
-
-        Event.$on('active-player', function (event) {
-            _this.activePlayer = event;
-        });
-        Event.$on('move-to', function (event) {});
-    },
-
     computed: {
         order: function order() {
             if (this.pawn === 'White Rabbit') {
@@ -4303,7 +4564,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'tile',
-    props: ['tile']
+    props: ['tile', 'error'],
+    computed: {
+        applyError: function applyError() {
+            return this.error.x === this.tile.x && this.error.y === this.tile.y;
+        }
+    }
 });
 
 /***/ }),
@@ -4313,7 +4579,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -4444,8 +4709,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pawn_vue__ = __webpack_require__("./resources/assets/js/components/Pawn.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Pawn_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue__ = __webpack_require__("./resources/assets/js/components/ObjectCard.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue__);
 //
 //
 //
@@ -4476,7 +4741,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'Player',
-    components: { Pawn: __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default.a },
+    components: { ObjectCard: __WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue___default.a },
     props: {
         player: {
             required: true,
@@ -4489,6 +4754,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: Boolean
         }
     },
+    data: function data() {
+        return {
+            objects: []
+        };
+    },
+
     computed: {
         placement: function placement() {
             var places = {
@@ -4541,11 +4812,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             players: [],
             activePlayer: '',
-            paused: true
+            paused: true,
+            objects: []
         };
     },
     created: function created() {
         var _this = this;
+
+        axios.get('/game/objects').then(function (_ref) {
+            var data = _ref.data;
+
+            // this.objects = this.shuffle(data);
+            _this.objects = data;
+        });
 
         Event.$on('start-play', function (event) {
             _this.players = event;
@@ -4554,7 +4833,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.paused = false;
             }, 25);
 
-            var option = Math.floor(Math.random() * _this.players.length);
+            // let option = Math.floor(Math.random() * event.length);
+
+            var option = 0;
 
             _this.activePlayer = _this.players[option];
 
@@ -4562,6 +4843,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             Event.$emit('active-player', _this.activePlayer);
         });
+    },
+
+    methods: {
+        shuffle: function shuffle(array) {
+            var copy = [],
+                n = array.length,
+                i = void 0;
+
+            while (n >= 0) {
+                i = Math.floor(Math.random() * --n);
+
+                copy.push(array.splice(i, 1)[0]);
+            }
+
+            return copy;
+        }
     }
 });
 
@@ -10384,7 +10681,7 @@ var render = function() {
         _vm._l(_vm.players, function(player) {
           return _c("pawn", {
             key: player.id,
-            attrs: { start: _vm.position(player), pawn: player.pawn }
+            attrs: { active: _vm.activePawn, player: player }
           })
         })
       ),
@@ -10401,7 +10698,11 @@ var render = function() {
         },
         [
           _vm._l(_vm.tiles, function(tile, index) {
-            return _c("tile", { key: index, attrs: { tile: tile } })
+            return _c("tile", {
+              key: index,
+              attrs: { tile: tile, error: _vm.tileError },
+              on: { "tile-click": _vm.checkMoveTo }
+            })
           }),
           _vm._v(" "),
           _c("move-maze", {
@@ -10481,7 +10782,7 @@ var render = function() {
               "w-full rounded-lg relative z--10 opacity-25 group-hover:opacity-100 transition transition-property-transform",
             class: "rotate-" + this.tile.rotation,
             attrs: {
-              src: "/storage/images/tiles/" + this.tile.type.name + ".png",
+              src: "/storage/images/tiles/" + this.tile.type.name + ".svg",
               alt: this.tile.type.description
             }
           })
@@ -10491,7 +10792,6 @@ var render = function() {
         ? _c("img", {
             staticClass:
               "absolute w-2/5 h-2/5 pin m-auto block transition transition-property-transform",
-            class: "rotate-" + this.tile.rotation,
             attrs: {
               src: "/storage/images/objects/" + this.tile.object.name + ".svg",
               alt: this.tile.object.description
@@ -10532,8 +10832,7 @@ var render = function() {
         "pin-r flex-row-reverse text-right": _vm.placement.right,
         "left-out": _vm.paused && _vm.placement.left,
         "right-out": _vm.paused && _vm.placement.right,
-        "left-in": !_vm.paused && _vm.placement.left,
-        "right-in": !_vm.paused && _vm.placement.right
+        "translateX-0": !_vm.paused
       }
     },
     [
@@ -10595,15 +10894,21 @@ var render = function() {
     "div",
     {
       staticClass: "block w-1/7 h-1/7 absolute preserve3d transition",
-      class: "place-" + _vm.x + "-" + _vm.y + " z-" + _vm.order
+      class:
+        "place-" +
+        _vm.player.position.x +
+        "-" +
+        _vm.player.position.y +
+        " z-" +
+        _vm.order
     },
     [
       _c("img", {
         staticClass:
           "m-auto block absolute pin w-3/5 straighten-pawn origin-bottom",
         attrs: {
-          src: "/storage/images/pawns/" + _vm.pawn + ".svg",
-          alt: _vm.pawn + " pawn"
+          src: "/storage/images/pawns/" + _vm.player.pawn + ".svg",
+          alt: _vm.player.pawn + " pawn"
         }
       })
     ]
@@ -10871,17 +11176,27 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "a",
     {
-      staticClass: "w-1/7 h-1/7 absolute rounded-lg transition",
-      class: "place-" + _vm.tile.x + "-" + _vm.tile.y
+      staticClass: "w-1/7 h-1/7 absolute transition",
+      class: [
+        "place-" + _vm.tile.x + "-" + _vm.tile.y,
+        { "z-50 filter-grey": _vm.applyError }
+      ],
+      attrs: { href: "#" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          _vm.$emit("tile-click", { x: _vm.tile.x, y: _vm.tile.y })
+        }
+      }
     },
     [
       _c("img", {
-        staticClass: "w-full block rounded-lg relative z--10",
+        staticClass: "w-full block relative z--10",
         class: "rotate-" + _vm.tile.rotation,
         attrs: {
-          src: "/storage/images/tiles/" + _vm.tile.type.name + ".png",
+          src: "/storage/images/tiles/" + _vm.tile.type.name + ".svg",
           alt: _vm.tile.type.description
         }
       }),
@@ -10889,7 +11204,6 @@ var render = function() {
       _vm.tile.object
         ? _c("img", {
             staticClass: "absolute w-2/5 h-2/5 pin m-auto block",
-            class: "rotate-" + _vm.tile.rotation,
             attrs: {
               src: "/storage/images/objects/" + _vm.tile.object.name + ".svg",
               alt: _vm.tile.object.description
@@ -10911,6 +11225,60 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-9de1ce34\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ObjectCard.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "perspective transition relative",
+      class: { "flip-card": _vm.flipped }
+    },
+    [
+      _c("img", {
+        staticClass: "w-full block",
+        attrs: {
+          src: "/storage/images/card/front.svg",
+          alt: "the front of the card"
+        }
+      }),
+      _vm._v(" "),
+      !_vm.flipped
+        ? _c("img", {
+            staticClass: "absolute pin m-auto p-16",
+            attrs: {
+              src: "/storage/images/objects/" + _vm.object.name + ".svg",
+              alt: _vm.object.name
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "absolute pin block flip-card",
+        attrs: {
+          src: "/storage/images/card/back.svg",
+          alt: "backside of the card"
+        }
+      })
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-9de1ce34", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ab1ab224\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Players.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10924,7 +11292,12 @@ var render = function() {
     _vm._l(_vm.players, function(player) {
       return _c("player", {
         key: player.id,
-        attrs: { player: player, active: _vm.activePlayer, paused: _vm.paused }
+        attrs: {
+          player: player,
+          active: _vm.activePlayer,
+          objects: _vm.objects,
+          paused: _vm.paused
+        }
       })
     })
   )
@@ -22201,6 +22574,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-0827efed", Component.options)
   } else {
     hotAPI.reload("data-v-0827efed", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/ObjectCard.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ObjectCard.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-9de1ce34\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ObjectCard.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ObjectCard.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-9de1ce34", Component.options)
+  } else {
+    hotAPI.reload("data-v-9de1ce34", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

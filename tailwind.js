@@ -1112,11 +1112,11 @@ module.exports = {
                 '.right-out': {
                     transform: 'translateX(100%)',
                 },
-                '.left-in': {
+                '.translateX-0': {
                     transform: 'translateX(0)',
                 },
-                '.right-in': {
-                    transform: 'translateX(0)',
+                '.flip-card': {
+                    transform: 'rotateY(180deg)',
                 },
                 '.size-board': {
                     width: '80vw',
@@ -1126,7 +1126,10 @@ module.exports = {
                 },
                 '.size-board.paused': {
                     maxHeight: '35.816rem',
-                }
+                },
+                '.filter-grey': {
+                    filter: 'grayscale()',
+                },
             };
 
             addUtilities(transforms, ['responsive']);

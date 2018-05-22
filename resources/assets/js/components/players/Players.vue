@@ -1,6 +1,6 @@
 <template>
     <div class="absolute pin">
-        <player v-for="player in players" :player="player" :active="activePlayer" :key="player.id" :paused="paused"></player>
+        <player v-for="player in players" :player="player" :active="activePlayer" :objects="objects" :key="player.id" :paused="paused"></player>
     </div>
 </template>
 
@@ -15,9 +15,16 @@
                 players: [],
                 activePlayer: '',
                 paused: true,
+                objects: [],
             }
         },
         created() {
+            axios.get('/game/objects')
+                .then(({data}) => {
+                    // this.objects = this.shuffle(data);
+                    this.objects = data;
+                });
+
             Event.$on('start-play', (event) => {
                 this.players = event;
 
@@ -26,14 +33,29 @@
                 },25);
 
 
-                let option = Math.floor(Math.random() * this.players.length);
+                // let option = Math.floor(Math.random() * event.length);
+
+                let option = 0;
 
                 this.activePlayer = this.players[option];
 
                 this.activePlayer = this.players[option].pawn;
 
-                Event.$emit('active-player',this.activePlayer);
+                Event.$emit('active-player', this.activePlayer);
             });
         },
+        methods: {
+            shuffle(array){
+                let copy = [], n = array.length, i;
+
+                while (n >= 0) {
+                    i = Math.floor(Math.random() * --n);
+
+                    copy.push(array.splice(i, 1)[0]);
+                }
+
+                return copy;
+            }
+        }
     }
 </script>

@@ -15,6 +15,7 @@ Route::get('/', 'PageController@info')->name('info');
 
 Route::get('/game/tiles', 'TileController@index');
 Route::get('/game/players', 'PlayerController@index');
+Route::get('/game/objects', 'GameController@objects');
 
 Route::put('/add/player', 'PlayerController@store');
 

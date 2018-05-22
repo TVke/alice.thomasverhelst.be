@@ -8,10 +8,9 @@
         </a>
         <img class="w-full rounded-lg relative z--10 opacity-25 group-hover:opacity-100 transition transition-property-transform" v-if="this.tile.type"
              :class="`rotate-${this.tile.rotation}`"
-             :src="`/storage/images/tiles/${this.tile.type.name}.png`"
+             :src="`/storage/images/tiles/${this.tile.type.name}.svg`"
              :alt="this.tile.type.description">
         <img class="absolute w-2/5 h-2/5 pin m-auto block transition transition-property-transform" v-if="this.tile.object"
-             :class="`rotate-${this.tile.rotation}`"
              :src="`/storage/images/objects/${this.tile.object.name}.svg`"
              :alt="this.tile.object.description">
     </a>
