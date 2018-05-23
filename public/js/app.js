@@ -4145,6 +4145,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -4196,18 +4201,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
-        activePawnPosition: function activePawnPosition() {
+        activePlayer: function activePlayer() {
             var _this2 = this;
 
-            var position = {};
+            var activePlayer = {};
 
             this.players.forEach(function (player) {
                 if (player.pawn === _this2.activePawn) {
-                    position = player.position;
+                    activePlayer = player;
                 }
             });
 
-            return position;
+            return activePlayer;
+        },
+        activePlayerIndex: function activePlayerIndex() {
+            var _this3 = this;
+
+            var playerIndex = 0;
+
+            this.players.forEach(function (player, index) {
+                if (player.pawn === _this3.activePawn) {
+                    playerIndex = index;
+                }
+            });
+
+            return playerIndex;
         }
     },
     methods: {
@@ -4259,11 +4277,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.movePawn = true;
         },
         checkMoveTo: function checkMoveTo(event) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.tileError = {};
 
-            var start = this.activePawnPosition;
+            var start = this.activePlayer.position;
             var end = event;
 
             var mainList = [];
@@ -4277,30 +4295,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _loop = function _loop(i) {
                 var possibleNextMoves = [];
 
-                if (_this3.isOnTheBoard(mainList[i].x + 1)) {
+                if (_this4.isOnTheBoard(mainList[i].x + 1)) {
                     var option = { x: mainList[i].x + 1, y: mainList[i].y, step: mainList[i].step + 1 };
-                    if (!_this3.isWallBetween(mainList[i], option)) {
+
+                    if (!_this4.isWallBetween(mainList[i], option)) {
                         possibleNextMoves.push(option);
                     }
                 }
 
-                if (_this3.isOnTheBoard(mainList[i].x - 1)) {
+                if (_this4.isOnTheBoard(mainList[i].x - 1)) {
                     var _option = { x: mainList[i].x - 1, y: mainList[i].y, step: mainList[i].step + 1 };
-                    if (!_this3.isWallBetween(mainList[i], _option)) {
+
+                    if (!_this4.isWallBetween(mainList[i], _option)) {
                         possibleNextMoves.push(_option);
                     }
                 }
 
-                if (_this3.isOnTheBoard(mainList[i].y + 1)) {
+                if (_this4.isOnTheBoard(mainList[i].y + 1)) {
                     var _option2 = { x: mainList[i].x, y: mainList[i].y + 1, step: mainList[i].step + 1 };
-                    if (!_this3.isWallBetween(mainList[i], _option2)) {
+
+                    if (!_this4.isWallBetween(mainList[i], _option2)) {
                         possibleNextMoves.push(_option2);
                     }
                 }
 
-                if (_this3.isOnTheBoard(mainList[i].y - 1)) {
+                if (_this4.isOnTheBoard(mainList[i].y - 1)) {
                     var _option3 = { x: mainList[i].x, y: mainList[i].y - 1, step: mainList[i].step + 1 };
-                    if (!_this3.isWallBetween(mainList[i], _option3)) {
+
+                    if (!_this4.isWallBetween(mainList[i], _option3)) {
                         possibleNextMoves.push(_option3);
                     }
                 }
@@ -4340,14 +4362,63 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             mainList.reverse();
 
+            var cleanPath = [];
             var endStep = mainList.filter(function (item) {
                 if (item.x === end.x && item.y === end.y) {
-                    return item.step;
+                    return item;
                 }
             })[0];
 
-            console.log(mainList);
-            console.log(endStep);
+            cleanPath.push(endStep);
+
+            mainList.forEach(function (item) {
+                var lastItem = cleanPath[cleanPath.length - 1];
+                if (lastItem.step - 1 === item.step && !_this4.isWallBetween(lastItem, item) && (lastItem.x === item.x || lastItem.y === item.y) && (Math.abs(lastItem.x - item.x) === 1 || Math.abs(lastItem.y - item.y) === 1)) {
+                    cleanPath.push(item);
+                }
+            });
+
+            cleanPath.pop();
+
+            this.movePawnTo(cleanPath);
+        },
+        movePawnTo: function movePawnTo(path) {
+            var _this5 = this;
+
+            var pathToMove = path;
+            var moveTo = pathToMove.pop();
+
+            var activePlayer = this.players[this.activePlayerIndex];
+
+            var newPlayer = {
+                id: activePlayer.id,
+                name: activePlayer.name,
+                username: activePlayer.username,
+                pawn: activePlayer.pawn,
+                position: { x: moveTo.x, y: moveTo.y }
+            };
+
+            this.players.splice(this.activePlayerIndex, 1, newPlayer);
+
+            var move = setInterval(function () {
+                if (pathToMove.length <= 1) {
+                    clearInterval(move);
+                }
+
+                var moveTo = pathToMove.pop();
+
+                var activePlayer = _this5.players[_this5.activePlayerIndex];
+
+                var newPlayer = {
+                    id: activePlayer.id,
+                    name: activePlayer.name,
+                    username: activePlayer.username,
+                    pawn: activePlayer.pawn,
+                    position: { x: moveTo.x, y: moveTo.y }
+                };
+
+                _this5.players.splice(_this5.activePlayerIndex, 1, newPlayer);
+            }, 250);
         },
         isOnTheBoard: function isOnTheBoard(position) {
             return position >= 0 && position < 7;
@@ -4833,9 +4904,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.paused = false;
             }, 25);
 
-            // let option = Math.floor(Math.random() * event.length);
-
-            var option = 0;
+            var option = Math.floor(Math.random() * event.length);
 
             _this.activePlayer = _this.players[option];
 
@@ -10675,7 +10744,8 @@ var render = function() {
             "preserve3d max-w-md m-auto absolute pin z-10 block transition pointer-events-none transition-timing-ease-out transition-slow transition-delay-longest size-board",
           class: {
             "tilt-board-sm sm:tilt-board md:tilt-board-md": !_vm.paused,
-            "pawn-start-sm sm:pawn-start": _vm.paused
+            "pawn-start-sm sm:pawn-start": _vm.paused,
+            "move-mode md:move-mode-md": _vm.moveMazeMode
           }
         },
         _vm._l(_vm.players, function(player) {
@@ -10693,7 +10763,8 @@ var render = function() {
             "m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest pointer-events-auto size-board",
           class: {
             paused: _vm.paused,
-            "sm:tilt-board tilt-board-sm md:tilt-board-md": !_vm.paused
+            "sm:tilt-board tilt-board-sm md:tilt-board-md": !_vm.paused,
+            "move-mode md:move-mode-md": _vm.moveMazeMode
           }
         },
         [
@@ -10893,7 +10964,8 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "block w-1/7 h-1/7 absolute preserve3d transition",
+      staticClass:
+        "block w-1/7 h-1/7 absolute preserve3d transition transition-fast",
       class:
         "place-" +
         _vm.player.position.x +

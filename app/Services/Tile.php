@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Spatie\Valuestore\Valuestore;
 use Illuminate\Support\Collection;
+use Spatie\Valuestore\Valuestore;
 
 class Tile
 {

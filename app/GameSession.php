@@ -3,9 +3,9 @@
 namespace App;
 
 use App\Services\Tile;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class GameSession extends Model
 {
@@ -25,7 +25,7 @@ class GameSession extends Model
     {
         $hash = md5(Str::uuid());
 
-        return str_limit($hash, 10,'');
+        return str_limit($hash, 10, '');
     }
 
     public static function newSession()

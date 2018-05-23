@@ -1130,6 +1130,12 @@ module.exports = {
                 '.filter-grey': {
                     filter: 'grayscale()',
                 },
+                '.move-mode': {
+                    transform: 'translateY(-12%) scale(0.9)',
+                },
+                '.move-mode-md': {
+                    transform: 'translateY(-12%) scale(0.6)',
+                },
             };
 
             addUtilities(transforms, ['responsive']);

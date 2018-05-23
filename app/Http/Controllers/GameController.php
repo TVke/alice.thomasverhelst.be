@@ -20,7 +20,8 @@ class GameController extends Controller
         return view('game');
     }
 
-    public function objects(){
+    public function objects()
+    {
         $objects = Valuestore::make(resource_path('data/objects.json'));
 
         return collect($objects->all());

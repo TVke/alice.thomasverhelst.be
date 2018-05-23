@@ -1,5 +1,5 @@
 <template>
-    <div class="block w-1/7 h-1/7 absolute preserve3d transition"
+    <div class="block w-1/7 h-1/7 absolute preserve3d transition transition-fast"
          :class="`place-${player.position.x}-${player.position.y} z-${order}`">
         <img class="m-auto block absolute pin w-3/5 straighten-pawn origin-bottom"
              :src="`/storage/images/pawns/${player.pawn}.svg`" :alt="`${player.pawn} pawn`">

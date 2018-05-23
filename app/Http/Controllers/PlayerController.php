@@ -12,7 +12,7 @@ class PlayerController extends Controller
     {
         $session = GameSession::where('session', session('game_token'))->first();
 
-        if (! $session){
+        if (! $session) {
             return [];
         }
 

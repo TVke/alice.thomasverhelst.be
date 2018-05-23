@@ -5,6 +5,7 @@
              :class="{
              'tilt-board-sm sm:tilt-board md:tilt-board-md': !paused,
              'pawn-start-sm sm:pawn-start': paused,
+             'move-mode md:move-mode-md': moveMazeMode,
              }">
             <pawn v-for="player in players"
                   :active="activePawn"
@@ -13,7 +14,11 @@
             </pawn>
         </div>
         <div class="m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest pointer-events-auto size-board"
-             :class="{'paused': paused, 'sm:tilt-board tilt-board-sm md:tilt-board-md': !paused}">
+             :class="{
+             'paused': paused,
+             'sm:tilt-board tilt-board-sm md:tilt-board-md': !paused,
+             'move-mode md:move-mode-md': moveMazeMode,
+             }">
             <tile v-for="(tile, index) in tiles"
                   :tile="tile"
                   :error="tileError"
@@ -77,16 +82,27 @@
             });
         },
         computed: {
-            activePawnPosition() {
-                let position = {};
+            activePlayer() {
+                let activePlayer = {};
 
                 this.players.forEach((player) => {
                     if (player.pawn === this.activePawn) {
-                        position = player.position;
+                        activePlayer = player;
                     }
                 });
 
-                return position;
+                return activePlayer;
+            },
+            activePlayerIndex(){
+                let playerIndex = 0;
+
+                this.players.forEach((player, index) => {
+                    if (player.pawn === this.activePawn) {
+                        playerIndex = index;
+                    }
+                });
+
+                return playerIndex;
             }
         },
         methods: {
@@ -137,14 +153,14 @@
             checkMoveTo(event) {
                 this.tileError = {};
 
-                const start = this.activePawnPosition;
+                const start = this.activePlayer.position;
                 const end = event;
 
                 let mainList = [];
                 let found = false;
                 mainList.push({x: start.x, y: start.y, step: 0});
 
-                if (start.x === end.x && start.y === end.y){
+                if (start.x === end.x && start.y === end.y) {
                     found = true;
                 }
 
@@ -153,6 +169,7 @@
 
                     if (this.isOnTheBoard(mainList[i].x + 1)) {
                         let option = {x: mainList[i].x + 1, y: mainList[i].y, step: mainList[i].step + 1};
+
                         if (!this.isWallBetween(mainList[i], option)) {
                             possibleNextMoves.push(option);
                         }
@@ -160,6 +177,7 @@
 
                     if (this.isOnTheBoard(mainList[i].x - 1)) {
                         let option = {x: mainList[i].x - 1, y: mainList[i].y, step: mainList[i].step + 1};
+
                         if (!this.isWallBetween(mainList[i], option)) {
                             possibleNextMoves.push(option);
                         }
@@ -167,6 +185,7 @@
 
                     if (this.isOnTheBoard(mainList[i].y + 1)) {
                         let option = {x: mainList[i].x, y: mainList[i].y + 1, step: mainList[i].step + 1};
+
                         if (!this.isWallBetween(mainList[i], option)) {
                             possibleNextMoves.push(option);
                         }
@@ -174,6 +193,7 @@
 
                     if (this.isOnTheBoard(mainList[i].y - 1)) {
                         let option = {x: mainList[i].x, y: mainList[i].y - 1, step: mainList[i].step + 1};
+
                         if (!this.isWallBetween(mainList[i], option)) {
                             possibleNextMoves.push(option);
                         }
@@ -198,13 +218,13 @@
                     possibleNextMoves.forEach((possibility) => {
                         mainList.push(possibility);
 
-                        if (possibility.x === end.x && possibility.y === end.y){
+                        if (possibility.x === end.x && possibility.y === end.y) {
                             found = true;
                         }
                     });
                 }
 
-                if (!found){
+                if (!found) {
                     this.tileError = {x: end.x, y: end.y};
 
                     return;
@@ -212,19 +232,71 @@
 
                 mainList.reverse();
 
-                let  endStep = mainList.filter((item) => {
+                let cleanPath = [];
+                let endStep = mainList.filter((item) => {
                     if (item.x === end.x && item.y === end.y) {
-                        return item.step;
+                        return item;
                     }
                 })[0];
 
-                console.log(mainList);
-                console.log(endStep);
+                cleanPath.push(endStep);
+
+                mainList.forEach((item) => {
+                    let lastItem = cleanPath[cleanPath.length - 1];
+                    if (
+                        lastItem.step - 1 === item.step &&
+                        !this.isWallBetween(lastItem, item) &&
+                        (lastItem.x === item.x || lastItem.y === item.y) &&
+                        (Math.abs(lastItem.x - item.x) === 1 || Math.abs(lastItem.y - item.y) === 1)
+                    ) {
+                        cleanPath.push(item);
+                    }
+                });
+
+                cleanPath.pop();
+
+                this.movePawnTo(cleanPath);
+            },
+            movePawnTo(path) {
+                let pathToMove = path;
+                let moveTo = pathToMove.pop();
+
+                let activePlayer = this.players[this.activePlayerIndex];
+
+                let newPlayer = {
+                    id: activePlayer.id,
+                    name: activePlayer.name,
+                    username: activePlayer.username,
+                    pawn: activePlayer.pawn,
+                    position: {x: moveTo.x, y: moveTo.y},
+                };
+
+                this.players.splice(this.activePlayerIndex, 1, newPlayer);
+
+                let move = setInterval(() => {
+                    if (pathToMove.length <= 1) {
+                        clearInterval(move);
+                    }
+
+                    let moveTo = pathToMove.pop();
+
+                    let activePlayer = this.players[this.activePlayerIndex];
+
+                    let newPlayer = {
+                        id: activePlayer.id,
+                        name: activePlayer.name,
+                        username: activePlayer.username,
+                        pawn: activePlayer.pawn,
+                        position: {x: moveTo.x, y: moveTo.y},
+                    };
+
+                    this.players.splice(this.activePlayerIndex, 1, newPlayer);
+                }, 250);
             },
             isOnTheBoard(position) {
                 return position >= 0 && position < 7;
             },
-            isWallBetween(positionOne, positionTwo){
+            isWallBetween(positionOne, positionTwo) {
                 let tileOne = this.getTileobject(positionOne.x, positionOne.y);
                 let tileTwo = this.getTileobject(positionTwo.x, positionTwo.y);
 
@@ -251,10 +323,10 @@
 
                 return false;
             },
-            getTileobject(x,y){
+            getTileobject(x, y) {
                 let tileObject = {};
 
-                this.tiles.forEach((tile)=>{
+                this.tiles.forEach((tile) => {
                     if (tile.x === x && tile.y === y) {
                         tileObject = tile;
                     }
@@ -262,7 +334,7 @@
 
                 return tileObject;
             },
-            getDirection(positionOne, positionTwo){
+            getDirection(positionOne, positionTwo) {
                 if (positionOne.x === positionTwo.x) {
                     if (positionOne.y < positionTwo.y) {
                         return 'down';
@@ -282,7 +354,7 @@
                     }
                 }
             },
-            getWalls(tile){
+            getWalls(tile) {
                 let walls = {
                     top: false,
                     right: false,

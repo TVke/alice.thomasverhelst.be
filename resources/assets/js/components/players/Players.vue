@@ -33,9 +33,7 @@
                 },25);
 
 
-                // let option = Math.floor(Math.random() * event.length);
-
-                let option = 0;
+                let option = Math.floor(Math.random() * event.length);
 
                 this.activePlayer = this.players[option];
 
