@@ -19,7 +19,7 @@
             }
         },
         created() {
-            axios.get('/game/objects')
+            window.axios.get('/game/objects')
                 .then(({data}) => {
                     // this.objects = this.shuffle(data);
                     this.objects = data;

@@ -24,44 +24,48 @@
         components: {GhostTile},
         props: ['active','tile'],
         methods: {
-            addTile(position) {
+            addTile: function (position) {
                 let x = position.x;
                 let y = position.y;
 
+                let changes = {};
+
                 if (x === -1) {
-                    this.$emit('move-maze',{
+                    changes = {
                         direction: 'x',
                         lineDirection: 'y',
                         line: y,
                         amount: 1,
-                    })
+                    };
                 }
                 if (y === -1) {
-                    this.$emit('move-maze',{
+                    changes = {
                         direction: 'y',
                         lineDirection: 'x',
                         line: x,
                         amount: 1,
-                    })
+                    };
                 }
                 if (x === 7) {
-                    this.$emit('move-maze',{
+                    changes = {
                         direction: 'x',
                         lineDirection: 'y',
                         line: y,
                         amount: -1,
-                    })
+                    };
                 }
                 if (y === 7) {
-                    this.$emit('move-maze',{
+                    changes = {
                         direction: 'y',
                         lineDirection: 'x',
                         line: x,
                         amount: -1,
-                    })
+                    };
                 }
 
-                this.$emit('end-move');
+                window.axios.patch('/update/tiles/', {tile: changes});
+
+                this.$emit('move-maze', changes);
             }
         }
     }

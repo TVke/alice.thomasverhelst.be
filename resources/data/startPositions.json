@@ -1,0 +1,18 @@
+{
+    "Alice" : {
+        "x" : 0,
+        "y" : 0
+    },
+    "Mad Hatter" : {
+        "x" : 0,
+        "y" : 6
+    },
+    "Queen of Hearts" : {
+        "x" : 6,
+        "y" : 6
+    },
+    "White Rabbit" : {
+        "x" : 6,
+        "y" : 0
+    }
+}

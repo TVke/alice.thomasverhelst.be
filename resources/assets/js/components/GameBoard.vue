@@ -52,11 +52,11 @@
                 activePawn: '',
                 paused: true,
                 moveMazeMode: false,
-                movePawn: false,
+                movePawnMode: false,
             };
         },
         created() {
-            axios.get('/game/tiles')
+            window.axios.get('/game/tiles')
                 .then(({data}) => {
                     this.looseTile = data.pop();
 
@@ -69,12 +69,6 @@
                 this.moveMazeMode = true;
 
                 this.players = event;
-
-                for (let i = 0, ilen = this.players.length; i < ilen; ++i) {
-                    this.players[i] = Object.assign({}, this.players[i], {
-                        position: this.position(this.players[i]),
-                    });
-                }
             });
 
             Event.$on('active-player', (event) => {
@@ -82,18 +76,7 @@
             });
         },
         computed: {
-            activePlayer() {
-                let activePlayer = {};
-
-                this.players.forEach((player) => {
-                    if (player.pawn === this.activePawn) {
-                        activePlayer = player;
-                    }
-                });
-
-                return activePlayer;
-            },
-            activePlayerIndex(){
+            activePlayerIndex() {
                 let playerIndex = 0;
 
                 this.players.forEach((player, index) => {
@@ -106,20 +89,6 @@
             }
         },
         methods: {
-            position({pawn}) {
-                let x = 0;
-                let y = 0;
-
-                if (pawn === 'Queen of Hearts' || pawn === 'White Rabbit') {
-                    x = 6;
-                }
-
-                if (pawn === 'Mad Hatter' || pawn === 'Queen of Hearts') {
-                    y = 6;
-                }
-
-                return {x: x, y: y};
-            },
             moveMaze(event) {
                 let direction = event.direction;
                 let lineDirection = event.lineDirection;
@@ -148,12 +117,16 @@
                 this.looseTile = newLooseTile;
 
                 this.moveMazeMode = false;
-                this.movePawn = true
+                this.movePawnMode = true
             },
             checkMoveTo(event) {
                 this.tileError = {};
 
-                const start = this.activePlayer.position;
+                if (!this.movePawnMode) {
+                    return;
+                }
+
+                const start = this.players[this.activePlayerIndex].position;
                 const end = event;
 
                 let mainList = [];
@@ -227,6 +200,10 @@
                 if (!found) {
                     this.tileError = {x: end.x, y: end.y};
 
+                    setTimeout(() => {
+                        this.tileError = {};
+                    }, 250);
+
                     return;
                 }
 
@@ -253,12 +230,37 @@
                     }
                 });
 
-                cleanPath.pop();
+                if (cleanPath.length > 1){
+                    window.axios.patch(`/update/player/${this.activePawn}`, {path: cleanPath});
 
-                this.movePawnTo(cleanPath);
+                    this.movePawnTo(cleanPath);
+                }
             },
             movePawnTo(path) {
                 let pathToMove = path;
+
+                if (path.length > 1) {
+                    let move = setInterval(() => {
+                        if (pathToMove.length <= 1) {
+                            clearInterval(move);
+                        }
+
+                        let moveTo = pathToMove.pop();
+
+                        let activePlayer = this.players[this.activePlayerIndex];
+
+                        let newPlayer = {
+                            id: activePlayer.id,
+                            name: activePlayer.name,
+                            username: activePlayer.username,
+                            pawn: activePlayer.pawn,
+                            position: {x: moveTo.x, y: moveTo.y},
+                        };
+
+                        this.players.splice(this.activePlayerIndex, 1, newPlayer);
+                    }, 250);
+                }
+
                 let moveTo = pathToMove.pop();
 
                 let activePlayer = this.players[this.activePlayerIndex];
@@ -272,26 +274,6 @@
                 };
 
                 this.players.splice(this.activePlayerIndex, 1, newPlayer);
-
-                let move = setInterval(() => {
-                    if (pathToMove.length <= 1) {
-                        clearInterval(move);
-                    }
-
-                    let moveTo = pathToMove.pop();
-
-                    let activePlayer = this.players[this.activePlayerIndex];
-
-                    let newPlayer = {
-                        id: activePlayer.id,
-                        name: activePlayer.name,
-                        username: activePlayer.username,
-                        pawn: activePlayer.pawn,
-                        position: {x: moveTo.x, y: moveTo.y},
-                    };
-
-                    this.players.splice(this.activePlayerIndex, 1, newPlayer);
-                }, 250);
             },
             isOnTheBoard(position) {
                 return position >= 0 && position < 7;

@@ -21,15 +21,18 @@
         },
         computed: {
             order() {
-                if (this.pawn === 'White Rabbit') {
+                if (this.player.pawn === 'White Rabbit') {
                     return 20;
                 }
-                if (this.pawn === 'Alice') {
+
+                if (this.player.pawn === 'Alice') {
                     return 30;
                 }
-                if (this.pawn === 'Queen of Hearts') {
+
+                if (this.player.pawn === 'Queen of Hearts') {
                     return 40;
                 }
+
                 return 10;
             },
         },

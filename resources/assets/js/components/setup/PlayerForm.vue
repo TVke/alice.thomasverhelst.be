@@ -9,7 +9,8 @@
         <div class="p-2">
             <label class="py-2 block" for="pawn" :class="{'text-red': pawnErrorShow}">Your pawn</label>
             <select v-model="pawn" class="block w-full border border-grey text-base" id="pawn" required
-                    :disabled="submited" :class="{'border-red': pawnErrorShow}" @change="pawnErrorShow = false">
+                    :disabled="submited" :class="{'border-red': pawnErrorShow}" :value="options | firstPossible"
+                    @change="pawnErrorShow = false">
                 <option v-for="option in options" :value="option.value" :disabled="option.choosen">
                     {{ option.name }}
                 </option>
@@ -43,6 +44,17 @@
                 submited: false,
             }
         },
+        filters: {
+            firstPossible(options) {
+                let freeOptions = options.filter((option) => {
+                    return ! option.choosen;
+                });
+
+                freeOptions.reverse();
+
+                return freeOptions.pop();
+            }
+        },
         methods: {
             addPlayer() {
                 this.pawnErrorShow = false;
@@ -58,7 +70,12 @@
                     .then(({data}) => {
                         this.$emit('session-known', data);
 
-                        this.$emit('player-added', {id: null, pawn: this.pawn, username: this.username});
+                        this.$emit('player-added', {
+                            id: null,
+                            pawn: this.pawn,
+                            username: this.username,
+                            position: this.positionOf(this.pawn),
+                        });
 
                         this.submited = true;
                     })
@@ -77,6 +94,21 @@
                             this.pawnErrorShow = true;
                         }
                     });
+            },
+            positionOf(pawn){
+                if (pawn === 'Mad Hatter') {
+                    return {x: 0, y: 6}
+                }
+
+                if (pawn === 'Queen of Hearts') {
+                    return {x: 6, y: 6}
+                }
+
+                if (pawn === 'White Rabbit') {
+                    return {x: 6, y: 0}
+                }
+
+                return {x: 0, y: 0}
             },
         }
     }

@@ -4167,13 +4167,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             activePawn: '',
             paused: true,
             moveMazeMode: false,
-            movePawn: false
+            movePawnMode: false
         };
     },
     created: function created() {
         var _this = this;
 
-        axios.get('/game/tiles').then(function (_ref) {
+        window.axios.get('/game/tiles').then(function (_ref) {
             var data = _ref.data;
 
             _this.looseTile = data.pop();
@@ -4187,12 +4187,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.moveMazeMode = true;
 
             _this.players = event;
-
-            for (var i = 0, ilen = _this.players.length; i < ilen; ++i) {
-                _this.players[i] = Object.assign({}, _this.players[i], {
-                    position: _this.position(_this.players[i])
-                });
-            }
         });
 
         Event.$on('active-player', function (event) {
@@ -4201,26 +4195,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
-        activePlayer: function activePlayer() {
-            var _this2 = this;
-
-            var activePlayer = {};
-
-            this.players.forEach(function (player) {
-                if (player.pawn === _this2.activePawn) {
-                    activePlayer = player;
-                }
-            });
-
-            return activePlayer;
-        },
         activePlayerIndex: function activePlayerIndex() {
-            var _this3 = this;
+            var _this2 = this;
 
             var playerIndex = 0;
 
             this.players.forEach(function (player, index) {
-                if (player.pawn === _this3.activePawn) {
+                if (player.pawn === _this2.activePawn) {
                     playerIndex = index;
                 }
             });
@@ -4229,22 +4210,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        position: function position(_ref2) {
-            var pawn = _ref2.pawn;
-
-            var x = 0;
-            var y = 0;
-
-            if (pawn === 'Queen of Hearts' || pawn === 'White Rabbit') {
-                x = 6;
-            }
-
-            if (pawn === 'Mad Hatter' || pawn === 'Queen of Hearts') {
-                y = 6;
-            }
-
-            return { x: x, y: y };
-        },
         moveMaze: function moveMaze(event) {
             var direction = event.direction;
             var lineDirection = event.lineDirection;
@@ -4274,14 +4239,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.looseTile = newLooseTile;
 
             this.moveMazeMode = false;
-            this.movePawn = true;
+            this.movePawnMode = true;
         },
         checkMoveTo: function checkMoveTo(event) {
-            var _this4 = this;
+            var _this3 = this;
 
             this.tileError = {};
 
-            var start = this.activePlayer.position;
+            if (!this.movePawnMode) {
+                return;
+            }
+
+            var start = this.players[this.activePlayerIndex].position;
             var end = event;
 
             var mainList = [];
@@ -4295,34 +4264,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _loop = function _loop(i) {
                 var possibleNextMoves = [];
 
-                if (_this4.isOnTheBoard(mainList[i].x + 1)) {
+                if (_this3.isOnTheBoard(mainList[i].x + 1)) {
                     var option = { x: mainList[i].x + 1, y: mainList[i].y, step: mainList[i].step + 1 };
 
-                    if (!_this4.isWallBetween(mainList[i], option)) {
+                    if (!_this3.isWallBetween(mainList[i], option)) {
                         possibleNextMoves.push(option);
                     }
                 }
 
-                if (_this4.isOnTheBoard(mainList[i].x - 1)) {
+                if (_this3.isOnTheBoard(mainList[i].x - 1)) {
                     var _option = { x: mainList[i].x - 1, y: mainList[i].y, step: mainList[i].step + 1 };
 
-                    if (!_this4.isWallBetween(mainList[i], _option)) {
+                    if (!_this3.isWallBetween(mainList[i], _option)) {
                         possibleNextMoves.push(_option);
                     }
                 }
 
-                if (_this4.isOnTheBoard(mainList[i].y + 1)) {
+                if (_this3.isOnTheBoard(mainList[i].y + 1)) {
                     var _option2 = { x: mainList[i].x, y: mainList[i].y + 1, step: mainList[i].step + 1 };
 
-                    if (!_this4.isWallBetween(mainList[i], _option2)) {
+                    if (!_this3.isWallBetween(mainList[i], _option2)) {
                         possibleNextMoves.push(_option2);
                     }
                 }
 
-                if (_this4.isOnTheBoard(mainList[i].y - 1)) {
+                if (_this3.isOnTheBoard(mainList[i].y - 1)) {
                     var _option3 = { x: mainList[i].x, y: mainList[i].y - 1, step: mainList[i].step + 1 };
 
-                    if (!_this4.isWallBetween(mainList[i], _option3)) {
+                    if (!_this3.isWallBetween(mainList[i], _option3)) {
                         possibleNextMoves.push(_option3);
                     }
                 }
@@ -4357,6 +4326,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (!found) {
                 this.tileError = { x: end.x, y: end.y };
 
+                setTimeout(function () {
+                    _this3.tileError = {};
+                }, 250);
+
                 return;
             }
 
@@ -4373,19 +4346,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             mainList.forEach(function (item) {
                 var lastItem = cleanPath[cleanPath.length - 1];
-                if (lastItem.step - 1 === item.step && !_this4.isWallBetween(lastItem, item) && (lastItem.x === item.x || lastItem.y === item.y) && (Math.abs(lastItem.x - item.x) === 1 || Math.abs(lastItem.y - item.y) === 1)) {
+                if (lastItem.step - 1 === item.step && !_this3.isWallBetween(lastItem, item) && (lastItem.x === item.x || lastItem.y === item.y) && (Math.abs(lastItem.x - item.x) === 1 || Math.abs(lastItem.y - item.y) === 1)) {
                     cleanPath.push(item);
                 }
             });
 
-            cleanPath.pop();
+            if (cleanPath.length > 1) {
+                window.axios.patch('/update/player/' + this.activePawn, { path: cleanPath });
 
-            this.movePawnTo(cleanPath);
+                this.movePawnTo(cleanPath);
+            }
         },
         movePawnTo: function movePawnTo(path) {
-            var _this5 = this;
+            var _this4 = this;
 
             var pathToMove = path;
+
+            if (path.length > 1) {
+                var move = setInterval(function () {
+                    if (pathToMove.length <= 1) {
+                        clearInterval(move);
+                    }
+
+                    var moveTo = pathToMove.pop();
+
+                    var activePlayer = _this4.players[_this4.activePlayerIndex];
+
+                    var newPlayer = {
+                        id: activePlayer.id,
+                        name: activePlayer.name,
+                        username: activePlayer.username,
+                        pawn: activePlayer.pawn,
+                        position: { x: moveTo.x, y: moveTo.y }
+                    };
+
+                    _this4.players.splice(_this4.activePlayerIndex, 1, newPlayer);
+                }, 250);
+            }
+
             var moveTo = pathToMove.pop();
 
             var activePlayer = this.players[this.activePlayerIndex];
@@ -4399,26 +4397,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
 
             this.players.splice(this.activePlayerIndex, 1, newPlayer);
-
-            var move = setInterval(function () {
-                if (pathToMove.length <= 1) {
-                    clearInterval(move);
-                }
-
-                var moveTo = pathToMove.pop();
-
-                var activePlayer = _this5.players[_this5.activePlayerIndex];
-
-                var newPlayer = {
-                    id: activePlayer.id,
-                    name: activePlayer.name,
-                    username: activePlayer.username,
-                    pawn: activePlayer.pawn,
-                    position: { x: moveTo.x, y: moveTo.y }
-                };
-
-                _this5.players.splice(_this5.activePlayerIndex, 1, newPlayer);
-            }, 250);
         },
         isOnTheBoard: function isOnTheBoard(position) {
             return position >= 0 && position < 7;
@@ -4597,15 +4575,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         order: function order() {
-            if (this.pawn === 'White Rabbit') {
+            if (this.player.pawn === 'White Rabbit') {
                 return 20;
             }
-            if (this.pawn === 'Alice') {
+
+            if (this.player.pawn === 'Alice') {
                 return 30;
             }
-            if (this.pawn === 'Queen of Hearts') {
+
+            if (this.player.pawn === 'Queen of Hearts') {
                 return 40;
             }
+
             return 10;
         }
     }
@@ -4735,40 +4716,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var x = position.x;
             var y = position.y;
 
+            var changes = {};
+
             if (x === -1) {
-                this.$emit('move-maze', {
+                changes = {
                     direction: 'x',
                     lineDirection: 'y',
                     line: y,
                     amount: 1
-                });
+                };
             }
             if (y === -1) {
-                this.$emit('move-maze', {
+                changes = {
                     direction: 'y',
                     lineDirection: 'x',
                     line: x,
                     amount: 1
-                });
+                };
             }
             if (x === 7) {
-                this.$emit('move-maze', {
+                changes = {
                     direction: 'x',
                     lineDirection: 'y',
                     line: y,
                     amount: -1
-                });
+                };
             }
             if (y === 7) {
-                this.$emit('move-maze', {
+                changes = {
                     direction: 'y',
                     lineDirection: 'x',
                     line: x,
                     amount: -1
-                });
+                };
             }
 
-            this.$emit('end-move');
+            window.axios.patch('/update/tiles/', { tile: changes });
+
+            this.$emit('move-maze', changes);
         }
     }
 });
@@ -4890,7 +4875,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         var _this = this;
 
-        axios.get('/game/objects').then(function (_ref) {
+        window.axios.get('/game/objects').then(function (_ref) {
             var data = _ref.data;
 
             // this.objects = this.shuffle(data);
@@ -4978,6 +4963,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -4985,21 +4971,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'GameSetup',
     components: { Qrcode: __WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode___default.a, PlayerForm: __WEBPACK_IMPORTED_MODULE_1__PlayerForm_vue___default.a },
+    // props: {
+    //     token: {
+    //         type: String,
+    //         required: false,
+    //     }
+    // },
     data: function data() {
         return {
-            sessionUrl: '',
+            sessionToken: '',
             setupDone: false,
             players: [],
-            pawnOptions: [{ name: 'Alice', value: 'Alice', choosen: false }, { name: 'Queen of Hearts', value: 'Queen of Hearts', choosen: false }, { name: 'Mad Hatter', value: 'Mad Hatter', choosen: false }, { name: 'White Rabbit', value: 'White Rabbit', choosen: false }]
+            pawnOptions: [{ name: 'Alice', value: 'Alice', choosen: false }, { name: 'Mad Hatter', value: 'Mad Hatter', choosen: false }, { name: 'Queen of Hearts', value: 'Queen of Hearts', choosen: false }, { name: 'White Rabbit', value: 'White Rabbit', choosen: false }]
         };
     },
-    mounted: function mounted() {
+    created: function created() {
         var _this = this;
 
-        axios.get('/game/players').then(function (_ref) {
+        window.axios.get('/game/players').then(function (_ref) {
             var data = _ref.data;
 
             _this.players = data;
+
+            _this.parsePosition();
 
             _this.updateOptions(data);
         });
@@ -5014,6 +5008,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         showCurrentPlayers: function showCurrentPlayers() {
             return this.players.length >= 1;
+        },
+
+        // sessionToken(token = ''){
+        //     if (token === '' && this.token) {
+        //         return '';
+        //     }
+        //
+        //     // if (!this.token){
+        //     //     return this.token;
+        //     // }
+        //
+        //     return token
+        // },
+        sessionUrl: function sessionUrl() {
+            if (this.sessionToken === '') {
+                return location.href;
+            }
+
+            var gameUrl = location.protocol + '//' + location.hostname + '/game/' + this.sessionToken;
+
+            if (location.pathname.match('/game/?') && this.sessionToken !== '') {
+                location.href = gameUrl;
+            }
+
+            return gameUrl;
+        },
+        gameChannel: function gameChannel() {
+            return window.Echo.join('game-' + this.sessionToken);
         }
     },
     methods: {
@@ -5039,6 +5061,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 }
             }
+        },
+        parsePosition: function parsePosition() {
+            this.players.forEach(function (player) {
+                player.position = JSON.parse(player.position);
+            });
         }
     }
 });
@@ -5050,6 +5077,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -5096,6 +5124,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
+    filters: {
+        firstPossible: function firstPossible(options) {
+            var freeOptions = options.filter(function (option) {
+                return !option.choosen;
+            });
+
+            freeOptions.reverse();
+
+            return freeOptions.pop();
+        }
+    },
     methods: {
         addPlayer: function addPlayer() {
             var _this = this;
@@ -5114,7 +5153,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 _this.$emit('session-known', data);
 
-                _this.$emit('player-added', { id: null, pawn: _this.pawn, username: _this.username });
+                _this.$emit('player-added', {
+                    id: null,
+                    pawn: _this.pawn,
+                    username: _this.username,
+                    position: _this.positionOf(_this.pawn)
+                });
 
                 _this.submited = true;
             }).catch(function (_ref2) {
@@ -5134,6 +5178,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this.pawnErrorShow = true;
                 }
             });
+        },
+        positionOf: function positionOf(pawn) {
+            if (pawn === 'Mad Hatter') {
+                return { x: 0, y: 6 };
+            }
+
+            if (pawn === 'Queen of Hearts') {
+                return { x: 6, y: 6 };
+            }
+
+            if (pawn === 'White Rabbit') {
+                return { x: 6, y: 0 };
+            }
+
+            return { x: 0, y: 0 };
         }
     }
 });
@@ -11150,6 +11209,7 @@ var render = function() {
           staticClass: "block w-full border border-grey text-base",
           class: { "border-red": _vm.pawnErrorShow },
           attrs: { id: "pawn", required: "", disabled: _vm.submited },
+          domProps: { value: _vm._f("firstPossible")(_vm.options) },
           on: {
             change: [
               function($event) {
@@ -11409,56 +11469,58 @@ var render = function() {
           class: { "move-up": _vm.setupDone }
         },
         [
-          _vm.allowNewPlayer
+          _vm.sessionToken === "" && _vm.allowNewPlayer
             ? _c("h2", { staticClass: "p-2 font-noteworthy font-light" }, [
                 _vm._v("Choose your pawn")
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.allowNewPlayer
+          _vm.sessionToken === "" && _vm.allowNewPlayer
             ? _c("player-form", {
                 attrs: { options: _vm.pawnOptions },
                 on: {
                   "session-known": function($event) {
-                    _vm.sessionUrl = $event
+                    _vm.sessionToken === $event
                   },
                   "player-added": _vm.addPlayer
                 }
               })
             : _vm._e(),
           _vm._v(" "),
-          _c(
-            "section",
-            {
-              staticClass: "w-full p-2 py-4 block",
-              class: { hidden: !_vm.sessionUrl }
-            },
-            [
-              _c("h2", { staticClass: "py-2 font-noteworthy font-light" }, [
-                _vm._v("Share this url")
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "flex" },
+          _vm.allowNewPlayer
+            ? _c(
+                "section",
+                {
+                  staticClass: "w-full p-2 py-4 block",
+                  class: { hidden: _vm.sessionToken === "" }
+                },
                 [
-                  _c("qrcode", {
-                    attrs: { value: _vm.sessionUrl, tag: "img" }
-                  }),
+                  _c("h2", { staticClass: "py-2 font-noteworthy font-light" }, [
+                    _vm._v("Share this url")
+                  ]),
                   _vm._v(" "),
                   _c(
-                    "a",
-                    {
-                      staticClass: " block m-auto",
-                      attrs: { href: _vm.sessionUrl }
-                    },
-                    [_vm._v(_vm._s(_vm.sessionUrl))]
+                    "div",
+                    { staticClass: "flex" },
+                    [
+                      _c("qrcode", {
+                        attrs: { value: _vm.sessionUrl, tag: "img" }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: " block m-auto",
+                          attrs: { href: _vm.sessionUrl }
+                        },
+                        [_vm._v(_vm._s(_vm.sessionUrl))]
+                      )
+                    ],
+                    1
                   )
-                ],
-                1
+                ]
               )
-            ]
-          ),
+            : _vm._e(),
           _vm._v(" "),
           _c("section", { staticClass: "w-full p-2 pt-4 block" }, [
             _c(
@@ -11505,7 +11567,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Start the game\n            ")]
+              [_vm._v("\n                Start the game\n            ")]
             )
           ])
         ],

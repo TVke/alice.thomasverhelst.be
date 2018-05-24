@@ -3,13 +3,13 @@
          :class="{'opacity-0': setupDone}">
         <div class="mx-auto mb-auto w-5/6 bg-white max-w-md rounded-b-lg p-6 pt-24 transition transition-slow shadow border border-t-0 pointer-events-auto"
              :class="{'move-up': setupDone}">
-            <h2 class="p-2 font-noteworthy font-light" v-if="allowNewPlayer">Choose your pawn</h2>
-            <player-form v-if="allowNewPlayer"
+            <h2 class="p-2 font-noteworthy font-light" v-if="sessionToken === '' && allowNewPlayer">Choose your pawn</h2>
+            <player-form v-if="sessionToken === '' && allowNewPlayer"
                          :options="pawnOptions"
-                         @session-known="sessionUrl = $event"
+                         @session-known="sessionToken === $event"
                          @player-added="addPlayer">
             </player-form>
-            <section class="w-full p-2 py-4 block" :class="{hidden: !sessionUrl}">
+            <section class="w-full p-2 py-4 block" v-if="allowNewPlayer" :class="{hidden: sessionToken === ''}">
                 <h2 class="py-2 font-noteworthy font-light">Share this url</h2>
                 <div class="flex">
                     <qrcode :value="sessionUrl" tag="img"></qrcode>
@@ -27,7 +27,8 @@
                     </li>
                 </ul>
                 <button class="block bg-alice-lighter text-base py-2 px-3 border-none rounded mt-6 mx-auto"
-                        :class="{hidden: !gameCanStart}" @click.prevent="setupIsDone">Start the game
+                        :class="{hidden: !gameCanStart}" @click.prevent="setupIsDone">
+                    Start the game
                 </button>
             </section>
         </div>
@@ -41,23 +42,31 @@
     export default {
         name: 'GameSetup',
         components: {Qrcode, PlayerForm},
+        // props: {
+        //     token: {
+        //         type: String,
+        //         required: false,
+        //     }
+        // },
         data() {
             return {
-                sessionUrl: '',
+                sessionToken: '',
                 setupDone: false,
                 players: [],
                 pawnOptions: [
                     {name: 'Alice', value: 'Alice', choosen: false},
-                    {name: 'Queen of Hearts', value: 'Queen of Hearts', choosen: false},
                     {name: 'Mad Hatter', value: 'Mad Hatter', choosen: false},
+                    {name: 'Queen of Hearts', value: 'Queen of Hearts', choosen: false},
                     {name: 'White Rabbit', value: 'White Rabbit', choosen: false},
                 ],
             }
         },
-        mounted() {
-            axios.get('/game/players')
+        created() {
+            window.axios.get('/game/players')
                 .then(({data}) => {
                     this.players = data;
+
+                    this.parsePosition();
 
                     this.updateOptions(data);
                 });
@@ -73,16 +82,42 @@
             showCurrentPlayers() {
                 return this.players.length >= 1;
             },
+            // sessionToken(token = ''){
+            //     if (token === '' && this.token) {
+            //         return '';
+            //     }
+            //
+            //     // if (!this.token){
+            //     //     return this.token;
+            //     // }
+            //
+            //     return token
+            // },
+            sessionUrl(){
+                if (this.sessionToken === ''){
+                    return location.href;
+                }
 
+                let gameUrl = `${location.protocol}//${location.hostname}/game/${this.sessionToken}`;
+
+                if (location.pathname.match('/game/?') && this.sessionToken !== '') {
+                    location.href = gameUrl;
+                }
+
+                return gameUrl;
+            },
+            gameChannel() {
+                return window.Echo.join(`game-${this.sessionToken}`);
+            }
         },
         methods: {
             setupIsDone() {
                 this.setupDone = true;
 
-                Event.$emit('start-play',this.players);
+                Event.$emit('start-play', this.players);
             },
             addPlayer(data) {
-                this.players.push(data)
+                this.players.push(data);
             },
             updateOptions(data) {
                 for (let player in data) {
@@ -98,6 +133,11 @@
                         }
                     }
                 }
+            },
+            parsePosition() {
+                this.players.forEach((player) => {
+                    player.position = JSON.parse(player.position);
+                });
             }
         }
     }

@@ -19,6 +19,7 @@ class CreatePlayersTable extends Migration
             $table->string('email')->nullable()->default(null);
             $table->string('password')->nullable()->default(null);
             $table->string('pawn');
+            $table->json('position');
             $table->integer('score')->nullable()->default(null);
 
             $table->unsignedInteger('game_session_id')->nullable()->default(null);

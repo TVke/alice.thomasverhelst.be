@@ -18,6 +18,8 @@ Route::get('/game/players', 'PlayerController@index');
 Route::get('/game/objects', 'GameController@objects');
 
 Route::put('/add/player', 'PlayerController@store');
+Route::patch('/update/player/{pawn}', 'PlayerController@update');
+Route::patch('update/tiles', 'TileController@update');
 
 Route::get('/game/{session?}', 'GameController@index')->name('game');
 

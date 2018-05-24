@@ -17,6 +17,7 @@ class CreateGameSessionsTable extends Migration
             $table->increments('id');
             $table->string('session')->unique();
             $table->json('tiles')->nullable()->default(null);
+            $table->boolean('started')->default(false);
             $table->timestamps();
         });
     }
