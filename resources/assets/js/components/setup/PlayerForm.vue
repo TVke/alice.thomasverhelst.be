@@ -9,11 +9,8 @@
         <div class="p-2">
             <label class="py-2 block" for="pawn" :class="{'text-red': pawnErrorShow}">Your pawn</label>
             <select v-model="pawn" class="block w-full border border-grey text-base" id="pawn" required
-                    :disabled="submited" :class="{'border-red': pawnErrorShow}" :value="options | firstPossible"
-                    @change="pawnErrorShow = false">
-                <option v-for="option in options" :value="option.value" :disabled="option.choosen">
-                    {{ option.name }}
-                </option>
+                    :disabled="submited" :class="{'border-red': pawnErrorShow}" @change="pawnErrorShow = false">
+                <option v-for="option in options" :value="option.value" :disabled="option.choosen">{{ option.name }}</option>
             </select>
         </div>
         <div class="w-full p-2 block" :class="{hidden: submited}">
@@ -44,17 +41,17 @@
                 submited: false,
             }
         },
-        filters: {
-            firstPossible(options) {
-                let freeOptions = options.filter((option) => {
-                    return ! option.choosen;
-                });
-
-                freeOptions.reverse();
-
-                return freeOptions.pop();
-            }
-        },
+        // computed: {
+        //     defaultValue() {
+        //         const freeOptions = this.options.filter((option) => {
+        //             return !option.choosen;
+        //         });
+        //
+        //         freeOptions.reverse();
+        //
+        //         return freeOptions.pop().value;
+        //     },
+        // },
         methods: {
             addPlayer() {
                 this.pawnErrorShow = false;
@@ -82,7 +79,7 @@
                     .catch(({response}) => {
                         this.submited = false;
 
-                        let errors = response.data.errors;
+                        const errors = response.data.errors;
 
                         if (errors.username) {
                             this.usernameError = errors.username[0];

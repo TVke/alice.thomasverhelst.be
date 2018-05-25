@@ -4665,11 +4665,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var newRotation = this.tile.rotation + 90;
 
             if (newRotation === 270 + 90) {
-                newRotation = 0;
+                return 0;
             }
 
             if (newRotation > 90 && this.tile.type.name === 'line') {
-                newRotation = 0;
+                return 0;
             }
 
             return newRotation;
@@ -4808,14 +4808,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         paused: {
             type: Boolean
+        },
+        cards: {
+            type: Array
         }
     },
-    data: function data() {
-        return {
-            objects: []
-        };
-    },
-
     computed: {
         placement: function placement() {
             var places = {
@@ -4878,8 +4875,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         window.axios.get('/game/objects').then(function (_ref) {
             var data = _ref.data;
 
-            // this.objects = this.shuffle(data);
-            _this.objects = data;
+            var objects = _this.shuffle(data);
+
+            var playerCount = _this.players.length;
+
+            for (var index in _this.players) {
+                _this.objects.push(objects.splice(index * playerCount, playerCount));
+            }
         });
 
         Event.$on('start-play', function (event) {
@@ -4901,17 +4903,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         shuffle: function shuffle(array) {
-            var copy = [],
-                n = array.length,
-                i = void 0;
-
-            while (n >= 0) {
-                i = Math.floor(Math.random() * --n);
-
-                copy.push(array.splice(i, 1)[0]);
+            for (var i = array.length - 1; i > 0; --i) {
+                var randomIndex = Math.floor(Math.random() * (i + 1));
+                var _ref2 = [array[randomIndex], array[i]];
+                array[i] = _ref2[0];
+                array[randomIndex] = _ref2[1];
             }
-
-            return copy;
+            return array;
         }
     }
 });
@@ -5033,9 +5031,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             return gameUrl;
-        },
-        gameChannel: function gameChannel() {
-            return window.Echo.join('game-' + this.sessionToken);
         }
     },
     methods: {
@@ -5049,11 +5044,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         updateOptions: function updateOptions(data) {
             for (var player in data) {
-                var usedPawn = '';
-
-                if (data.hasOwnProperty(player)) {
-                    usedPawn = data[player].pawn;
-                }
+                var usedPawn = data[player].pawn;
 
                 for (var pawn in this.pawnOptions) {
                     if (usedPawn === this.pawnOptions[pawn].value) {
@@ -5105,9 +5096,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'PlayerForm',
@@ -5124,17 +5112,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    filters: {
-        firstPossible: function firstPossible(options) {
-            var freeOptions = options.filter(function (option) {
-                return !option.choosen;
-            });
-
-            freeOptions.reverse();
-
-            return freeOptions.pop();
-        }
-    },
+    // computed: {
+    //     defaultValue() {
+    //         const freeOptions = this.options.filter((option) => {
+    //             return !option.choosen;
+    //         });
+    //
+    //         freeOptions.reverse();
+    //
+    //         return freeOptions.pop().value;
+    //     },
+    // },
     methods: {
         addPlayer: function addPlayer() {
             var _this = this;
@@ -10997,8 +10985,13 @@ var render = function() {
       _vm._v(" "),
       _c("p", { staticClass: "my-auto p-2 truncate w-full md:w-3/4" }, [
         _vm._v(_vm._s(_vm.player.username))
-      ])
-    ]
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.cards, function(card) {
+        return _c("object-card", { key: card.name, attrs: { object: card } })
+      })
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -11209,7 +11202,6 @@ var render = function() {
           staticClass: "block w-full border border-grey text-base",
           class: { "border-red": _vm.pawnErrorShow },
           attrs: { id: "pawn", required: "", disabled: _vm.submited },
-          domProps: { value: _vm._f("firstPossible")(_vm.options) },
           on: {
             change: [
               function($event) {
@@ -11238,11 +11230,7 @@ var render = function() {
               attrs: { disabled: option.choosen },
               domProps: { value: option.value }
             },
-            [
-              _vm._v(
-                "\n                " + _vm._s(option.name) + "\n            "
-              )
-            ]
+            [_vm._v(_vm._s(option.name))]
           )
         })
       )
@@ -11421,13 +11409,13 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "absolute pin" },
-    _vm._l(_vm.players, function(player) {
+    _vm._l(_vm.players, function(player, index) {
       return _c("player", {
         key: player.id,
         attrs: {
           player: player,
           active: _vm.activePlayer,
-          objects: _vm.objects,
+          cards: _vm.objects[index],
           paused: _vm.paused
         }
       })
@@ -11480,7 +11468,7 @@ var render = function() {
                 attrs: { options: _vm.pawnOptions },
                 on: {
                   "session-known": function($event) {
-                    _vm.sessionToken === $event
+                    _vm.sessionToken = $event
                   },
                   "player-added": _vm.addPlayer
                 }

@@ -1,6 +1,6 @@
 <template>
     <div class="absolute pin">
-        <player v-for="player in players" :player="player" :active="activePlayer" :objects="objects" :key="player.id" :paused="paused"></player>
+        <player v-for="(player, index) in players" :player="player" :active="activePlayer" :cards="objects[index]" :key="player.id" :paused="paused"></player>
     </div>
 </template>
 
@@ -21,8 +21,13 @@
         created() {
             window.axios.get('/game/objects')
                 .then(({data}) => {
-                    // this.objects = this.shuffle(data);
-                    this.objects = data;
+                    const objects = this.shuffle(data);
+
+                    const playerCount = this.players.length;
+
+                    for (let index in this.players){
+                        this.objects.push(objects.splice(index * playerCount, playerCount));
+                    }
                 });
 
             Event.$on('start-play', (event) => {
@@ -33,7 +38,7 @@
                 },25);
 
 
-                let option = Math.floor(Math.random() * event.length);
+                const option = Math.floor(Math.random() * event.length);
 
                 this.activePlayer = this.players[option];
 
@@ -44,15 +49,11 @@
         },
         methods: {
             shuffle(array){
-                let copy = [], n = array.length, i;
-
-                while (n >= 0) {
-                    i = Math.floor(Math.random() * --n);
-
-                    copy.push(array.splice(i, 1)[0]);
+                for (let i = array.length - 1; i > 0; --i) {
+                    const randomIndex = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
                 }
-
-                return copy;
+                return array;
             }
         }
     }

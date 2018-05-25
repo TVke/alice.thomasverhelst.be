@@ -19,7 +19,7 @@
             <img class="block p-1" :src="`/storage/images/pawns/${player.pawn}.svg`" :alt="`${player.pawn} pawn`">
         </div>
         <p class="my-auto p-2 truncate w-full md:w-3/4">{{ player.username }}</p>
-        <!--<object-card v-for="object in objects" :object="object" :key="object.name"></object-card>-->
+        <object-card v-for="card in cards" :object="card" :key="card.name"></object-card>
     </div>
 </template>
 
@@ -40,10 +40,8 @@
             paused: {
                 type: Boolean,
             },
-        },
-        data(){
-            return{
-                objects: [],
+            cards: {
+                type: Array,
             }
         },
         computed: {

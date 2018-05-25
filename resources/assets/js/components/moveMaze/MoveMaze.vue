@@ -25,8 +25,8 @@
         props: ['active','tile'],
         methods: {
             addTile: function (position) {
-                let x = position.x;
-                let y = position.y;
+                const x = position.x;
+                const y = position.y;
 
                 let changes = {};
 

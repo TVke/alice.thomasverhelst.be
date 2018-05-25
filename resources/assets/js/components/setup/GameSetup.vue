@@ -6,7 +6,7 @@
             <h2 class="p-2 font-noteworthy font-light" v-if="sessionToken === '' && allowNewPlayer">Choose your pawn</h2>
             <player-form v-if="sessionToken === '' && allowNewPlayer"
                          :options="pawnOptions"
-                         @session-known="sessionToken === $event"
+                         @session-known="sessionToken = $event"
                          @player-added="addPlayer">
             </player-form>
             <section class="w-full p-2 py-4 block" v-if="allowNewPlayer" :class="{hidden: sessionToken === ''}">
@@ -98,7 +98,7 @@
                     return location.href;
                 }
 
-                let gameUrl = `${location.protocol}//${location.hostname}/game/${this.sessionToken}`;
+                const gameUrl = `${location.protocol}//${location.hostname}/game/${this.sessionToken}`;
 
                 if (location.pathname.match('/game/?') && this.sessionToken !== '') {
                     location.href = gameUrl;
@@ -106,9 +106,9 @@
 
                 return gameUrl;
             },
-            gameChannel() {
-                return window.Echo.join(`game-${this.sessionToken}`);
-            }
+            // gameChannel() {
+            //     return window.Echo.join(`game-${this.sessionToken}`);
+            // }
         },
         methods: {
             setupIsDone() {
@@ -121,11 +121,7 @@
             },
             updateOptions(data) {
                 for (let player in data) {
-                    let usedPawn = '';
-
-                    if (data.hasOwnProperty(player)) {
-                        usedPawn = data[player].pawn;
-                    }
+                    const usedPawn = data[player].pawn;
 
                     for (let pawn in this.pawnOptions) {
                         if (usedPawn === this.pawnOptions[pawn].value) {

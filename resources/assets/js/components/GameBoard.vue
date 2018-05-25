@@ -90,10 +90,10 @@
         },
         methods: {
             moveMaze(event) {
-                let direction = event.direction;
-                let lineDirection = event.lineDirection;
-                let line = event.line;
-                let amount = event.amount;
+                const direction = event.direction;
+                const lineDirection = event.lineDirection;
+                const line = event.line;
+                const amount = event.amount;
 
                 let newLooseTile, toRemove;
 
@@ -129,7 +129,7 @@
                 const start = this.players[this.activePlayerIndex].position;
                 const end = event;
 
-                let mainList = [];
+                const mainList = [];
                 let found = false;
                 mainList.push({x: start.x, y: start.y, step: 0});
 
@@ -138,10 +138,10 @@
                 }
 
                 for (let i = 0; i < mainList.length && !found; ++i) {
-                    let possibleNextMoves = [];
+                    const possibleNextMoves = [];
 
                     if (this.isOnTheBoard(mainList[i].x + 1)) {
-                        let option = {x: mainList[i].x + 1, y: mainList[i].y, step: mainList[i].step + 1};
+                        const option = {x: mainList[i].x + 1, y: mainList[i].y, step: mainList[i].step + 1};
 
                         if (!this.isWallBetween(mainList[i], option)) {
                             possibleNextMoves.push(option);
@@ -149,7 +149,7 @@
                     }
 
                     if (this.isOnTheBoard(mainList[i].x - 1)) {
-                        let option = {x: mainList[i].x - 1, y: mainList[i].y, step: mainList[i].step + 1};
+                        const option = {x: mainList[i].x - 1, y: mainList[i].y, step: mainList[i].step + 1};
 
                         if (!this.isWallBetween(mainList[i], option)) {
                             possibleNextMoves.push(option);
@@ -157,7 +157,7 @@
                     }
 
                     if (this.isOnTheBoard(mainList[i].y + 1)) {
-                        let option = {x: mainList[i].x, y: mainList[i].y + 1, step: mainList[i].step + 1};
+                        const option = {x: mainList[i].x, y: mainList[i].y + 1, step: mainList[i].step + 1};
 
                         if (!this.isWallBetween(mainList[i], option)) {
                             possibleNextMoves.push(option);
@@ -165,14 +165,14 @@
                     }
 
                     if (this.isOnTheBoard(mainList[i].y - 1)) {
-                        let option = {x: mainList[i].x, y: mainList[i].y - 1, step: mainList[i].step + 1};
+                        const option = {x: mainList[i].x, y: mainList[i].y - 1, step: mainList[i].step + 1};
 
                         if (!this.isWallBetween(mainList[i], option)) {
                             possibleNextMoves.push(option);
                         }
                     }
 
-                    let toRemove = [];
+                    const toRemove = [];
 
                     possibleNextMoves.forEach((possibility, index) => {
                         mainList.forEach((position) => {
@@ -209,8 +209,8 @@
 
                 mainList.reverse();
 
-                let cleanPath = [];
-                let endStep = mainList.filter((item) => {
+                const cleanPath = [];
+                const endStep = mainList.filter((item) => {
                     if (item.x === end.x && item.y === end.y) {
                         return item;
                     }
@@ -219,7 +219,7 @@
                 cleanPath.push(endStep);
 
                 mainList.forEach((item) => {
-                    let lastItem = cleanPath[cleanPath.length - 1];
+                    const lastItem = cleanPath[cleanPath.length - 1];
                     if (
                         lastItem.step - 1 === item.step &&
                         !this.isWallBetween(lastItem, item) &&
@@ -237,19 +237,19 @@
                 }
             },
             movePawnTo(path) {
-                let pathToMove = path;
+                const pathToMove = path;
 
                 if (path.length > 1) {
-                    let move = setInterval(() => {
+                    const move = setInterval(() => {
                         if (pathToMove.length <= 1) {
                             clearInterval(move);
                         }
 
-                        let moveTo = pathToMove.pop();
+                        const moveTo = pathToMove.pop();
 
-                        let activePlayer = this.players[this.activePlayerIndex];
+                        const activePlayer = this.players[this.activePlayerIndex];
 
-                        let newPlayer = {
+                        const newPlayer = {
                             id: activePlayer.id,
                             name: activePlayer.name,
                             username: activePlayer.username,
@@ -261,11 +261,11 @@
                     }, 250);
                 }
 
-                let moveTo = pathToMove.pop();
+                const moveTo = pathToMove.pop();
 
-                let activePlayer = this.players[this.activePlayerIndex];
+                const activePlayer = this.players[this.activePlayerIndex];
 
-                let newPlayer = {
+                const newPlayer = {
                     id: activePlayer.id,
                     name: activePlayer.name,
                     username: activePlayer.username,
@@ -279,13 +279,13 @@
                 return position >= 0 && position < 7;
             },
             isWallBetween(positionOne, positionTwo) {
-                let tileOne = this.getTileobject(positionOne.x, positionOne.y);
-                let tileTwo = this.getTileobject(positionTwo.x, positionTwo.y);
+                const tileOne = this.getTileobject(positionOne.x, positionOne.y);
+                const tileTwo = this.getTileobject(positionTwo.x, positionTwo.y);
 
-                let direction = this.getDirection(positionOne, positionTwo);
+                const direction = this.getDirection(positionOne, positionTwo);
 
-                let tileOneWalls = this.getWalls(tileOne);
-                let tileTwoWalls = this.getWalls(tileTwo);
+                const tileOneWalls = this.getWalls(tileOne);
+                const tileTwoWalls = this.getWalls(tileTwo);
 
                 if (direction === 'down') {
                     return tileOneWalls.bottom || tileTwoWalls.top;

@@ -28,14 +28,14 @@
         },
         computed: {
             rotateTo(){
-                let newRotation = this.tile.rotation + 90;
+                const newRotation = this.tile.rotation + 90;
 
                 if (newRotation === 270 + 90) {
-                    newRotation = 0;
+                    return 0;
                 }
 
                 if (newRotation > 90 && this.tile.type.name === 'line') {
-                    newRotation = 0;
+                    return 0;
                 }
 
                 return newRotation;

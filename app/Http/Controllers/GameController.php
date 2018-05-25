@@ -24,6 +24,6 @@ class GameController extends Controller
     {
         $objects = Valuestore::make(resource_path('data/objects.json'));
 
-        return collect($objects->all());
+        return $objects->all();
     }
 }
