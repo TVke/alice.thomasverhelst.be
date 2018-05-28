@@ -32,12 +32,12 @@
         "description" : "card with a harts symbol"
     },
     {
-        "name" : "klavere",
-        "description" : "card with a klaver symbol"
+        "name" : "clubs",
+        "description" : "card with a clubs symbol"
     },
     {
-        "name" : "schoppe",
-        "description" : "card with a schoppen symbol"
+        "name" : "spades",
+        "description" : "card with a spades symbol"
     },
     {
         "name" : "diamonds",
@@ -48,11 +48,11 @@
         "description" : "crown of the queen of hearts"
     },
     {
-        "name" : "white rose",
+        "name" : "whiterose",
         "description" : "white rose"
     },
     {
-        "name" : "red rose",
+        "name" : "redrose",
         "description" : "a painted red rose"
     },
     {
@@ -68,7 +68,7 @@
         "description" : "the waterpipe of Ipsolum"
     },
     {
-        "name" : "singing flower",
+        "name" : "singingflower",
         "description" : "a singing flower from Wonderland"
     },
     {

@@ -4,9 +4,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require("./bootstrap");
+require('./bootstrap');
 
-window.Vue = require("vue");
+window.Vue = require('vue');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -16,10 +16,11 @@ window.Vue = require("vue");
 
 window.Event = new Vue();
 
-Vue.component("game-setup", require("./components/setup/GameSetup.vue"));
-Vue.component("player-cards", require("./components/players/Players.vue"));
-Vue.component("game-board", require("./components/GameBoard.vue"));
+Vue.component('game-setup', require('./components/setup/GameSetup.vue'));
+Vue.component('player-cards', require('./components/players/Players.vue'));
+Vue.component('game-actions', require('./components/GameActions.vue'));
+Vue.component('game-board', require('./components/GameBoard.vue'));
 
-const vm = new Vue({
-    el: "#game",
+new Vue({
+    el: '#game',
 });

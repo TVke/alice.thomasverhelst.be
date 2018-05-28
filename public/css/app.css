@@ -722,12 +722,16 @@ button,
   background-color: transparent;
 }
 
+.bg-white-transparent {
+  background-color: rgba(255, 255, 255, .9);
+}
+
 .bg-black-transparent {
   background-color: rgba(0, 0, 0, .6);
 }
 
-.bg-white-transparent {
-  background-color: rgba(255, 255, 255, .6);
+.bg-active-transparent {
+  background-color: rgba(100, 100, 100, .6);
 }
 
 .bg-pawn-blue {
@@ -1090,12 +1094,16 @@ button,
   background-color: transparent;
 }
 
+.group:hover .group-hover\:bg-white-transparent {
+  background-color: rgba(255, 255, 255, .9);
+}
+
 .group:hover .group-hover\:bg-black-transparent {
   background-color: rgba(0, 0, 0, .6);
 }
 
-.group:hover .group-hover\:bg-white-transparent {
-  background-color: rgba(255, 255, 255, .6);
+.group:hover .group-hover\:bg-active-transparent {
+  background-color: rgba(100, 100, 100, .6);
 }
 
 .group:hover .group-hover\:bg-pawn-blue {
@@ -1458,12 +1466,16 @@ button,
   background-color: transparent;
 }
 
+.hover\:bg-white-transparent:hover {
+  background-color: rgba(255, 255, 255, .9);
+}
+
 .hover\:bg-black-transparent:hover {
   background-color: rgba(0, 0, 0, .6);
 }
 
-.hover\:bg-white-transparent:hover {
-  background-color: rgba(255, 255, 255, .6);
+.hover\:bg-active-transparent:hover {
+  background-color: rgba(100, 100, 100, .6);
 }
 
 .hover\:bg-pawn-blue:hover {
@@ -1826,12 +1838,16 @@ button,
   background-color: transparent;
 }
 
+.focus\:bg-white-transparent:focus {
+  background-color: rgba(255, 255, 255, .9);
+}
+
 .focus\:bg-black-transparent:focus {
   background-color: rgba(0, 0, 0, .6);
 }
 
-.focus\:bg-white-transparent:focus {
-  background-color: rgba(255, 255, 255, .6);
+.focus\:bg-active-transparent:focus {
+  background-color: rgba(100, 100, 100, .6);
 }
 
 .focus\:bg-pawn-blue:focus {
@@ -2194,12 +2210,16 @@ button,
   background-color: transparent;
 }
 
+.active\:bg-white-transparent:active {
+  background-color: rgba(255, 255, 255, .9);
+}
+
 .active\:bg-black-transparent:active {
   background-color: rgba(0, 0, 0, .6);
 }
 
-.active\:bg-white-transparent:active {
-  background-color: rgba(255, 255, 255, .6);
+.active\:bg-active-transparent:active {
+  background-color: rgba(100, 100, 100, .6);
 }
 
 .active\:bg-pawn-blue:active {
@@ -2626,12 +2646,16 @@ button,
   border-color: transparent;
 }
 
+.border-white-transparent {
+  border-color: rgba(255, 255, 255, .9);
+}
+
 .border-black-transparent {
   border-color: rgba(0, 0, 0, .6);
 }
 
-.border-white-transparent {
-  border-color: rgba(255, 255, 255, .6);
+.border-active-transparent {
+  border-color: rgba(100, 100, 100, .6);
 }
 
 .border-pawn-blue {
@@ -2994,12 +3018,16 @@ button,
   border-color: transparent;
 }
 
+.group:hover .group-hover\:border-white-transparent {
+  border-color: rgba(255, 255, 255, .9);
+}
+
 .group:hover .group-hover\:border-black-transparent {
   border-color: rgba(0, 0, 0, .6);
 }
 
-.group:hover .group-hover\:border-white-transparent {
-  border-color: rgba(255, 255, 255, .6);
+.group:hover .group-hover\:border-active-transparent {
+  border-color: rgba(100, 100, 100, .6);
 }
 
 .group:hover .group-hover\:border-pawn-blue {
@@ -3362,12 +3390,16 @@ button,
   border-color: transparent;
 }
 
+.hover\:border-white-transparent:hover {
+  border-color: rgba(255, 255, 255, .9);
+}
+
 .hover\:border-black-transparent:hover {
   border-color: rgba(0, 0, 0, .6);
 }
 
-.hover\:border-white-transparent:hover {
-  border-color: rgba(255, 255, 255, .6);
+.hover\:border-active-transparent:hover {
+  border-color: rgba(100, 100, 100, .6);
 }
 
 .hover\:border-pawn-blue:hover {
@@ -3730,12 +3762,16 @@ button,
   border-color: transparent;
 }
 
+.focus\:border-white-transparent:focus {
+  border-color: rgba(255, 255, 255, .9);
+}
+
 .focus\:border-black-transparent:focus {
   border-color: rgba(0, 0, 0, .6);
 }
 
-.focus\:border-white-transparent:focus {
-  border-color: rgba(255, 255, 255, .6);
+.focus\:border-active-transparent:focus {
+  border-color: rgba(100, 100, 100, .6);
 }
 
 .focus\:border-pawn-blue:focus {
@@ -4098,12 +4134,16 @@ button,
   border-color: transparent;
 }
 
+.active\:border-white-transparent:active {
+  border-color: rgba(255, 255, 255, .9);
+}
+
 .active\:border-black-transparent:active {
   border-color: rgba(0, 0, 0, .6);
 }
 
-.active\:border-white-transparent:active {
-  border-color: rgba(255, 255, 255, .6);
+.active\:border-active-transparent:active {
+  border-color: rgba(100, 100, 100, .6);
 }
 
 .active\:border-pawn-blue:active {
@@ -5577,6 +5617,10 @@ button,
   margin: 1px;
 }
 
+.m-1\/5 {
+  margin: 30%;
+}
+
 .my-0 {
   margin-top: 0;
   margin-bottom: 0;
@@ -5787,6 +5831,16 @@ button,
 .mx-px {
   margin-left: 1px;
   margin-right: 1px;
+}
+
+.my-1\/5 {
+  margin-top: 30%;
+  margin-bottom: 30%;
+}
+
+.mx-1\/5 {
+  margin-left: 30%;
+  margin-right: 30%;
 }
 
 .mt-0 {
@@ -6095,6 +6149,22 @@ button,
 
 .ml-px {
   margin-left: 1px;
+}
+
+.mt-1\/5 {
+  margin-top: 30%;
+}
+
+.mr-1\/5 {
+  margin-right: 30%;
+}
+
+.mb-1\/5 {
+  margin-bottom: 30%;
+}
+
+.ml-1\/5 {
+  margin-left: 30%;
 }
 
 .max-h-1\/4 {
@@ -9084,6 +9154,10 @@ button,
   padding: 1px;
 }
 
+.p-1\/5 {
+  padding: 30%;
+}
+
 .py-0 {
   padding-top: 0;
   padding-bottom: 0;
@@ -9284,6 +9358,16 @@ button,
 .px-px {
   padding-left: 1px;
   padding-right: 1px;
+}
+
+.py-1\/5 {
+  padding-top: 30%;
+  padding-bottom: 30%;
+}
+
+.px-1\/5 {
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 .pt-0 {
@@ -9578,6 +9662,22 @@ button,
   padding-left: 1px;
 }
 
+.pt-1\/5 {
+  padding-top: 30%;
+}
+
+.pr-1\/5 {
+  padding-right: 30%;
+}
+
+.pb-1\/5 {
+  padding-bottom: 30%;
+}
+
+.pl-1\/5 {
+  padding-left: 30%;
+}
+
 .group:hover .group-hover\:p-0 {
   padding: 0;
 }
@@ -9649,6 +9749,10 @@ button,
 
 .group:hover .group-hover\:p-px {
   padding: 1px;
+}
+
+.group:hover .group-hover\:p-1\/5 {
+  padding: 30%;
 }
 
 .group:hover .group-hover\:py-0 {
@@ -9851,6 +9955,16 @@ button,
 .group:hover .group-hover\:px-px {
   padding-left: 1px;
   padding-right: 1px;
+}
+
+.group:hover .group-hover\:py-1\/5 {
+  padding-top: 30%;
+  padding-bottom: 30%;
+}
+
+.group:hover .group-hover\:px-1\/5 {
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 .group:hover .group-hover\:pt-0 {
@@ -10145,6 +10259,22 @@ button,
   padding-left: 1px;
 }
 
+.group:hover .group-hover\:pt-1\/5 {
+  padding-top: 30%;
+}
+
+.group:hover .group-hover\:pr-1\/5 {
+  padding-right: 30%;
+}
+
+.group:hover .group-hover\:pb-1\/5 {
+  padding-bottom: 30%;
+}
+
+.group:hover .group-hover\:pl-1\/5 {
+  padding-left: 30%;
+}
+
 .hover\:p-0:hover {
   padding: 0;
 }
@@ -10216,6 +10346,10 @@ button,
 
 .hover\:p-px:hover {
   padding: 1px;
+}
+
+.hover\:p-1\/5:hover {
+  padding: 30%;
 }
 
 .hover\:py-0:hover {
@@ -10418,6 +10552,16 @@ button,
 .hover\:px-px:hover {
   padding-left: 1px;
   padding-right: 1px;
+}
+
+.hover\:py-1\/5:hover {
+  padding-top: 30%;
+  padding-bottom: 30%;
+}
+
+.hover\:px-1\/5:hover {
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 .hover\:pt-0:hover {
@@ -10712,6 +10856,22 @@ button,
   padding-left: 1px;
 }
 
+.hover\:pt-1\/5:hover {
+  padding-top: 30%;
+}
+
+.hover\:pr-1\/5:hover {
+  padding-right: 30%;
+}
+
+.hover\:pb-1\/5:hover {
+  padding-bottom: 30%;
+}
+
+.hover\:pl-1\/5:hover {
+  padding-left: 30%;
+}
+
 .focus\:p-0:focus {
   padding: 0;
 }
@@ -10783,6 +10943,10 @@ button,
 
 .focus\:p-px:focus {
   padding: 1px;
+}
+
+.focus\:p-1\/5:focus {
+  padding: 30%;
 }
 
 .focus\:py-0:focus {
@@ -10985,6 +11149,16 @@ button,
 .focus\:px-px:focus {
   padding-left: 1px;
   padding-right: 1px;
+}
+
+.focus\:py-1\/5:focus {
+  padding-top: 30%;
+  padding-bottom: 30%;
+}
+
+.focus\:px-1\/5:focus {
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 .focus\:pt-0:focus {
@@ -11279,6 +11453,22 @@ button,
   padding-left: 1px;
 }
 
+.focus\:pt-1\/5:focus {
+  padding-top: 30%;
+}
+
+.focus\:pr-1\/5:focus {
+  padding-right: 30%;
+}
+
+.focus\:pb-1\/5:focus {
+  padding-bottom: 30%;
+}
+
+.focus\:pl-1\/5:focus {
+  padding-left: 30%;
+}
+
 .active\:p-0:active {
   padding: 0;
 }
@@ -11350,6 +11540,10 @@ button,
 
 .active\:p-px:active {
   padding: 1px;
+}
+
+.active\:p-1\/5:active {
+  padding: 30%;
 }
 
 .active\:py-0:active {
@@ -11552,6 +11746,16 @@ button,
 .active\:px-px:active {
   padding-left: 1px;
   padding-right: 1px;
+}
+
+.active\:py-1\/5:active {
+  padding-top: 30%;
+  padding-bottom: 30%;
+}
+
+.active\:px-1\/5:active {
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 .active\:pt-0:active {
@@ -11844,6 +12048,22 @@ button,
 
 .active\:pl-px:active {
   padding-left: 1px;
+}
+
+.active\:pt-1\/5:active {
+  padding-top: 30%;
+}
+
+.active\:pr-1\/5:active {
+  padding-right: 30%;
+}
+
+.active\:pb-1\/5:active {
+  padding-bottom: 30%;
+}
+
+.active\:pl-1\/5:active {
+  padding-left: 30%;
 }
 
 .pointer-events-none {
@@ -12209,12 +12429,16 @@ button,
   color: transparent;
 }
 
+.text-white-transparent {
+  color: rgba(255, 255, 255, .9);
+}
+
 .text-black-transparent {
   color: rgba(0, 0, 0, .6);
 }
 
-.text-white-transparent {
-  color: rgba(255, 255, 255, .6);
+.text-active-transparent {
+  color: rgba(100, 100, 100, .6);
 }
 
 .text-pawn-blue {
@@ -12577,12 +12801,16 @@ button,
   color: transparent;
 }
 
+.group:hover .group-hover\:text-white-transparent {
+  color: rgba(255, 255, 255, .9);
+}
+
 .group:hover .group-hover\:text-black-transparent {
   color: rgba(0, 0, 0, .6);
 }
 
-.group:hover .group-hover\:text-white-transparent {
-  color: rgba(255, 255, 255, .6);
+.group:hover .group-hover\:text-active-transparent {
+  color: rgba(100, 100, 100, .6);
 }
 
 .group:hover .group-hover\:text-pawn-blue {
@@ -12945,12 +13173,16 @@ button,
   color: transparent;
 }
 
+.hover\:text-white-transparent:hover {
+  color: rgba(255, 255, 255, .9);
+}
+
 .hover\:text-black-transparent:hover {
   color: rgba(0, 0, 0, .6);
 }
 
-.hover\:text-white-transparent:hover {
-  color: rgba(255, 255, 255, .6);
+.hover\:text-active-transparent:hover {
+  color: rgba(100, 100, 100, .6);
 }
 
 .hover\:text-pawn-blue:hover {
@@ -13313,12 +13545,16 @@ button,
   color: transparent;
 }
 
+.focus\:text-white-transparent:focus {
+  color: rgba(255, 255, 255, .9);
+}
+
 .focus\:text-black-transparent:focus {
   color: rgba(0, 0, 0, .6);
 }
 
-.focus\:text-white-transparent:focus {
-  color: rgba(255, 255, 255, .6);
+.focus\:text-active-transparent:focus {
+  color: rgba(100, 100, 100, .6);
 }
 
 .focus\:text-pawn-blue:focus {
@@ -13681,12 +13917,16 @@ button,
   color: transparent;
 }
 
+.active\:text-white-transparent:active {
+  color: rgba(255, 255, 255, .9);
+}
+
 .active\:text-black-transparent:active {
   color: rgba(0, 0, 0, .6);
 }
 
-.active\:text-white-transparent:active {
-  color: rgba(255, 255, 255, .6);
+.active\:text-active-transparent:active {
+  color: rgba(100, 100, 100, .6);
 }
 
 .active\:text-pawn-blue:active {
@@ -15444,9 +15684,14 @@ button,
           transform: translateX(0);
 }
 
-.flip-card {
-  -webkit-transform: rotateY(180deg);
-          transform: rotateY(180deg);
+.pin-t .hide-card {
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.pin-b .hide-card {
+  -webkit-transform: translateY(50%);
+          transform: translateY(50%);
 }
 
 .size-board {
@@ -15462,19 +15707,55 @@ button,
   max-height: 35.816rem;
 }
 
-.filter-grey {
+.tile-error,
+.filter-gray {
   -webkit-filter: grayscale();
           filter: grayscale();
 }
 
 .move-mode {
-  -webkit-transform: translateY(-12%) scale(.9);
-          transform: translateY(-12%) scale(.9);
+  -webkit-transform: scale(.9);
+          transform: scale(.9);
+}
+
+.move-mode-sm {
+  -webkit-transform: scale(.6);
+          transform: scale(.6);
 }
 
 .move-mode-md {
   -webkit-transform: translateY(-12%) scale(.6);
           transform: translateY(-12%) scale(.6);
+}
+
+.pin-t .turned-card {
+  -webkit-transform: translateY(10%);
+          transform: translateY(10%);
+}
+
+.pin-b .turned-card {
+  -webkit-transform: translateY(-10%);
+          transform: translateY(-10%);
+}
+
+.pin-t .active-card {
+  -webkit-transform: translateY(60%);
+          transform: translateY(60%);
+}
+
+.pin-b .active-card {
+  -webkit-transform: translateY(-60%);
+          transform: translateY(-60%);
+}
+
+.scale-0 {
+  -webkit-transform: scale(0);
+          transform: scale(0);
+}
+
+.scale-100 {
+  -webkit-transform: scale(1);
+          transform: scale(1);
 }
 
 .preserve3d {
@@ -15535,12 +15816,16 @@ button,
     background-color: transparent;
   }
 
+  .sm\:bg-white-transparent {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:bg-black-transparent {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:bg-white-transparent {
-    background-color: rgba(255, 255, 255, .6);
+  .sm\:bg-active-transparent {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .sm\:bg-pawn-blue {
@@ -15903,12 +16188,16 @@ button,
     background-color: transparent;
   }
 
+  .sm\:group:hover .group-hover\:bg-white-transparent {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:group:hover .group-hover\:bg-black-transparent {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:group:hover .group-hover\:bg-white-transparent {
-    background-color: rgba(255, 255, 255, .6);
+  .sm\:group:hover .group-hover\:bg-active-transparent {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .sm\:group:hover .group-hover\:bg-pawn-blue {
@@ -16271,12 +16560,16 @@ button,
     background-color: transparent;
   }
 
+  .sm\:hover\:bg-white-transparent:hover {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:hover\:bg-black-transparent:hover {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:hover\:bg-white-transparent:hover {
-    background-color: rgba(255, 255, 255, .6);
+  .sm\:hover\:bg-active-transparent:hover {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .sm\:hover\:bg-pawn-blue:hover {
@@ -16639,12 +16932,16 @@ button,
     background-color: transparent;
   }
 
+  .sm\:focus\:bg-white-transparent:focus {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:focus\:bg-black-transparent:focus {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:focus\:bg-white-transparent:focus {
-    background-color: rgba(255, 255, 255, .6);
+  .sm\:focus\:bg-active-transparent:focus {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .sm\:focus\:bg-pawn-blue:focus {
@@ -17007,12 +17304,16 @@ button,
     background-color: transparent;
   }
 
+  .sm\:active\:bg-white-transparent:active {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:active\:bg-black-transparent:active {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:active\:bg-white-transparent:active {
-    background-color: rgba(255, 255, 255, .6);
+  .sm\:active\:bg-active-transparent:active {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .sm\:active\:bg-pawn-blue:active {
@@ -17439,12 +17740,16 @@ button,
     border-color: transparent;
   }
 
+  .sm\:border-white-transparent {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:border-black-transparent {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:border-white-transparent {
-    border-color: rgba(255, 255, 255, .6);
+  .sm\:border-active-transparent {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .sm\:border-pawn-blue {
@@ -17807,12 +18112,16 @@ button,
     border-color: transparent;
   }
 
+  .sm\:group:hover .group-hover\:border-white-transparent {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:group:hover .group-hover\:border-black-transparent {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:group:hover .group-hover\:border-white-transparent {
-    border-color: rgba(255, 255, 255, .6);
+  .sm\:group:hover .group-hover\:border-active-transparent {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .sm\:group:hover .group-hover\:border-pawn-blue {
@@ -18175,12 +18484,16 @@ button,
     border-color: transparent;
   }
 
+  .sm\:hover\:border-white-transparent:hover {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:hover\:border-black-transparent:hover {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:hover\:border-white-transparent:hover {
-    border-color: rgba(255, 255, 255, .6);
+  .sm\:hover\:border-active-transparent:hover {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .sm\:hover\:border-pawn-blue:hover {
@@ -18543,12 +18856,16 @@ button,
     border-color: transparent;
   }
 
+  .sm\:focus\:border-white-transparent:focus {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:focus\:border-black-transparent:focus {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:focus\:border-white-transparent:focus {
-    border-color: rgba(255, 255, 255, .6);
+  .sm\:focus\:border-active-transparent:focus {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .sm\:focus\:border-pawn-blue:focus {
@@ -18911,12 +19228,16 @@ button,
     border-color: transparent;
   }
 
+  .sm\:active\:border-white-transparent:active {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:active\:border-black-transparent:active {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:active\:border-white-transparent:active {
-    border-color: rgba(255, 255, 255, .6);
+  .sm\:active\:border-active-transparent:active {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .sm\:active\:border-pawn-blue:active {
@@ -20327,6 +20648,10 @@ button,
     margin: 1px;
   }
 
+  .sm\:m-1\/5 {
+    margin: 30%;
+  }
+
   .sm\:my-0 {
     margin-top: 0;
     margin-bottom: 0;
@@ -20485,6 +20810,16 @@ button,
   .sm\:mx-px {
     margin-left: 1px;
     margin-right: 1px;
+  }
+
+  .sm\:my-1\/5 {
+    margin-top: 30%;
+    margin-bottom: 30%;
+  }
+
+  .sm\:mx-1\/5 {
+    margin-left: 30%;
+    margin-right: 30%;
   }
 
   .sm\:mt-0 {
@@ -20741,6 +21076,22 @@ button,
 
   .sm\:ml-px {
     margin-left: 1px;
+  }
+
+  .sm\:mt-1\/5 {
+    margin-top: 30%;
+  }
+
+  .sm\:mr-1\/5 {
+    margin-right: 30%;
+  }
+
+  .sm\:mb-1\/5 {
+    margin-bottom: 30%;
+  }
+
+  .sm\:ml-1\/5 {
+    margin-left: 30%;
   }
 
   .sm\:max-h-1\/4 {
@@ -23159,6 +23510,10 @@ button,
     padding: 1px;
   }
 
+  .sm\:p-1\/5 {
+    padding: 30%;
+  }
+
   .sm\:py-0 {
     padding-top: 0;
     padding-bottom: 0;
@@ -23307,6 +23662,16 @@ button,
   .sm\:px-px {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .sm\:py-1\/5 {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .sm\:px-1\/5 {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .sm\:pt-0 {
@@ -23549,6 +23914,22 @@ button,
     padding-left: 1px;
   }
 
+  .sm\:pt-1\/5 {
+    padding-top: 30%;
+  }
+
+  .sm\:pr-1\/5 {
+    padding-right: 30%;
+  }
+
+  .sm\:pb-1\/5 {
+    padding-bottom: 30%;
+  }
+
+  .sm\:pl-1\/5 {
+    padding-left: 30%;
+  }
+
   .sm\:group:hover .group-hover\:p-0 {
     padding: 0;
   }
@@ -23607,6 +23988,10 @@ button,
 
   .sm\:group:hover .group-hover\:p-px {
     padding: 1px;
+  }
+
+  .sm\:group:hover .group-hover\:p-1\/5 {
+    padding: 30%;
   }
 
   .sm\:group:hover .group-hover\:py-0 {
@@ -23757,6 +24142,16 @@ button,
   .sm\:group:hover .group-hover\:px-px {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .sm\:group:hover .group-hover\:py-1\/5 {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .sm\:group:hover .group-hover\:px-1\/5 {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .sm\:group:hover .group-hover\:pt-0 {
@@ -23999,6 +24394,22 @@ button,
     padding-left: 1px;
   }
 
+  .sm\:group:hover .group-hover\:pt-1\/5 {
+    padding-top: 30%;
+  }
+
+  .sm\:group:hover .group-hover\:pr-1\/5 {
+    padding-right: 30%;
+  }
+
+  .sm\:group:hover .group-hover\:pb-1\/5 {
+    padding-bottom: 30%;
+  }
+
+  .sm\:group:hover .group-hover\:pl-1\/5 {
+    padding-left: 30%;
+  }
+
   .sm\:hover\:p-0:hover {
     padding: 0;
   }
@@ -24057,6 +24468,10 @@ button,
 
   .sm\:hover\:p-px:hover {
     padding: 1px;
+  }
+
+  .sm\:hover\:p-1\/5:hover {
+    padding: 30%;
   }
 
   .sm\:hover\:py-0:hover {
@@ -24207,6 +24622,16 @@ button,
   .sm\:hover\:px-px:hover {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .sm\:hover\:py-1\/5:hover {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .sm\:hover\:px-1\/5:hover {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .sm\:hover\:pt-0:hover {
@@ -24449,6 +24874,22 @@ button,
     padding-left: 1px;
   }
 
+  .sm\:hover\:pt-1\/5:hover {
+    padding-top: 30%;
+  }
+
+  .sm\:hover\:pr-1\/5:hover {
+    padding-right: 30%;
+  }
+
+  .sm\:hover\:pb-1\/5:hover {
+    padding-bottom: 30%;
+  }
+
+  .sm\:hover\:pl-1\/5:hover {
+    padding-left: 30%;
+  }
+
   .sm\:focus\:p-0:focus {
     padding: 0;
   }
@@ -24507,6 +24948,10 @@ button,
 
   .sm\:focus\:p-px:focus {
     padding: 1px;
+  }
+
+  .sm\:focus\:p-1\/5:focus {
+    padding: 30%;
   }
 
   .sm\:focus\:py-0:focus {
@@ -24657,6 +25102,16 @@ button,
   .sm\:focus\:px-px:focus {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .sm\:focus\:py-1\/5:focus {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .sm\:focus\:px-1\/5:focus {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .sm\:focus\:pt-0:focus {
@@ -24899,6 +25354,22 @@ button,
     padding-left: 1px;
   }
 
+  .sm\:focus\:pt-1\/5:focus {
+    padding-top: 30%;
+  }
+
+  .sm\:focus\:pr-1\/5:focus {
+    padding-right: 30%;
+  }
+
+  .sm\:focus\:pb-1\/5:focus {
+    padding-bottom: 30%;
+  }
+
+  .sm\:focus\:pl-1\/5:focus {
+    padding-left: 30%;
+  }
+
   .sm\:active\:p-0:active {
     padding: 0;
   }
@@ -24957,6 +25428,10 @@ button,
 
   .sm\:active\:p-px:active {
     padding: 1px;
+  }
+
+  .sm\:active\:p-1\/5:active {
+    padding: 30%;
   }
 
   .sm\:active\:py-0:active {
@@ -25107,6 +25582,16 @@ button,
   .sm\:active\:px-px:active {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .sm\:active\:py-1\/5:active {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .sm\:active\:px-1\/5:active {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .sm\:active\:pt-0:active {
@@ -25347,6 +25832,22 @@ button,
 
   .sm\:active\:pl-px:active {
     padding-left: 1px;
+  }
+
+  .sm\:active\:pt-1\/5:active {
+    padding-top: 30%;
+  }
+
+  .sm\:active\:pr-1\/5:active {
+    padding-right: 30%;
+  }
+
+  .sm\:active\:pb-1\/5:active {
+    padding-bottom: 30%;
+  }
+
+  .sm\:active\:pl-1\/5:active {
+    padding-left: 30%;
   }
 
   .sm\:pointer-events-none {
@@ -25704,12 +26205,16 @@ button,
     color: transparent;
   }
 
+  .sm\:text-white-transparent {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:text-black-transparent {
     color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:text-white-transparent {
-    color: rgba(255, 255, 255, .6);
+  .sm\:text-active-transparent {
+    color: rgba(100, 100, 100, .6);
   }
 
   .sm\:text-pawn-blue {
@@ -26072,12 +26577,16 @@ button,
     color: transparent;
   }
 
+  .sm\:group:hover .group-hover\:text-white-transparent {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:group:hover .group-hover\:text-black-transparent {
     color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:group:hover .group-hover\:text-white-transparent {
-    color: rgba(255, 255, 255, .6);
+  .sm\:group:hover .group-hover\:text-active-transparent {
+    color: rgba(100, 100, 100, .6);
   }
 
   .sm\:group:hover .group-hover\:text-pawn-blue {
@@ -26440,12 +26949,16 @@ button,
     color: transparent;
   }
 
+  .sm\:hover\:text-white-transparent:hover {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:hover\:text-black-transparent:hover {
     color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:hover\:text-white-transparent:hover {
-    color: rgba(255, 255, 255, .6);
+  .sm\:hover\:text-active-transparent:hover {
+    color: rgba(100, 100, 100, .6);
   }
 
   .sm\:hover\:text-pawn-blue:hover {
@@ -26808,12 +27321,16 @@ button,
     color: transparent;
   }
 
+  .sm\:focus\:text-white-transparent:focus {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:focus\:text-black-transparent:focus {
     color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:focus\:text-white-transparent:focus {
-    color: rgba(255, 255, 255, .6);
+  .sm\:focus\:text-active-transparent:focus {
+    color: rgba(100, 100, 100, .6);
   }
 
   .sm\:focus\:text-pawn-blue:focus {
@@ -27176,12 +27693,16 @@ button,
     color: transparent;
   }
 
+  .sm\:active\:text-white-transparent:active {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .sm\:active\:text-black-transparent:active {
     color: rgba(0, 0, 0, .6);
   }
 
-  .sm\:active\:text-white-transparent:active {
-    color: rgba(255, 255, 255, .6);
+  .sm\:active\:text-active-transparent:active {
+    color: rgba(100, 100, 100, .6);
   }
 
   .sm\:active\:text-pawn-blue:active {
@@ -28372,9 +28893,14 @@ button,
             transform: translateX(0);
   }
 
-  .sm\:flip-card {
-    -webkit-transform: rotateY(180deg);
-            transform: rotateY(180deg);
+  .sm\:pin-t .hide-card {
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+  }
+
+  .sm\:pin-b .hide-card {
+    -webkit-transform: translateY(50%);
+            transform: translateY(50%);
   }
 
   .sm\:size-board {
@@ -28388,14 +28914,20 @@ button,
     max-height: 35.816rem;
   }
 
-  .sm\:filter-grey {
+  .sm\:tile-error,
+  .sm\:filter-gray {
     -webkit-filter: grayscale();
             filter: grayscale();
   }
 
   .sm\:move-mode {
-    -webkit-transform: translateY(-12%) scale(.9);
-            transform: translateY(-12%) scale(.9);
+    -webkit-transform: scale(.9);
+            transform: scale(.9);
+  }
+
+  .sm\:move-mode-sm {
+    -webkit-transform: scale(.6);
+            transform: scale(.6);
   }
 
   .sm\:move-mode-md {
@@ -28432,12 +28964,16 @@ button,
     background-color: transparent;
   }
 
+  .md\:bg-white-transparent {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .md\:bg-black-transparent {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .md\:bg-white-transparent {
-    background-color: rgba(255, 255, 255, .6);
+  .md\:bg-active-transparent {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .md\:bg-pawn-blue {
@@ -28800,12 +29336,16 @@ button,
     background-color: transparent;
   }
 
+  .md\:group:hover .group-hover\:bg-white-transparent {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .md\:group:hover .group-hover\:bg-black-transparent {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .md\:group:hover .group-hover\:bg-white-transparent {
-    background-color: rgba(255, 255, 255, .6);
+  .md\:group:hover .group-hover\:bg-active-transparent {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .md\:group:hover .group-hover\:bg-pawn-blue {
@@ -29168,12 +29708,16 @@ button,
     background-color: transparent;
   }
 
+  .md\:hover\:bg-white-transparent:hover {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .md\:hover\:bg-black-transparent:hover {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .md\:hover\:bg-white-transparent:hover {
-    background-color: rgba(255, 255, 255, .6);
+  .md\:hover\:bg-active-transparent:hover {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .md\:hover\:bg-pawn-blue:hover {
@@ -29536,12 +30080,16 @@ button,
     background-color: transparent;
   }
 
+  .md\:focus\:bg-white-transparent:focus {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .md\:focus\:bg-black-transparent:focus {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .md\:focus\:bg-white-transparent:focus {
-    background-color: rgba(255, 255, 255, .6);
+  .md\:focus\:bg-active-transparent:focus {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .md\:focus\:bg-pawn-blue:focus {
@@ -29904,12 +30452,16 @@ button,
     background-color: transparent;
   }
 
+  .md\:active\:bg-white-transparent:active {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .md\:active\:bg-black-transparent:active {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .md\:active\:bg-white-transparent:active {
-    background-color: rgba(255, 255, 255, .6);
+  .md\:active\:bg-active-transparent:active {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .md\:active\:bg-pawn-blue:active {
@@ -30336,12 +30888,16 @@ button,
     border-color: transparent;
   }
 
+  .md\:border-white-transparent {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .md\:border-black-transparent {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .md\:border-white-transparent {
-    border-color: rgba(255, 255, 255, .6);
+  .md\:border-active-transparent {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .md\:border-pawn-blue {
@@ -30704,12 +31260,16 @@ button,
     border-color: transparent;
   }
 
+  .md\:group:hover .group-hover\:border-white-transparent {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .md\:group:hover .group-hover\:border-black-transparent {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .md\:group:hover .group-hover\:border-white-transparent {
-    border-color: rgba(255, 255, 255, .6);
+  .md\:group:hover .group-hover\:border-active-transparent {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .md\:group:hover .group-hover\:border-pawn-blue {
@@ -31072,12 +31632,16 @@ button,
     border-color: transparent;
   }
 
+  .md\:hover\:border-white-transparent:hover {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .md\:hover\:border-black-transparent:hover {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .md\:hover\:border-white-transparent:hover {
-    border-color: rgba(255, 255, 255, .6);
+  .md\:hover\:border-active-transparent:hover {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .md\:hover\:border-pawn-blue:hover {
@@ -31440,12 +32004,16 @@ button,
     border-color: transparent;
   }
 
+  .md\:focus\:border-white-transparent:focus {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .md\:focus\:border-black-transparent:focus {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .md\:focus\:border-white-transparent:focus {
-    border-color: rgba(255, 255, 255, .6);
+  .md\:focus\:border-active-transparent:focus {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .md\:focus\:border-pawn-blue:focus {
@@ -31808,12 +32376,16 @@ button,
     border-color: transparent;
   }
 
+  .md\:active\:border-white-transparent:active {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .md\:active\:border-black-transparent:active {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .md\:active\:border-white-transparent:active {
-    border-color: rgba(255, 255, 255, .6);
+  .md\:active\:border-active-transparent:active {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .md\:active\:border-pawn-blue:active {
@@ -33224,6 +33796,10 @@ button,
     margin: 1px;
   }
 
+  .md\:m-1\/5 {
+    margin: 30%;
+  }
+
   .md\:my-0 {
     margin-top: 0;
     margin-bottom: 0;
@@ -33382,6 +33958,16 @@ button,
   .md\:mx-px {
     margin-left: 1px;
     margin-right: 1px;
+  }
+
+  .md\:my-1\/5 {
+    margin-top: 30%;
+    margin-bottom: 30%;
+  }
+
+  .md\:mx-1\/5 {
+    margin-left: 30%;
+    margin-right: 30%;
   }
 
   .md\:mt-0 {
@@ -33638,6 +34224,22 @@ button,
 
   .md\:ml-px {
     margin-left: 1px;
+  }
+
+  .md\:mt-1\/5 {
+    margin-top: 30%;
+  }
+
+  .md\:mr-1\/5 {
+    margin-right: 30%;
+  }
+
+  .md\:mb-1\/5 {
+    margin-bottom: 30%;
+  }
+
+  .md\:ml-1\/5 {
+    margin-left: 30%;
   }
 
   .md\:max-h-1\/4 {
@@ -36056,6 +36658,10 @@ button,
     padding: 1px;
   }
 
+  .md\:p-1\/5 {
+    padding: 30%;
+  }
+
   .md\:py-0 {
     padding-top: 0;
     padding-bottom: 0;
@@ -36204,6 +36810,16 @@ button,
   .md\:px-px {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .md\:py-1\/5 {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .md\:px-1\/5 {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .md\:pt-0 {
@@ -36446,6 +37062,22 @@ button,
     padding-left: 1px;
   }
 
+  .md\:pt-1\/5 {
+    padding-top: 30%;
+  }
+
+  .md\:pr-1\/5 {
+    padding-right: 30%;
+  }
+
+  .md\:pb-1\/5 {
+    padding-bottom: 30%;
+  }
+
+  .md\:pl-1\/5 {
+    padding-left: 30%;
+  }
+
   .md\:group:hover .group-hover\:p-0 {
     padding: 0;
   }
@@ -36504,6 +37136,10 @@ button,
 
   .md\:group:hover .group-hover\:p-px {
     padding: 1px;
+  }
+
+  .md\:group:hover .group-hover\:p-1\/5 {
+    padding: 30%;
   }
 
   .md\:group:hover .group-hover\:py-0 {
@@ -36654,6 +37290,16 @@ button,
   .md\:group:hover .group-hover\:px-px {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .md\:group:hover .group-hover\:py-1\/5 {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .md\:group:hover .group-hover\:px-1\/5 {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .md\:group:hover .group-hover\:pt-0 {
@@ -36896,6 +37542,22 @@ button,
     padding-left: 1px;
   }
 
+  .md\:group:hover .group-hover\:pt-1\/5 {
+    padding-top: 30%;
+  }
+
+  .md\:group:hover .group-hover\:pr-1\/5 {
+    padding-right: 30%;
+  }
+
+  .md\:group:hover .group-hover\:pb-1\/5 {
+    padding-bottom: 30%;
+  }
+
+  .md\:group:hover .group-hover\:pl-1\/5 {
+    padding-left: 30%;
+  }
+
   .md\:hover\:p-0:hover {
     padding: 0;
   }
@@ -36954,6 +37616,10 @@ button,
 
   .md\:hover\:p-px:hover {
     padding: 1px;
+  }
+
+  .md\:hover\:p-1\/5:hover {
+    padding: 30%;
   }
 
   .md\:hover\:py-0:hover {
@@ -37104,6 +37770,16 @@ button,
   .md\:hover\:px-px:hover {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .md\:hover\:py-1\/5:hover {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .md\:hover\:px-1\/5:hover {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .md\:hover\:pt-0:hover {
@@ -37346,6 +38022,22 @@ button,
     padding-left: 1px;
   }
 
+  .md\:hover\:pt-1\/5:hover {
+    padding-top: 30%;
+  }
+
+  .md\:hover\:pr-1\/5:hover {
+    padding-right: 30%;
+  }
+
+  .md\:hover\:pb-1\/5:hover {
+    padding-bottom: 30%;
+  }
+
+  .md\:hover\:pl-1\/5:hover {
+    padding-left: 30%;
+  }
+
   .md\:focus\:p-0:focus {
     padding: 0;
   }
@@ -37404,6 +38096,10 @@ button,
 
   .md\:focus\:p-px:focus {
     padding: 1px;
+  }
+
+  .md\:focus\:p-1\/5:focus {
+    padding: 30%;
   }
 
   .md\:focus\:py-0:focus {
@@ -37554,6 +38250,16 @@ button,
   .md\:focus\:px-px:focus {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .md\:focus\:py-1\/5:focus {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .md\:focus\:px-1\/5:focus {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .md\:focus\:pt-0:focus {
@@ -37796,6 +38502,22 @@ button,
     padding-left: 1px;
   }
 
+  .md\:focus\:pt-1\/5:focus {
+    padding-top: 30%;
+  }
+
+  .md\:focus\:pr-1\/5:focus {
+    padding-right: 30%;
+  }
+
+  .md\:focus\:pb-1\/5:focus {
+    padding-bottom: 30%;
+  }
+
+  .md\:focus\:pl-1\/5:focus {
+    padding-left: 30%;
+  }
+
   .md\:active\:p-0:active {
     padding: 0;
   }
@@ -37854,6 +38576,10 @@ button,
 
   .md\:active\:p-px:active {
     padding: 1px;
+  }
+
+  .md\:active\:p-1\/5:active {
+    padding: 30%;
   }
 
   .md\:active\:py-0:active {
@@ -38004,6 +38730,16 @@ button,
   .md\:active\:px-px:active {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .md\:active\:py-1\/5:active {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .md\:active\:px-1\/5:active {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .md\:active\:pt-0:active {
@@ -38244,6 +38980,22 @@ button,
 
   .md\:active\:pl-px:active {
     padding-left: 1px;
+  }
+
+  .md\:active\:pt-1\/5:active {
+    padding-top: 30%;
+  }
+
+  .md\:active\:pr-1\/5:active {
+    padding-right: 30%;
+  }
+
+  .md\:active\:pb-1\/5:active {
+    padding-bottom: 30%;
+  }
+
+  .md\:active\:pl-1\/5:active {
+    padding-left: 30%;
   }
 
   .md\:pointer-events-none {
@@ -38601,12 +39353,16 @@ button,
     color: transparent;
   }
 
+  .md\:text-white-transparent {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .md\:text-black-transparent {
     color: rgba(0, 0, 0, .6);
   }
 
-  .md\:text-white-transparent {
-    color: rgba(255, 255, 255, .6);
+  .md\:text-active-transparent {
+    color: rgba(100, 100, 100, .6);
   }
 
   .md\:text-pawn-blue {
@@ -38969,12 +39725,16 @@ button,
     color: transparent;
   }
 
+  .md\:group:hover .group-hover\:text-white-transparent {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .md\:group:hover .group-hover\:text-black-transparent {
     color: rgba(0, 0, 0, .6);
   }
 
-  .md\:group:hover .group-hover\:text-white-transparent {
-    color: rgba(255, 255, 255, .6);
+  .md\:group:hover .group-hover\:text-active-transparent {
+    color: rgba(100, 100, 100, .6);
   }
 
   .md\:group:hover .group-hover\:text-pawn-blue {
@@ -39337,12 +40097,16 @@ button,
     color: transparent;
   }
 
+  .md\:hover\:text-white-transparent:hover {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .md\:hover\:text-black-transparent:hover {
     color: rgba(0, 0, 0, .6);
   }
 
-  .md\:hover\:text-white-transparent:hover {
-    color: rgba(255, 255, 255, .6);
+  .md\:hover\:text-active-transparent:hover {
+    color: rgba(100, 100, 100, .6);
   }
 
   .md\:hover\:text-pawn-blue:hover {
@@ -39705,12 +40469,16 @@ button,
     color: transparent;
   }
 
+  .md\:focus\:text-white-transparent:focus {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .md\:focus\:text-black-transparent:focus {
     color: rgba(0, 0, 0, .6);
   }
 
-  .md\:focus\:text-white-transparent:focus {
-    color: rgba(255, 255, 255, .6);
+  .md\:focus\:text-active-transparent:focus {
+    color: rgba(100, 100, 100, .6);
   }
 
   .md\:focus\:text-pawn-blue:focus {
@@ -40073,12 +40841,16 @@ button,
     color: transparent;
   }
 
+  .md\:active\:text-white-transparent:active {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .md\:active\:text-black-transparent:active {
     color: rgba(0, 0, 0, .6);
   }
 
-  .md\:active\:text-white-transparent:active {
-    color: rgba(255, 255, 255, .6);
+  .md\:active\:text-active-transparent:active {
+    color: rgba(100, 100, 100, .6);
   }
 
   .md\:active\:text-pawn-blue:active {
@@ -41269,9 +42041,14 @@ button,
             transform: translateX(0);
   }
 
-  .md\:flip-card {
-    -webkit-transform: rotateY(180deg);
-            transform: rotateY(180deg);
+  .md\:pin-t .hide-card {
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+  }
+
+  .md\:pin-b .hide-card {
+    -webkit-transform: translateY(50%);
+            transform: translateY(50%);
   }
 
   .md\:size-board {
@@ -41285,14 +42062,20 @@ button,
     max-height: 35.816rem;
   }
 
-  .md\:filter-grey {
+  .md\:tile-error,
+  .md\:filter-gray {
     -webkit-filter: grayscale();
             filter: grayscale();
   }
 
   .md\:move-mode {
-    -webkit-transform: translateY(-12%) scale(.9);
-            transform: translateY(-12%) scale(.9);
+    -webkit-transform: scale(.9);
+            transform: scale(.9);
+  }
+
+  .md\:move-mode-sm {
+    -webkit-transform: scale(.6);
+            transform: scale(.6);
   }
 
   .md\:move-mode-md {
@@ -41329,12 +42112,16 @@ button,
     background-color: transparent;
   }
 
+  .lg\:bg-white-transparent {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:bg-black-transparent {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:bg-white-transparent {
-    background-color: rgba(255, 255, 255, .6);
+  .lg\:bg-active-transparent {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .lg\:bg-pawn-blue {
@@ -41697,12 +42484,16 @@ button,
     background-color: transparent;
   }
 
+  .lg\:group:hover .group-hover\:bg-white-transparent {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:group:hover .group-hover\:bg-black-transparent {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:group:hover .group-hover\:bg-white-transparent {
-    background-color: rgba(255, 255, 255, .6);
+  .lg\:group:hover .group-hover\:bg-active-transparent {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .lg\:group:hover .group-hover\:bg-pawn-blue {
@@ -42065,12 +42856,16 @@ button,
     background-color: transparent;
   }
 
+  .lg\:hover\:bg-white-transparent:hover {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:hover\:bg-black-transparent:hover {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:hover\:bg-white-transparent:hover {
-    background-color: rgba(255, 255, 255, .6);
+  .lg\:hover\:bg-active-transparent:hover {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .lg\:hover\:bg-pawn-blue:hover {
@@ -42433,12 +43228,16 @@ button,
     background-color: transparent;
   }
 
+  .lg\:focus\:bg-white-transparent:focus {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:focus\:bg-black-transparent:focus {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:focus\:bg-white-transparent:focus {
-    background-color: rgba(255, 255, 255, .6);
+  .lg\:focus\:bg-active-transparent:focus {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .lg\:focus\:bg-pawn-blue:focus {
@@ -42801,12 +43600,16 @@ button,
     background-color: transparent;
   }
 
+  .lg\:active\:bg-white-transparent:active {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:active\:bg-black-transparent:active {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:active\:bg-white-transparent:active {
-    background-color: rgba(255, 255, 255, .6);
+  .lg\:active\:bg-active-transparent:active {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .lg\:active\:bg-pawn-blue:active {
@@ -43233,12 +44036,16 @@ button,
     border-color: transparent;
   }
 
+  .lg\:border-white-transparent {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:border-black-transparent {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:border-white-transparent {
-    border-color: rgba(255, 255, 255, .6);
+  .lg\:border-active-transparent {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .lg\:border-pawn-blue {
@@ -43601,12 +44408,16 @@ button,
     border-color: transparent;
   }
 
+  .lg\:group:hover .group-hover\:border-white-transparent {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:group:hover .group-hover\:border-black-transparent {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:group:hover .group-hover\:border-white-transparent {
-    border-color: rgba(255, 255, 255, .6);
+  .lg\:group:hover .group-hover\:border-active-transparent {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .lg\:group:hover .group-hover\:border-pawn-blue {
@@ -43969,12 +44780,16 @@ button,
     border-color: transparent;
   }
 
+  .lg\:hover\:border-white-transparent:hover {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:hover\:border-black-transparent:hover {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:hover\:border-white-transparent:hover {
-    border-color: rgba(255, 255, 255, .6);
+  .lg\:hover\:border-active-transparent:hover {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .lg\:hover\:border-pawn-blue:hover {
@@ -44337,12 +45152,16 @@ button,
     border-color: transparent;
   }
 
+  .lg\:focus\:border-white-transparent:focus {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:focus\:border-black-transparent:focus {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:focus\:border-white-transparent:focus {
-    border-color: rgba(255, 255, 255, .6);
+  .lg\:focus\:border-active-transparent:focus {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .lg\:focus\:border-pawn-blue:focus {
@@ -44705,12 +45524,16 @@ button,
     border-color: transparent;
   }
 
+  .lg\:active\:border-white-transparent:active {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:active\:border-black-transparent:active {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:active\:border-white-transparent:active {
-    border-color: rgba(255, 255, 255, .6);
+  .lg\:active\:border-active-transparent:active {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .lg\:active\:border-pawn-blue:active {
@@ -46121,6 +46944,10 @@ button,
     margin: 1px;
   }
 
+  .lg\:m-1\/5 {
+    margin: 30%;
+  }
+
   .lg\:my-0 {
     margin-top: 0;
     margin-bottom: 0;
@@ -46279,6 +47106,16 @@ button,
   .lg\:mx-px {
     margin-left: 1px;
     margin-right: 1px;
+  }
+
+  .lg\:my-1\/5 {
+    margin-top: 30%;
+    margin-bottom: 30%;
+  }
+
+  .lg\:mx-1\/5 {
+    margin-left: 30%;
+    margin-right: 30%;
   }
 
   .lg\:mt-0 {
@@ -46535,6 +47372,22 @@ button,
 
   .lg\:ml-px {
     margin-left: 1px;
+  }
+
+  .lg\:mt-1\/5 {
+    margin-top: 30%;
+  }
+
+  .lg\:mr-1\/5 {
+    margin-right: 30%;
+  }
+
+  .lg\:mb-1\/5 {
+    margin-bottom: 30%;
+  }
+
+  .lg\:ml-1\/5 {
+    margin-left: 30%;
   }
 
   .lg\:max-h-1\/4 {
@@ -48953,6 +49806,10 @@ button,
     padding: 1px;
   }
 
+  .lg\:p-1\/5 {
+    padding: 30%;
+  }
+
   .lg\:py-0 {
     padding-top: 0;
     padding-bottom: 0;
@@ -49101,6 +49958,16 @@ button,
   .lg\:px-px {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .lg\:py-1\/5 {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .lg\:px-1\/5 {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .lg\:pt-0 {
@@ -49343,6 +50210,22 @@ button,
     padding-left: 1px;
   }
 
+  .lg\:pt-1\/5 {
+    padding-top: 30%;
+  }
+
+  .lg\:pr-1\/5 {
+    padding-right: 30%;
+  }
+
+  .lg\:pb-1\/5 {
+    padding-bottom: 30%;
+  }
+
+  .lg\:pl-1\/5 {
+    padding-left: 30%;
+  }
+
   .lg\:group:hover .group-hover\:p-0 {
     padding: 0;
   }
@@ -49401,6 +50284,10 @@ button,
 
   .lg\:group:hover .group-hover\:p-px {
     padding: 1px;
+  }
+
+  .lg\:group:hover .group-hover\:p-1\/5 {
+    padding: 30%;
   }
 
   .lg\:group:hover .group-hover\:py-0 {
@@ -49551,6 +50438,16 @@ button,
   .lg\:group:hover .group-hover\:px-px {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .lg\:group:hover .group-hover\:py-1\/5 {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .lg\:group:hover .group-hover\:px-1\/5 {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .lg\:group:hover .group-hover\:pt-0 {
@@ -49793,6 +50690,22 @@ button,
     padding-left: 1px;
   }
 
+  .lg\:group:hover .group-hover\:pt-1\/5 {
+    padding-top: 30%;
+  }
+
+  .lg\:group:hover .group-hover\:pr-1\/5 {
+    padding-right: 30%;
+  }
+
+  .lg\:group:hover .group-hover\:pb-1\/5 {
+    padding-bottom: 30%;
+  }
+
+  .lg\:group:hover .group-hover\:pl-1\/5 {
+    padding-left: 30%;
+  }
+
   .lg\:hover\:p-0:hover {
     padding: 0;
   }
@@ -49851,6 +50764,10 @@ button,
 
   .lg\:hover\:p-px:hover {
     padding: 1px;
+  }
+
+  .lg\:hover\:p-1\/5:hover {
+    padding: 30%;
   }
 
   .lg\:hover\:py-0:hover {
@@ -50001,6 +50918,16 @@ button,
   .lg\:hover\:px-px:hover {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .lg\:hover\:py-1\/5:hover {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .lg\:hover\:px-1\/5:hover {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .lg\:hover\:pt-0:hover {
@@ -50243,6 +51170,22 @@ button,
     padding-left: 1px;
   }
 
+  .lg\:hover\:pt-1\/5:hover {
+    padding-top: 30%;
+  }
+
+  .lg\:hover\:pr-1\/5:hover {
+    padding-right: 30%;
+  }
+
+  .lg\:hover\:pb-1\/5:hover {
+    padding-bottom: 30%;
+  }
+
+  .lg\:hover\:pl-1\/5:hover {
+    padding-left: 30%;
+  }
+
   .lg\:focus\:p-0:focus {
     padding: 0;
   }
@@ -50301,6 +51244,10 @@ button,
 
   .lg\:focus\:p-px:focus {
     padding: 1px;
+  }
+
+  .lg\:focus\:p-1\/5:focus {
+    padding: 30%;
   }
 
   .lg\:focus\:py-0:focus {
@@ -50451,6 +51398,16 @@ button,
   .lg\:focus\:px-px:focus {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .lg\:focus\:py-1\/5:focus {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .lg\:focus\:px-1\/5:focus {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .lg\:focus\:pt-0:focus {
@@ -50693,6 +51650,22 @@ button,
     padding-left: 1px;
   }
 
+  .lg\:focus\:pt-1\/5:focus {
+    padding-top: 30%;
+  }
+
+  .lg\:focus\:pr-1\/5:focus {
+    padding-right: 30%;
+  }
+
+  .lg\:focus\:pb-1\/5:focus {
+    padding-bottom: 30%;
+  }
+
+  .lg\:focus\:pl-1\/5:focus {
+    padding-left: 30%;
+  }
+
   .lg\:active\:p-0:active {
     padding: 0;
   }
@@ -50751,6 +51724,10 @@ button,
 
   .lg\:active\:p-px:active {
     padding: 1px;
+  }
+
+  .lg\:active\:p-1\/5:active {
+    padding: 30%;
   }
 
   .lg\:active\:py-0:active {
@@ -50901,6 +51878,16 @@ button,
   .lg\:active\:px-px:active {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .lg\:active\:py-1\/5:active {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .lg\:active\:px-1\/5:active {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .lg\:active\:pt-0:active {
@@ -51141,6 +52128,22 @@ button,
 
   .lg\:active\:pl-px:active {
     padding-left: 1px;
+  }
+
+  .lg\:active\:pt-1\/5:active {
+    padding-top: 30%;
+  }
+
+  .lg\:active\:pr-1\/5:active {
+    padding-right: 30%;
+  }
+
+  .lg\:active\:pb-1\/5:active {
+    padding-bottom: 30%;
+  }
+
+  .lg\:active\:pl-1\/5:active {
+    padding-left: 30%;
   }
 
   .lg\:pointer-events-none {
@@ -51498,12 +52501,16 @@ button,
     color: transparent;
   }
 
+  .lg\:text-white-transparent {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:text-black-transparent {
     color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:text-white-transparent {
-    color: rgba(255, 255, 255, .6);
+  .lg\:text-active-transparent {
+    color: rgba(100, 100, 100, .6);
   }
 
   .lg\:text-pawn-blue {
@@ -51866,12 +52873,16 @@ button,
     color: transparent;
   }
 
+  .lg\:group:hover .group-hover\:text-white-transparent {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:group:hover .group-hover\:text-black-transparent {
     color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:group:hover .group-hover\:text-white-transparent {
-    color: rgba(255, 255, 255, .6);
+  .lg\:group:hover .group-hover\:text-active-transparent {
+    color: rgba(100, 100, 100, .6);
   }
 
   .lg\:group:hover .group-hover\:text-pawn-blue {
@@ -52234,12 +53245,16 @@ button,
     color: transparent;
   }
 
+  .lg\:hover\:text-white-transparent:hover {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:hover\:text-black-transparent:hover {
     color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:hover\:text-white-transparent:hover {
-    color: rgba(255, 255, 255, .6);
+  .lg\:hover\:text-active-transparent:hover {
+    color: rgba(100, 100, 100, .6);
   }
 
   .lg\:hover\:text-pawn-blue:hover {
@@ -52602,12 +53617,16 @@ button,
     color: transparent;
   }
 
+  .lg\:focus\:text-white-transparent:focus {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:focus\:text-black-transparent:focus {
     color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:focus\:text-white-transparent:focus {
-    color: rgba(255, 255, 255, .6);
+  .lg\:focus\:text-active-transparent:focus {
+    color: rgba(100, 100, 100, .6);
   }
 
   .lg\:focus\:text-pawn-blue:focus {
@@ -52970,12 +53989,16 @@ button,
     color: transparent;
   }
 
+  .lg\:active\:text-white-transparent:active {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .lg\:active\:text-black-transparent:active {
     color: rgba(0, 0, 0, .6);
   }
 
-  .lg\:active\:text-white-transparent:active {
-    color: rgba(255, 255, 255, .6);
+  .lg\:active\:text-active-transparent:active {
+    color: rgba(100, 100, 100, .6);
   }
 
   .lg\:active\:text-pawn-blue:active {
@@ -54166,9 +55189,14 @@ button,
             transform: translateX(0);
   }
 
-  .lg\:flip-card {
-    -webkit-transform: rotateY(180deg);
-            transform: rotateY(180deg);
+  .lg\:pin-t .hide-card {
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+  }
+
+  .lg\:pin-b .hide-card {
+    -webkit-transform: translateY(50%);
+            transform: translateY(50%);
   }
 
   .lg\:size-board {
@@ -54182,14 +55210,20 @@ button,
     max-height: 35.816rem;
   }
 
-  .lg\:filter-grey {
+  .lg\:tile-error,
+  .lg\:filter-gray {
     -webkit-filter: grayscale();
             filter: grayscale();
   }
 
   .lg\:move-mode {
-    -webkit-transform: translateY(-12%) scale(.9);
-            transform: translateY(-12%) scale(.9);
+    -webkit-transform: scale(.9);
+            transform: scale(.9);
+  }
+
+  .lg\:move-mode-sm {
+    -webkit-transform: scale(.6);
+            transform: scale(.6);
   }
 
   .lg\:move-mode-md {
@@ -54226,12 +55260,16 @@ button,
     background-color: transparent;
   }
 
+  .xl\:bg-white-transparent {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:bg-black-transparent {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:bg-white-transparent {
-    background-color: rgba(255, 255, 255, .6);
+  .xl\:bg-active-transparent {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .xl\:bg-pawn-blue {
@@ -54594,12 +55632,16 @@ button,
     background-color: transparent;
   }
 
+  .xl\:group:hover .group-hover\:bg-white-transparent {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:group:hover .group-hover\:bg-black-transparent {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:group:hover .group-hover\:bg-white-transparent {
-    background-color: rgba(255, 255, 255, .6);
+  .xl\:group:hover .group-hover\:bg-active-transparent {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .xl\:group:hover .group-hover\:bg-pawn-blue {
@@ -54962,12 +56004,16 @@ button,
     background-color: transparent;
   }
 
+  .xl\:hover\:bg-white-transparent:hover {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:hover\:bg-black-transparent:hover {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:hover\:bg-white-transparent:hover {
-    background-color: rgba(255, 255, 255, .6);
+  .xl\:hover\:bg-active-transparent:hover {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .xl\:hover\:bg-pawn-blue:hover {
@@ -55330,12 +56376,16 @@ button,
     background-color: transparent;
   }
 
+  .xl\:focus\:bg-white-transparent:focus {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:focus\:bg-black-transparent:focus {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:focus\:bg-white-transparent:focus {
-    background-color: rgba(255, 255, 255, .6);
+  .xl\:focus\:bg-active-transparent:focus {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .xl\:focus\:bg-pawn-blue:focus {
@@ -55698,12 +56748,16 @@ button,
     background-color: transparent;
   }
 
+  .xl\:active\:bg-white-transparent:active {
+    background-color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:active\:bg-black-transparent:active {
     background-color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:active\:bg-white-transparent:active {
-    background-color: rgba(255, 255, 255, .6);
+  .xl\:active\:bg-active-transparent:active {
+    background-color: rgba(100, 100, 100, .6);
   }
 
   .xl\:active\:bg-pawn-blue:active {
@@ -56130,12 +57184,16 @@ button,
     border-color: transparent;
   }
 
+  .xl\:border-white-transparent {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:border-black-transparent {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:border-white-transparent {
-    border-color: rgba(255, 255, 255, .6);
+  .xl\:border-active-transparent {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .xl\:border-pawn-blue {
@@ -56498,12 +57556,16 @@ button,
     border-color: transparent;
   }
 
+  .xl\:group:hover .group-hover\:border-white-transparent {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:group:hover .group-hover\:border-black-transparent {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:group:hover .group-hover\:border-white-transparent {
-    border-color: rgba(255, 255, 255, .6);
+  .xl\:group:hover .group-hover\:border-active-transparent {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .xl\:group:hover .group-hover\:border-pawn-blue {
@@ -56866,12 +57928,16 @@ button,
     border-color: transparent;
   }
 
+  .xl\:hover\:border-white-transparent:hover {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:hover\:border-black-transparent:hover {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:hover\:border-white-transparent:hover {
-    border-color: rgba(255, 255, 255, .6);
+  .xl\:hover\:border-active-transparent:hover {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .xl\:hover\:border-pawn-blue:hover {
@@ -57234,12 +58300,16 @@ button,
     border-color: transparent;
   }
 
+  .xl\:focus\:border-white-transparent:focus {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:focus\:border-black-transparent:focus {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:focus\:border-white-transparent:focus {
-    border-color: rgba(255, 255, 255, .6);
+  .xl\:focus\:border-active-transparent:focus {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .xl\:focus\:border-pawn-blue:focus {
@@ -57602,12 +58672,16 @@ button,
     border-color: transparent;
   }
 
+  .xl\:active\:border-white-transparent:active {
+    border-color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:active\:border-black-transparent:active {
     border-color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:active\:border-white-transparent:active {
-    border-color: rgba(255, 255, 255, .6);
+  .xl\:active\:border-active-transparent:active {
+    border-color: rgba(100, 100, 100, .6);
   }
 
   .xl\:active\:border-pawn-blue:active {
@@ -59018,6 +60092,10 @@ button,
     margin: 1px;
   }
 
+  .xl\:m-1\/5 {
+    margin: 30%;
+  }
+
   .xl\:my-0 {
     margin-top: 0;
     margin-bottom: 0;
@@ -59176,6 +60254,16 @@ button,
   .xl\:mx-px {
     margin-left: 1px;
     margin-right: 1px;
+  }
+
+  .xl\:my-1\/5 {
+    margin-top: 30%;
+    margin-bottom: 30%;
+  }
+
+  .xl\:mx-1\/5 {
+    margin-left: 30%;
+    margin-right: 30%;
   }
 
   .xl\:mt-0 {
@@ -59432,6 +60520,22 @@ button,
 
   .xl\:ml-px {
     margin-left: 1px;
+  }
+
+  .xl\:mt-1\/5 {
+    margin-top: 30%;
+  }
+
+  .xl\:mr-1\/5 {
+    margin-right: 30%;
+  }
+
+  .xl\:mb-1\/5 {
+    margin-bottom: 30%;
+  }
+
+  .xl\:ml-1\/5 {
+    margin-left: 30%;
   }
 
   .xl\:max-h-1\/4 {
@@ -61850,6 +62954,10 @@ button,
     padding: 1px;
   }
 
+  .xl\:p-1\/5 {
+    padding: 30%;
+  }
+
   .xl\:py-0 {
     padding-top: 0;
     padding-bottom: 0;
@@ -61998,6 +63106,16 @@ button,
   .xl\:px-px {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .xl\:py-1\/5 {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .xl\:px-1\/5 {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .xl\:pt-0 {
@@ -62240,6 +63358,22 @@ button,
     padding-left: 1px;
   }
 
+  .xl\:pt-1\/5 {
+    padding-top: 30%;
+  }
+
+  .xl\:pr-1\/5 {
+    padding-right: 30%;
+  }
+
+  .xl\:pb-1\/5 {
+    padding-bottom: 30%;
+  }
+
+  .xl\:pl-1\/5 {
+    padding-left: 30%;
+  }
+
   .xl\:group:hover .group-hover\:p-0 {
     padding: 0;
   }
@@ -62298,6 +63432,10 @@ button,
 
   .xl\:group:hover .group-hover\:p-px {
     padding: 1px;
+  }
+
+  .xl\:group:hover .group-hover\:p-1\/5 {
+    padding: 30%;
   }
 
   .xl\:group:hover .group-hover\:py-0 {
@@ -62448,6 +63586,16 @@ button,
   .xl\:group:hover .group-hover\:px-px {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .xl\:group:hover .group-hover\:py-1\/5 {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .xl\:group:hover .group-hover\:px-1\/5 {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .xl\:group:hover .group-hover\:pt-0 {
@@ -62690,6 +63838,22 @@ button,
     padding-left: 1px;
   }
 
+  .xl\:group:hover .group-hover\:pt-1\/5 {
+    padding-top: 30%;
+  }
+
+  .xl\:group:hover .group-hover\:pr-1\/5 {
+    padding-right: 30%;
+  }
+
+  .xl\:group:hover .group-hover\:pb-1\/5 {
+    padding-bottom: 30%;
+  }
+
+  .xl\:group:hover .group-hover\:pl-1\/5 {
+    padding-left: 30%;
+  }
+
   .xl\:hover\:p-0:hover {
     padding: 0;
   }
@@ -62748,6 +63912,10 @@ button,
 
   .xl\:hover\:p-px:hover {
     padding: 1px;
+  }
+
+  .xl\:hover\:p-1\/5:hover {
+    padding: 30%;
   }
 
   .xl\:hover\:py-0:hover {
@@ -62898,6 +64066,16 @@ button,
   .xl\:hover\:px-px:hover {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .xl\:hover\:py-1\/5:hover {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .xl\:hover\:px-1\/5:hover {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .xl\:hover\:pt-0:hover {
@@ -63140,6 +64318,22 @@ button,
     padding-left: 1px;
   }
 
+  .xl\:hover\:pt-1\/5:hover {
+    padding-top: 30%;
+  }
+
+  .xl\:hover\:pr-1\/5:hover {
+    padding-right: 30%;
+  }
+
+  .xl\:hover\:pb-1\/5:hover {
+    padding-bottom: 30%;
+  }
+
+  .xl\:hover\:pl-1\/5:hover {
+    padding-left: 30%;
+  }
+
   .xl\:focus\:p-0:focus {
     padding: 0;
   }
@@ -63198,6 +64392,10 @@ button,
 
   .xl\:focus\:p-px:focus {
     padding: 1px;
+  }
+
+  .xl\:focus\:p-1\/5:focus {
+    padding: 30%;
   }
 
   .xl\:focus\:py-0:focus {
@@ -63348,6 +64546,16 @@ button,
   .xl\:focus\:px-px:focus {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .xl\:focus\:py-1\/5:focus {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .xl\:focus\:px-1\/5:focus {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .xl\:focus\:pt-0:focus {
@@ -63590,6 +64798,22 @@ button,
     padding-left: 1px;
   }
 
+  .xl\:focus\:pt-1\/5:focus {
+    padding-top: 30%;
+  }
+
+  .xl\:focus\:pr-1\/5:focus {
+    padding-right: 30%;
+  }
+
+  .xl\:focus\:pb-1\/5:focus {
+    padding-bottom: 30%;
+  }
+
+  .xl\:focus\:pl-1\/5:focus {
+    padding-left: 30%;
+  }
+
   .xl\:active\:p-0:active {
     padding: 0;
   }
@@ -63648,6 +64872,10 @@ button,
 
   .xl\:active\:p-px:active {
     padding: 1px;
+  }
+
+  .xl\:active\:p-1\/5:active {
+    padding: 30%;
   }
 
   .xl\:active\:py-0:active {
@@ -63798,6 +65026,16 @@ button,
   .xl\:active\:px-px:active {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .xl\:active\:py-1\/5:active {
+    padding-top: 30%;
+    padding-bottom: 30%;
+  }
+
+  .xl\:active\:px-1\/5:active {
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
   .xl\:active\:pt-0:active {
@@ -64038,6 +65276,22 @@ button,
 
   .xl\:active\:pl-px:active {
     padding-left: 1px;
+  }
+
+  .xl\:active\:pt-1\/5:active {
+    padding-top: 30%;
+  }
+
+  .xl\:active\:pr-1\/5:active {
+    padding-right: 30%;
+  }
+
+  .xl\:active\:pb-1\/5:active {
+    padding-bottom: 30%;
+  }
+
+  .xl\:active\:pl-1\/5:active {
+    padding-left: 30%;
   }
 
   .xl\:pointer-events-none {
@@ -64395,12 +65649,16 @@ button,
     color: transparent;
   }
 
+  .xl\:text-white-transparent {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:text-black-transparent {
     color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:text-white-transparent {
-    color: rgba(255, 255, 255, .6);
+  .xl\:text-active-transparent {
+    color: rgba(100, 100, 100, .6);
   }
 
   .xl\:text-pawn-blue {
@@ -64763,12 +66021,16 @@ button,
     color: transparent;
   }
 
+  .xl\:group:hover .group-hover\:text-white-transparent {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:group:hover .group-hover\:text-black-transparent {
     color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:group:hover .group-hover\:text-white-transparent {
-    color: rgba(255, 255, 255, .6);
+  .xl\:group:hover .group-hover\:text-active-transparent {
+    color: rgba(100, 100, 100, .6);
   }
 
   .xl\:group:hover .group-hover\:text-pawn-blue {
@@ -65131,12 +66393,16 @@ button,
     color: transparent;
   }
 
+  .xl\:hover\:text-white-transparent:hover {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:hover\:text-black-transparent:hover {
     color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:hover\:text-white-transparent:hover {
-    color: rgba(255, 255, 255, .6);
+  .xl\:hover\:text-active-transparent:hover {
+    color: rgba(100, 100, 100, .6);
   }
 
   .xl\:hover\:text-pawn-blue:hover {
@@ -65499,12 +66765,16 @@ button,
     color: transparent;
   }
 
+  .xl\:focus\:text-white-transparent:focus {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:focus\:text-black-transparent:focus {
     color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:focus\:text-white-transparent:focus {
-    color: rgba(255, 255, 255, .6);
+  .xl\:focus\:text-active-transparent:focus {
+    color: rgba(100, 100, 100, .6);
   }
 
   .xl\:focus\:text-pawn-blue:focus {
@@ -65867,12 +67137,16 @@ button,
     color: transparent;
   }
 
+  .xl\:active\:text-white-transparent:active {
+    color: rgba(255, 255, 255, .9);
+  }
+
   .xl\:active\:text-black-transparent:active {
     color: rgba(0, 0, 0, .6);
   }
 
-  .xl\:active\:text-white-transparent:active {
-    color: rgba(255, 255, 255, .6);
+  .xl\:active\:text-active-transparent:active {
+    color: rgba(100, 100, 100, .6);
   }
 
   .xl\:active\:text-pawn-blue:active {
@@ -67063,9 +68337,14 @@ button,
             transform: translateX(0);
   }
 
-  .xl\:flip-card {
-    -webkit-transform: rotateY(180deg);
-            transform: rotateY(180deg);
+  .xl\:pin-t .hide-card {
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+  }
+
+  .xl\:pin-b .hide-card {
+    -webkit-transform: translateY(50%);
+            transform: translateY(50%);
   }
 
   .xl\:size-board {
@@ -67079,14 +68358,20 @@ button,
     max-height: 35.816rem;
   }
 
-  .xl\:filter-grey {
+  .xl\:tile-error,
+  .xl\:filter-gray {
     -webkit-filter: grayscale();
             filter: grayscale();
   }
 
   .xl\:move-mode {
-    -webkit-transform: translateY(-12%) scale(.9);
-            transform: translateY(-12%) scale(.9);
+    -webkit-transform: scale(.9);
+            transform: scale(.9);
+  }
+
+  .xl\:move-mode-sm {
+    -webkit-transform: scale(.6);
+            transform: scale(.6);
   }
 
   .xl\:move-mode-md {

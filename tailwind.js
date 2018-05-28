@@ -44,8 +44,9 @@ View the full documentation at https://tailwindcss.com.
 
 let colors = {
     transparent: "transparent",
+    "white-transparent": "rgba(255,255,255,0.9)",
     "black-transparent": "rgba(0,0,0,0.6)",
-    "white-transparent": "rgba(255,255,255,0.6)",
+    "active-transparent": "rgba(100,100,100,0.6)",
 
     'pawn-blue': '#36A9E1',
     'pawn-green': '#95C11F',
@@ -735,6 +736,7 @@ module.exports = {
         "2": "0.5rem",
         "3": "0.75rem",
         "4": "1rem",
+        "1/5": "30%",
         "6": "1.5rem",
         "8": "2rem",
         "12": "3rem",
@@ -769,6 +771,7 @@ module.exports = {
         "2": "0.5rem",
         "3": "0.75rem",
         "4": "1rem",
+        "1/5": "30%",
         "6": "1.5rem",
         "8": "2rem",
         "12": "3rem",
@@ -1115,8 +1118,11 @@ module.exports = {
                 '.translateX-0': {
                     transform: 'translateX(0)',
                 },
-                '.flip-card': {
-                    transform: 'rotateY(180deg)',
+                '.pin-t .hide-card': {
+                    transform: 'translateY(-50%)',
+                },
+                '.pin-b .hide-card': {
+                    transform: 'translateY(50%)',
                 },
                 '.size-board': {
                     width: '80vw',
@@ -1127,11 +1133,14 @@ module.exports = {
                 '.size-board.paused': {
                     maxHeight: '35.816rem',
                 },
-                '.filter-grey': {
+                '.tile-error,.filter-gray': {
                     filter: 'grayscale()',
                 },
                 '.move-mode': {
-                    transform: 'translateY(-12%) scale(0.9)',
+                    transform: 'scale(0.9)',
+                },
+                '.move-mode-sm': {
+                    transform: 'scale(0.6)',
                 },
                 '.move-mode-md': {
                     transform: 'translateY(-12%) scale(0.6)',
@@ -1141,7 +1150,31 @@ module.exports = {
             addUtilities(transforms, ['responsive']);
         },
         function ({addUtilities}) {
+            const cardHover = {
+                '.pin-t .turned-card': {
+                    transform: 'translateY(10%)',
+                },
+                '.pin-b .turned-card': {
+                    transform: 'translateY(-10%)',
+                },
+                '.pin-t .active-card': {
+                    transform: 'translateY(60%)',
+                },
+                '.pin-b .active-card': {
+                    transform: 'translateY(-60%)',
+                }
+            };
+
+            addUtilities(cardHover);
+        },
+        function ({addUtilities}) {
             const transformSpecifics = {
+                '.scale-0': {
+                    transform: 'scale(0)',
+                },
+                '.scale-100': {
+                    transform: 'scale(1)',
+                },
                 '.preserve3d': {
                     transformStyle: 'preserve-3d',
                 },

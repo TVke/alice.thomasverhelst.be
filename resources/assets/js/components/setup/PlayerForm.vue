@@ -10,7 +10,7 @@
             <label class="py-2 block" for="pawn" :class="{'text-red': pawnErrorShow}">Your pawn</label>
             <select v-model="pawn" class="block w-full border border-grey text-base" id="pawn" required
                     :disabled="submited" :class="{'border-red': pawnErrorShow}" @change="pawnErrorShow = false">
-                <option v-for="option in options" :value="option.value" :disabled="option.choosen">{{ option.name }}</option>
+                <option v-for="option in options" :value="option.value" :key="option.name" :disabled="option.choosen">{{ option.name }}</option>
             </select>
         </div>
         <div class="w-full p-2 block" :class="{hidden: submited}">
@@ -27,86 +27,87 @@
 </template>
 
 <script>
-    export default {
-        name: 'PlayerForm',
-        props: ['options'],
-        data() {
-            return {
-                username: '',
-                pawn: '',
-                usernameErrorShow: false,
-                usernameError: 'The username needs to at least 2 characters. Try a different one. ',
-                pawnErrorShow: false,
-                pawnError: 'Please, choose a pawn. ',
-                submited: false,
+export default {
+    name: 'PlayerForm',
+    props: ['options'],
+    data() {
+        return {
+            username: '',
+            pawn: '',
+            usernameErrorShow: false,
+            usernameError: 'The username needs to at least 2 characters. Try a different one. ',
+            pawnErrorShow: false,
+            pawnError: 'Please, choose a pawn. ',
+            submited: false,
+        };
+    },
+    // computed: {
+    //     defaultValue() {
+    //         const freeOptions = this.options.filter((option) => {
+    //             return !option.choosen;
+    //         });
+    //
+    //         freeOptions.reverse();
+    //
+    //         return freeOptions.pop().value;
+    //     },
+    // },
+    methods: {
+        addPlayer() {
+            this.pawnErrorShow = false;
+            this.usernameErrorShow = false;
+
+            if (this.username.length < 2) {
+                this.usernameErrorShow = true;
+
+                return;
             }
-        },
-        // computed: {
-        //     defaultValue() {
-        //         const freeOptions = this.options.filter((option) => {
-        //             return !option.choosen;
-        //         });
-        //
-        //         freeOptions.reverse();
-        //
-        //         return freeOptions.pop().value;
-        //     },
-        // },
-        methods: {
-            addPlayer() {
-                this.pawnErrorShow = false;
-                this.usernameErrorShow = false;
 
-                if (this.username.length < 2) {
-                    this.usernameErrorShow = true;
+            window.axios
+                .put('/add/player/', { username: this.username, pawn: this.pawn })
+                .then(({ data }) => {
+                    this.$emit('session-known', data);
 
-                    return;
-                }
-
-                axios.put('/add/player/', {username: this.username, pawn: this.pawn})
-                    .then(({data}) => {
-                        this.$emit('session-known', data);
-
-                        this.$emit('player-added', {
-                            id: null,
-                            pawn: this.pawn,
-                            username: this.username,
-                            position: this.positionOf(this.pawn),
-                        });
-
-                        this.submited = true;
-                    })
-                    .catch(({response}) => {
-                        this.submited = false;
-
-                        const errors = response.data.errors;
-
-                        if (errors.username) {
-                            this.usernameError = errors.username[0];
-                            this.usernameErrorShow = true;
-                        }
-
-                        if (errors.pawn) {
-                            this.pawnError = errors.pawn[0];
-                            this.pawnErrorShow = true;
-                        }
+                    this.$emit('player-added', {
+                        id: null,
+                        pawn: this.pawn,
+                        username: this.username,
+                        position: this.positionOf(this.pawn),
                     });
-            },
-            positionOf(pawn){
-                if (pawn === 'Mad Hatter') {
-                    return {x: 0, y: 6}
-                }
 
-                if (pawn === 'Queen of Hearts') {
-                    return {x: 6, y: 6}
-                }
+                    this.submited = true;
+                })
+                .catch(({ response }) => {
+                    this.submited = false;
 
-                if (pawn === 'White Rabbit') {
-                    return {x: 6, y: 0}
-                }
+                    const errors = response.data.errors;
 
-                return {x: 0, y: 0}
-            },
-        }
-    }
+                    if (errors.username) {
+                        this.usernameError = errors.username[0];
+                        this.usernameErrorShow = true;
+                    }
+
+                    if (errors.pawn) {
+                        this.pawnError = errors.pawn[0];
+                        this.pawnErrorShow = true;
+                    }
+                });
+        },
+        positionOf(pawn) {
+            if (pawn === 'Mad Hatter') {
+                return { x: 0, y: 6 };
+            }
+
+            if (pawn === 'Queen of Hearts') {
+                return { x: 6, y: 6 };
+            }
+
+            if (pawn === 'White Rabbit') {
+                return { x: 6, y: 0 };
+            }
+
+            return { x: 0, y: 0 };
+        },
+    },
+};
 </script>

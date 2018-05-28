@@ -14,6 +14,7 @@
             <game-setup></game-setup>
         {{--@endif--}}
         <player-cards></player-cards>
+        <game-actions></game-actions>
         <game-board></game-board>
     </div>
 

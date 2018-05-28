@@ -36,105 +36,103 @@
 </template>
 
 <script>
-    import Qrcode from '@xkeshi/vue-qrcode';
-    import PlayerForm from './PlayerForm.vue';
+import Qrcode from '@xkeshi/vue-qrcode';
+import PlayerForm from './PlayerForm.vue';
 
-    export default {
-        name: 'GameSetup',
-        components: {Qrcode, PlayerForm},
-        // props: {
-        //     token: {
-        //         type: String,
-        //         required: false,
+export default {
+    name: 'GameSetup',
+    components: { Qrcode, PlayerForm },
+    // props: {
+    //     token: {
+    //         type: String,
+    //         required: false,
+    //     }
+    // },
+    data() {
+        return {
+            sessionToken: '',
+            setupDone: false,
+            players: [],
+            pawnOptions: [
+                { name: 'Alice', value: 'Alice', choosen: false },
+                { name: 'Mad Hatter', value: 'Mad Hatter', choosen: false },
+                { name: 'Queen of Hearts', value: 'Queen of Hearts', choosen: false },
+                { name: 'White Rabbit', value: 'White Rabbit', choosen: false },
+            ],
+        };
+    },
+    created() {
+        window.axios.get('/game/players').then(({ data }) => {
+            this.players = data;
+
+            this.parsePosition();
+
+            this.updateOptions(data);
+        });
+    },
+    computed: {
+        allowNewPlayer() {
+            return this.players.length < 4;
+        },
+        gameCanStart() {
+            return this.players.length >= 2;
+        },
+        showCurrentPlayers() {
+            return this.players.length >= 1;
+        },
+        // sessionToken(token = ''){
+        //     if (token === '' && this.token) {
+        //         return '';
         //     }
+        //
+        //     // if (!this.token){
+        //     //     return this.token;
+        //     // }
+        //
+        //     return token
         // },
-        data() {
-            return {
-                sessionToken: '',
-                setupDone: false,
-                players: [],
-                pawnOptions: [
-                    {name: 'Alice', value: 'Alice', choosen: false},
-                    {name: 'Mad Hatter', value: 'Mad Hatter', choosen: false},
-                    {name: 'Queen of Hearts', value: 'Queen of Hearts', choosen: false},
-                    {name: 'White Rabbit', value: 'White Rabbit', choosen: false},
-                ],
+        sessionUrl() {
+            if (this.sessionToken === '') {
+                return location.href;
             }
+
+            const gameUrl = `${location.protocol}//${location.hostname}/game/${this.sessionToken}`;
+
+            if (location.pathname.match('/game/?') && this.sessionToken !== '') {
+                location.href = gameUrl;
+            }
+
+            return gameUrl;
         },
-        created() {
-            window.axios.get('/game/players')
-                .then(({data}) => {
-                    this.players = data;
+        // gameChannel() {
+        //     return window.Echo.join(`game-${this.sessionToken}`);
+        // }
+    },
+    methods: {
+        setupIsDone() {
+            this.setupDone = true;
 
-                    this.parsePosition();
-
-                    this.updateOptions(data);
-                });
-
+            Event.$emit('start-play', this.players);
         },
-        computed: {
-            allowNewPlayer() {
-                return this.players.length < 4;
-            },
-            gameCanStart() {
-                return this.players.length >= 2;
-            },
-            showCurrentPlayers() {
-                return this.players.length >= 1;
-            },
-            // sessionToken(token = ''){
-            //     if (token === '' && this.token) {
-            //         return '';
-            //     }
-            //
-            //     // if (!this.token){
-            //     //     return this.token;
-            //     // }
-            //
-            //     return token
-            // },
-            sessionUrl(){
-                if (this.sessionToken === ''){
-                    return location.href;
-                }
-
-                const gameUrl = `${location.protocol}//${location.hostname}/game/${this.sessionToken}`;
-
-                if (location.pathname.match('/game/?') && this.sessionToken !== '') {
-                    location.href = gameUrl;
-                }
-
-                return gameUrl;
-            },
-            // gameChannel() {
-            //     return window.Echo.join(`game-${this.sessionToken}`);
-            // }
+        addPlayer(data) {
+            this.players.push(data);
         },
-        methods: {
-            setupIsDone() {
-                this.setupDone = true;
+        updateOptions(data) {
+            for (let player in data) {
+                const usedPawn = data[player].pawn;
 
-                Event.$emit('start-play', this.players);
-            },
-            addPlayer(data) {
-                this.players.push(data);
-            },
-            updateOptions(data) {
-                for (let player in data) {
-                    const usedPawn = data[player].pawn;
-
-                    for (let pawn in this.pawnOptions) {
-                        if (usedPawn === this.pawnOptions[pawn].value) {
-                            this.pawnOptions[pawn].choosen = true;
-                        }
+                for (let pawn in this.pawnOptions) {
+                    if (usedPawn === this.pawnOptions[pawn].value) {
+                        this.pawnOptions[pawn].choosen = true;
                     }
                 }
-            },
-            parsePosition() {
-                this.players.forEach((player) => {
-                    player.position = JSON.parse(player.position);
-                });
             }
-        }
-    }
+        },
+        parsePosition() {
+            this.players.forEach(player => {
+                player.position = JSON.parse(player.position);
+            });
+        },
+    },
+};
 </script>

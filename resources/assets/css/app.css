@@ -57,6 +57,6 @@
  * @import "utilities/skew-transforms";
  */
 
-.perspective{
+.perspective {
     perspective: 2000;
 }

@@ -1,6 +1,6 @@
 <template>
     <a href="#" class="w-1/7 h-1/7 absolute transition"
-       :class="[`place-${tile.x}-${tile.y}`, {'z-50 filter-grey': applyError}]"
+       :class="[`place-${tile.x}-${tile.y}`, {'z-50 tile-error': applyError}]"
        @click.prevent="$emit('tile-click',{x:tile.x,y:tile.y})">
         <img class="w-full block relative z--10"
              :class="`rotate-${tile.rotation}`"
@@ -13,13 +13,13 @@
 </template>
 
 <script>
-    export default {
-        name: 'tile',
-        props: ['tile', 'error'],
-        computed: {
-            applyError(){
-                return this.error.x === this.tile.x && this.error.y === this.tile.y;
-            },
-        }
-    }
+export default {
+    name: 'tile',
+    props: ['tile', 'error'],
+    computed: {
+        applyError() {
+            return this.error.x === this.tile.x && this.error.y === this.tile.y;
+        },
+    },
+};
 </script>

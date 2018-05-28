@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\GameSession;
 use App\Events\GameChanged;
+use App\GameSession;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Spatie\Valuestore\Valuestore;
@@ -68,7 +68,7 @@ class PlayerController extends Controller
             return null;
         }
 
-        if ($pawn !== session('pawn')){
+        if ($pawn !== session('pawn')) {
             return null;
         }
 

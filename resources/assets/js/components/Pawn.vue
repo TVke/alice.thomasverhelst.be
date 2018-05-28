@@ -7,34 +7,34 @@
 </template>
 
 <script>
-    export default {
-        name: 'pawn',
-        props: {
-            player: {
-                type: Object,
-                required: true,
-            },
-            active: {
-                type: String,
-                required: true,
+export default {
+    name: 'pawn',
+    props: {
+        player: {
+            type: Object,
+            required: true,
+        },
+        active: {
+            type: String,
+            required: true,
+        },
+    },
+    computed: {
+        order() {
+            if (this.player.pawn === 'White Rabbit') {
+                return 20;
             }
+
+            if (this.player.pawn === 'Alice') {
+                return 30;
+            }
+
+            if (this.player.pawn === 'Queen of Hearts') {
+                return 40;
+            }
+
+            return 10;
         },
-        computed: {
-            order() {
-                if (this.player.pawn === 'White Rabbit') {
-                    return 20;
-                }
-
-                if (this.player.pawn === 'Alice') {
-                    return 30;
-                }
-
-                if (this.player.pawn === 'Queen of Hearts') {
-                    return 40;
-                }
-
-                return 10;
-            },
-        },
-    }
+    },
+};
 </script>

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\GameSession;
 use App\Events\GameChanged;
+use App\GameSession;
 use Illuminate\Http\Request;
 
 class TileController extends Controller

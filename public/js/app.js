@@ -4102,6 +4102,74 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/GameActions.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'GameActions',
+    data: function data() {
+        return {
+            moveMazeMode: false,
+            paused: true,
+            object: {}
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        Event.$on('start-play', function () {
+            _this.paused = false;
+
+            _this.moveMazeMode = true;
+        });
+
+        Event.$on('maze-moved', function () {
+            _this.moveMazeMode = false;
+        });
+
+        Event.$on('object-found', function (object) {
+            setTimeout(function () {
+                _this.object = {};
+            }, 1000);
+
+            _this.object = object;
+        });
+    },
+
+    computed: {
+        buttonText: function buttonText() {
+            if (this.moveMazeMode) {
+                return 'rotate';
+            }
+
+            return 'next player';
+        }
+    },
+    methods: {
+        handleAction: function handleAction() {
+            if (this.moveMazeMode) {
+                Event.$emit('rotate');
+            }
+
+            // next player
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/GameBoard.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4192,6 +4260,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Event.$on('active-player', function (event) {
             _this.activePawn = event;
         });
+
+        Event.$on('rotate', function () {
+            _this.rotateLooseTile();
+        });
     },
 
     computed: {
@@ -4210,6 +4282,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        rotateLooseTile: function rotateLooseTile() {
+            var newRotation = this.looseTile.rotation + 90;
+
+            if (newRotation === 270 + 90) {
+                newRotation = 0;
+            }
+
+            if (newRotation > 90 && this.looseTile.type.name === 'line') {
+                newRotation = 0;
+            }
+
+            this.looseTile.rotation = newRotation;
+        },
         moveMaze: function moveMaze(event) {
             var direction = event.direction;
             var lineDirection = event.lineDirection;
@@ -4226,7 +4311,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (tile[lineDirection] === line) {
                     tile[direction] += amount;
                     if (tile[direction] > 6 || tile[direction] < 0) {
-
                         newLooseTile = tile;
 
                         toRemove = index;
@@ -4240,6 +4324,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.moveMazeMode = false;
             this.movePawnMode = true;
+
+            Event.$emit('maze-moved');
         },
         checkMoveTo: function checkMoveTo(event) {
             var _this3 = this;
@@ -4265,7 +4351,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var possibleNextMoves = [];
 
                 if (_this3.isOnTheBoard(mainList[i].x + 1)) {
-                    var option = { x: mainList[i].x + 1, y: mainList[i].y, step: mainList[i].step + 1 };
+                    var option = {
+                        x: mainList[i].x + 1,
+                        y: mainList[i].y,
+                        step: mainList[i].step + 1
+                    };
 
                     if (!_this3.isWallBetween(mainList[i], option)) {
                         possibleNextMoves.push(option);
@@ -4273,7 +4363,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
 
                 if (_this3.isOnTheBoard(mainList[i].x - 1)) {
-                    var _option = { x: mainList[i].x - 1, y: mainList[i].y, step: mainList[i].step + 1 };
+                    var _option = {
+                        x: mainList[i].x - 1,
+                        y: mainList[i].y,
+                        step: mainList[i].step + 1
+                    };
 
                     if (!_this3.isWallBetween(mainList[i], _option)) {
                         possibleNextMoves.push(_option);
@@ -4281,7 +4375,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
 
                 if (_this3.isOnTheBoard(mainList[i].y + 1)) {
-                    var _option2 = { x: mainList[i].x, y: mainList[i].y + 1, step: mainList[i].step + 1 };
+                    var _option2 = {
+                        x: mainList[i].x,
+                        y: mainList[i].y + 1,
+                        step: mainList[i].step + 1
+                    };
 
                     if (!_this3.isWallBetween(mainList[i], _option2)) {
                         possibleNextMoves.push(_option2);
@@ -4289,7 +4387,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
 
                 if (_this3.isOnTheBoard(mainList[i].y - 1)) {
-                    var _option3 = { x: mainList[i].x, y: mainList[i].y - 1, step: mainList[i].step + 1 };
+                    var _option3 = {
+                        x: mainList[i].x,
+                        y: mainList[i].y - 1,
+                        step: mainList[i].step + 1
+                    };
 
                     if (!_this3.isWallBetween(mainList[i], _option3)) {
                         possibleNextMoves.push(_option3);
@@ -4324,11 +4426,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (!found) {
+                clearTimeout(resetError);
+
                 this.tileError = { x: end.x, y: end.y };
 
-                setTimeout(function () {
+                var resetError = setTimeout(function () {
                     _this3.tileError = {};
-                }, 250);
+                }, 1000);
 
                 return;
             }
@@ -4520,33 +4624,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ObjectCard.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'ObjectCard',
-    props: ['object'],
-    data: function data() {
-        return {
-            flipped: true
-        };
-    }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Pawn.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4658,22 +4735,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             xPos: this.x,
             yPos: this.y
         };
-    },
-
-    computed: {
-        rotateTo: function rotateTo() {
-            var newRotation = this.tile.rotation + 90;
-
-            if (newRotation === 270 + 90) {
-                return 0;
-            }
-
-            if (newRotation > 90 && this.tile.type.name === 'line') {
-                return 0;
-            }
-
-            return newRotation;
-        }
     }
 });
 
@@ -4760,13 +4821,67 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/ObjectCard.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'ObjectCard',
+    props: ['object', 'active'],
+    data: function data() {
+        return {
+            show: false
+        };
+    },
+
+    methods: {
+        showTemp: function showTemp() {
+            var _this = this;
+
+            clearTimeout(reset);
+
+            var reset = setTimeout(function () {
+                _this.show = false;
+            }, 750);
+
+            this.show = true;
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/Player.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue__ = __webpack_require__("./resources/assets/js/components/ObjectCard.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue__ = __webpack_require__("./resources/assets/js/components/players/ObjectCard.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4836,6 +4951,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             return places;
+        },
+        activeCard: function activeCard() {
+            return this.cards[this.cards.length - 1].name;
         }
     }
 });
@@ -4875,13 +4993,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         window.axios.get('/game/objects').then(function (_ref) {
             var data = _ref.data;
 
-            var objects = _this.shuffle(data);
-
-            var playerCount = _this.players.length;
-
-            for (var index in _this.players) {
-                _this.objects.push(objects.splice(index * playerCount, playerCount));
-            }
+            _this.objects = _this.shuffle(data);
         });
 
         Event.$on('start-play', function (event) {
@@ -4902,6 +5014,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        objectsFor: function objectsFor(playerIndex) {
+            var amountOfCards = this.objects.length / this.players.length;
+
+            return this.objects.slice(playerIndex * amountOfCards, playerIndex * amountOfCards + amountOfCards);
+        },
         shuffle: function shuffle(array) {
             for (var i = array.length - 1; i > 0; --i) {
                 var randomIndex = Math.floor(Math.random() * (i + 1));
@@ -5136,7 +5253,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
-            axios.put('/add/player/', { username: this.username, pawn: this.pawn }).then(function (_ref) {
+            window.axios.put('/add/player/', { username: this.username, pawn: this.pawn }).then(function (_ref) {
                 var data = _ref.data;
 
                 _this.$emit('session-known', data);
@@ -5740,6 +5857,88 @@ var SocketIoPresenceChannel = function (_SocketIoPrivateChann) {
     return SocketIoPresenceChannel;
 }(SocketIoPrivateChannel);
 
+var NullChannel = function (_Channel) {
+    inherits(NullChannel, _Channel);
+
+    function NullChannel() {
+        classCallCheck(this, NullChannel);
+        return possibleConstructorReturn(this, (NullChannel.__proto__ || Object.getPrototypeOf(NullChannel)).apply(this, arguments));
+    }
+
+    createClass(NullChannel, [{
+        key: 'subscribe',
+        value: function subscribe() {}
+    }, {
+        key: 'unsubscribe',
+        value: function unsubscribe() {}
+    }, {
+        key: 'listen',
+        value: function listen(event, callback) {
+            return this;
+        }
+    }, {
+        key: 'stopListening',
+        value: function stopListening(event) {
+            return this;
+        }
+    }, {
+        key: 'on',
+        value: function on(event, callback) {
+            return this;
+        }
+    }]);
+    return NullChannel;
+}(Channel);
+
+var NullPrivateChannel = function (_NullChannel) {
+    inherits(NullPrivateChannel, _NullChannel);
+
+    function NullPrivateChannel() {
+        classCallCheck(this, NullPrivateChannel);
+        return possibleConstructorReturn(this, (NullPrivateChannel.__proto__ || Object.getPrototypeOf(NullPrivateChannel)).apply(this, arguments));
+    }
+
+    createClass(NullPrivateChannel, [{
+        key: 'whisper',
+        value: function whisper(eventName, data) {
+            return this;
+        }
+    }]);
+    return NullPrivateChannel;
+}(NullChannel);
+
+var NullPresenceChannel = function (_NullChannel) {
+    inherits(NullPresenceChannel, _NullChannel);
+
+    function NullPresenceChannel() {
+        classCallCheck(this, NullPresenceChannel);
+        return possibleConstructorReturn(this, (NullPresenceChannel.__proto__ || Object.getPrototypeOf(NullPresenceChannel)).apply(this, arguments));
+    }
+
+    createClass(NullPresenceChannel, [{
+        key: 'here',
+        value: function here(callback) {
+            return this;
+        }
+    }, {
+        key: 'joining',
+        value: function joining(callback) {
+            return this;
+        }
+    }, {
+        key: 'leaving',
+        value: function leaving(callback) {
+            return this;
+        }
+    }, {
+        key: 'whisper',
+        value: function whisper(eventName, data) {
+            return this;
+        }
+    }]);
+    return NullPresenceChannel;
+}(NullChannel);
+
 var PusherConnector = function (_Connector) {
     inherits(PusherConnector, _Connector);
 
@@ -5911,6 +6110,62 @@ var SocketIoConnector = function (_Connector) {
     return SocketIoConnector;
 }(Connector);
 
+var NullConnector = function (_Connector) {
+    inherits(NullConnector, _Connector);
+
+    function NullConnector() {
+        var _ref;
+
+        classCallCheck(this, NullConnector);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        var _this = possibleConstructorReturn(this, (_ref = NullConnector.__proto__ || Object.getPrototypeOf(NullConnector)).call.apply(_ref, [this].concat(args)));
+
+        _this.channels = {};
+        return _this;
+    }
+
+    createClass(NullConnector, [{
+        key: 'connect',
+        value: function connect() {}
+    }, {
+        key: 'listen',
+        value: function listen(name, event, callback) {
+            return new NullChannel();
+        }
+    }, {
+        key: 'channel',
+        value: function channel(name) {
+            return new NullChannel();
+        }
+    }, {
+        key: 'privateChannel',
+        value: function privateChannel(name) {
+            return new NullPrivateChannel();
+        }
+    }, {
+        key: 'presenceChannel',
+        value: function presenceChannel(name) {
+            return new NullPresenceChannel();
+        }
+    }, {
+        key: 'leave',
+        value: function leave(name) {}
+    }, {
+        key: 'socketId',
+        value: function socketId() {
+            return 'fake-socket-id';
+        }
+    }, {
+        key: 'disconnect',
+        value: function disconnect() {}
+    }]);
+    return NullConnector;
+}(Connector);
+
 var Echo = function () {
     function Echo(options) {
         classCallCheck(this, Echo);
@@ -5929,6 +6184,8 @@ var Echo = function () {
             this.connector = new PusherConnector(this.options);
         } else if (this.options.broadcaster == 'socket.io') {
             this.connector = new SocketIoConnector(this.options);
+        } else if (this.options.broadcaster == 'null') {
+            this.connector = new NullConnector(this.options);
         }
     }
 
@@ -10792,7 +11049,7 @@ var render = function() {
           class: {
             "tilt-board-sm sm:tilt-board md:tilt-board-md": !_vm.paused,
             "pawn-start-sm sm:pawn-start": _vm.paused,
-            "move-mode md:move-mode-md": _vm.moveMazeMode
+            "move-mode sm:move-mode-sm md:move-mode-md": _vm.moveMazeMode
           }
         },
         _vm._l(_vm.players, function(player) {
@@ -10811,7 +11068,7 @@ var render = function() {
           class: {
             paused: _vm.paused,
             "sm:tilt-board tilt-board-sm md:tilt-board-md": !_vm.paused,
-            "move-mode md:move-mode-md": _vm.moveMazeMode
+            "move-mode sm:move-mode-sm md:move-mode-md": _vm.moveMazeMode
           }
         },
         [
@@ -10825,12 +11082,7 @@ var render = function() {
           _vm._v(" "),
           _c("move-maze", {
             attrs: { active: _vm.moveMazeMode, tile: _vm.looseTile },
-            on: {
-              "move-maze": _vm.moveMaze,
-              rotate: function($event) {
-                _vm.looseTile.rotation = $event
-              }
-            }
+            on: { "move-maze": _vm.moveMaze, rotate: _vm.rotateLooseTile }
           })
         ],
         2
@@ -10845,6 +11097,71 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-0827efed", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2754603a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/ObjectCard.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "a",
+    {
+      staticClass: "perspective transition relative pointer-events-auto",
+      class: { "turned-card": _vm.active, "active-card": _vm.show },
+      attrs: { href: "#" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          _vm.showTemp()
+        }
+      }
+    },
+    [
+      _c("img", {
+        staticClass: "absolute pin block z--10",
+        class: { "hide-card opacity-0": _vm.active },
+        attrs: {
+          src: "/storage/images/card/back2.svg",
+          alt: "backside of the card"
+        }
+      }),
+      _vm._v(" "),
+      _vm.active
+        ? _c("img", {
+            staticClass:
+              "absolute pin m-auto p-1/5 transition transition-delay-long",
+            class: { "hide-card opacity-0": !_vm.active },
+            attrs: {
+              src: "/storage/images/objects/" + _vm.object.name + ".svg",
+              alt: _vm.object.name
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "w-full block transition transition-delay-long",
+        class: { "hide-card opacity-0": !_vm.active },
+        attrs: {
+          src: "/storage/images/card/front2.svg",
+          alt: "the front of the card"
+        }
+      })
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2754603a", module.exports)
   }
 }
 
@@ -10882,7 +11199,7 @@ var render = function() {
             click: function($event) {
               $event.stopPropagation()
               $event.preventDefault()
-              _vm.$emit("rotate", _vm.rotateTo)
+              _vm.$emit("rotate")
             }
           }
         },
@@ -10938,61 +11255,79 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass:
-        "absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded transition-delay-longest transition",
-      class: {
-        "pin-t": _vm.placement.top,
-        "pin-b": _vm.placement.bottom,
-        "pin-l": _vm.placement.left,
-        "pin-r flex-row-reverse text-right": _vm.placement.right,
-        "left-out": _vm.paused && _vm.placement.left,
-        "right-out": _vm.paused && _vm.placement.right,
-        "translateX-0": !_vm.paused
-      }
-    },
-    [
-      _c(
-        "div",
-        {
-          staticClass: "h-full rounded-full w-12 md:w-1/4 bg-white",
-          class: {
-            "border border-pawn-blue shadow-blue-active":
-              _vm.active === _vm.player.pawn && _vm.player.pawn === "Alice",
-            "border border-pawn-green shadow-green-active":
-              _vm.active === _vm.player.pawn &&
-              _vm.player.pawn === "Mad Hatter",
-            "border border-pawn-red shadow-red-active":
-              _vm.active === _vm.player.pawn &&
-              _vm.player.pawn === "Queen of Hearts",
-            "border border-black shadow-white-active":
-              _vm.active === _vm.player.pawn &&
-              _vm.player.pawn === "White Rabbit"
-          }
-        },
-        [
-          _c("img", {
-            staticClass: "block p-1",
-            attrs: {
-              src: "/storage/images/pawns/" + _vm.player.pawn + ".svg",
-              alt: _vm.player.pawn + " pawn"
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass:
+          "absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded transition-delay-longest transition",
+        class: {
+          "pin-t": _vm.placement.top,
+          "pin-b": _vm.placement.bottom,
+          "pin-l": _vm.placement.left,
+          "pin-r flex-row-reverse text-right": _vm.placement.right,
+          "left-out": _vm.paused && _vm.placement.left,
+          "right-out": _vm.paused && _vm.placement.right,
+          "translateX-0": !_vm.paused,
+          "bg-active-transparent": _vm.active === _vm.player.pawn
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "h-full rounded-full w-12 md:w-1/4 bg-white",
+            class: {
+              "border border-pawn-blue shadow-blue-active":
+                _vm.active === _vm.player.pawn && _vm.player.pawn === "Alice",
+              "border border-pawn-green shadow-green-active":
+                _vm.active === _vm.player.pawn &&
+                _vm.player.pawn === "Mad Hatter",
+              "border border-pawn-red shadow-red-active":
+                _vm.active === _vm.player.pawn &&
+                _vm.player.pawn === "Queen of Hearts",
+              "border border-black shadow-white-active bg-black-transparent":
+                _vm.active === _vm.player.pawn &&
+                _vm.player.pawn === "White Rabbit"
             }
-          })
-        ]
-      ),
-      _vm._v(" "),
-      _c("p", { staticClass: "my-auto p-2 truncate w-full md:w-3/4" }, [
-        _vm._v(_vm._s(_vm.player.username))
-      ]),
-      _vm._v(" "),
+          },
+          [
+            _c("img", {
+              staticClass: "block p-1",
+              attrs: {
+                src: "/storage/images/pawns/" + _vm.player.pawn + ".svg",
+                alt: _vm.player.pawn + " pawn"
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c("p", { staticClass: "my-auto p-2 truncate w-full md:w-3/4" }, [
+          _vm._v(_vm._s(_vm.player.username))
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "flex absolute z--10 w-1/4 py-12 md:py-4",
+        class: {
+          "pin-t": _vm.placement.top,
+          "pin-b": _vm.placement.bottom,
+          "pin-l pl-12 ml-4": _vm.placement.left,
+          "pin-r pr-12 flex-row-reverse mr-4": _vm.placement.right
+        }
+      },
       _vm._l(_vm.cards, function(card) {
-        return _c("object-card", { key: card.name, attrs: { object: card } })
+        return _c("object-card", {
+          key: card.name,
+          class: { "-ml-8": _vm.placement.left, "-mr-8": _vm.placement.right },
+          attrs: { object: card, active: card.name === _vm.activeCard }
+        })
       })
-    ],
-    2
-  )
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -11071,7 +11406,7 @@ var render = function() {
           on: {
             "add-tile": _vm.addTile,
             rotate: function($event) {
-              _vm.$emit("rotate", $event)
+              _vm.$emit("rotate")
             }
           }
         })
@@ -11084,7 +11419,7 @@ var render = function() {
           on: {
             "add-tile": _vm.addTile,
             rotate: function($event) {
-              _vm.$emit("rotate", $event)
+              _vm.$emit("rotate")
             }
           }
         })
@@ -11097,7 +11432,7 @@ var render = function() {
           on: {
             "add-tile": _vm.addTile,
             rotate: function($event) {
-              _vm.$emit("rotate", $event)
+              _vm.$emit("rotate")
             }
           }
         })
@@ -11110,7 +11445,7 @@ var render = function() {
           on: {
             "add-tile": _vm.addTile,
             rotate: function($event) {
-              _vm.$emit("rotate", $event)
+              _vm.$emit("rotate")
             }
           }
         })
@@ -11227,6 +11562,7 @@ var render = function() {
           return _c(
             "option",
             {
+              key: option.name,
               attrs: { disabled: option.choosen },
               domProps: { value: option.value }
             },
@@ -11301,7 +11637,7 @@ var render = function() {
       staticClass: "w-1/7 h-1/7 absolute transition",
       class: [
         "place-" + _vm.tile.x + "-" + _vm.tile.y,
-        { "z-50 filter-grey": _vm.applyError }
+        { "z-50 tile-error": _vm.applyError }
       ],
       attrs: { href: "#" },
       on: {
@@ -11345,60 +11681,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-9de1ce34\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ObjectCard.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "perspective transition relative",
-      class: { "flip-card": _vm.flipped }
-    },
-    [
-      _c("img", {
-        staticClass: "w-full block",
-        attrs: {
-          src: "/storage/images/card/front.svg",
-          alt: "the front of the card"
-        }
-      }),
-      _vm._v(" "),
-      !_vm.flipped
-        ? _c("img", {
-            staticClass: "absolute pin m-auto p-16",
-            attrs: {
-              src: "/storage/images/objects/" + _vm.object.name + ".svg",
-              alt: _vm.object.name
-            }
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "absolute pin block flip-card",
-        attrs: {
-          src: "/storage/images/card/back.svg",
-          alt: "backside of the card"
-        }
-      })
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-9de1ce34", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ab1ab224\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/Players.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11415,7 +11697,7 @@ var render = function() {
         attrs: {
           player: player,
           active: _vm.activePlayer,
-          cards: _vm.objects[index],
+          cards: _vm.objectsFor(index),
           paused: _vm.paused
         }
       })
@@ -11429,6 +11711,57 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-ab1ab224", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bae07278\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/GameActions.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "absolute pin-b pin-x flex justify-center" },
+    [
+      _vm.object.name
+        ? _c("img", {
+            staticClass: "block transition",
+            class: { hidden: !_vm.object.name },
+            attrs: {
+              src: "/storage/images/objects/" + _vm.object.name + ".svg",
+              alt: _vm.object.description
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass:
+            "bg-alice text-white px-4 py-2 rounded my-8 block cursor-pointer pointer-events-auto",
+          class: { hidden: _vm.paused },
+          on: {
+            click: function($event) {
+              _vm.handleAction()
+            }
+          }
+        },
+        [_vm._v(_vm._s(_vm.buttonText))]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-bae07278", module.exports)
   }
 }
 
@@ -22599,12 +22932,13 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 window.Event = new Vue();
 
-Vue.component("game-setup", __webpack_require__("./resources/assets/js/components/setup/GameSetup.vue"));
-Vue.component("player-cards", __webpack_require__("./resources/assets/js/components/players/Players.vue"));
-Vue.component("game-board", __webpack_require__("./resources/assets/js/components/GameBoard.vue"));
+Vue.component('game-setup', __webpack_require__("./resources/assets/js/components/setup/GameSetup.vue"));
+Vue.component('player-cards', __webpack_require__("./resources/assets/js/components/players/Players.vue"));
+Vue.component('game-actions', __webpack_require__("./resources/assets/js/components/GameActions.vue"));
+Vue.component('game-board', __webpack_require__("./resources/assets/js/components/GameBoard.vue"));
 
-var vm = new Vue({
-  el: "#game"
+new Vue({
+  el: '#game'
 });
 
 /***/ }),
@@ -22624,7 +22958,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 window.axios = __webpack_require__("./node_modules/axios/index.js");
 
-window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -22635,9 +22969,7 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content;
-} else {
-  console.error("CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token");
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 }
 
 /**
@@ -22651,11 +22983,59 @@ if (token) {
 window.Pusher = __webpack_require__("./node_modules/pusher-js/dist/web/pusher.js");
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
-  broadcaster: "pusher",
-  key: "2683a35d131c5afbabee",
-  cluster: "eu",
+  broadcaster: 'pusher',
+  key: '2683a35d131c5afbabee',
+  cluster: 'eu',
   encrypted: true
 });
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/GameActions.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/GameActions.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bae07278\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/GameActions.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GameActions.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-bae07278", Component.options)
+  } else {
+    hotAPI.reload("data-v-bae07278", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
 
 /***/ }),
 
@@ -22696,54 +23076,6 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-0827efed", Component.options)
   } else {
     hotAPI.reload("data-v-0827efed", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/ObjectCard.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ObjectCard.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-9de1ce34\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ObjectCard.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/ObjectCard.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9de1ce34", Component.options)
-  } else {
-    hotAPI.reload("data-v-9de1ce34", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -22936,6 +23268,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-49398a70", Component.options)
   } else {
     hotAPI.reload("data-v-49398a70", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/players/ObjectCard.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/players/ObjectCard.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2754603a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/players/ObjectCard.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/players/ObjectCard.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2754603a", Component.options)
+  } else {
+    hotAPI.reload("data-v-2754603a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
