@@ -7,15 +7,18 @@
     </noscript>
 
     <div id="game" class="overflow-hidden">
-{{--        {{ session('pawn') }}--}}
-        {{--@if(session('pawn'))--}}
-            {{--<game-setup token="{{ session('game_token') }}"></game-setup>--}}
-        {{--@else--}}
+        @if(session('player'))
+            <game-setup player="{{ $player->pawn }}"></game-setup>
+        @else
             <game-setup></game-setup>
-        {{--@endif--}}
-        <player-cards></player-cards>
+        @endif
         <game-actions></game-actions>
-        <game-board></game-board>
+        @if(session('game_token'))
+            <game-board token="{{ session('game_token') }}"></game-board>
+        @else
+            <game-board></game-board>
+        @endif
+        <player-cards></player-cards>
     </div>
 
     <script src="{{ mix('js/app.js') }}"></script>

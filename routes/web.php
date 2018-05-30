@@ -24,3 +24,7 @@ Route::patch('update/tiles', 'TileController@update');
 Route::get('/game/{session?}', 'GameController@index')->name('game');
 
 Auth::routes();
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

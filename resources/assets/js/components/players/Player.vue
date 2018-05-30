@@ -9,7 +9,7 @@
                  'left-out': paused && placement.left,
                  'right-out': paused && placement.right,
                  'translateX-0': !paused,
-                 'bg-active-transparent': active === player.pawn,
+                 'bg-active-transparent text-white': active === player.pawn,
         }">
             <div class="h-full rounded-full w-12 md:w-1/4 bg-white"
                  :class="{

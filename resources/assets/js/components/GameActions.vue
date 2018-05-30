@@ -1,9 +1,20 @@
 <template>
-    <div class="absolute pin-b pin-x flex justify-center">
-        <img v-if="object.name" :src="`/storage/images/objects/${object.name}.svg`" :alt="object.description" class="block transition"
-             :class="{hidden: !object.name}">
-        <button class="bg-alice text-white px-4 py-2 rounded my-8 block cursor-pointer pointer-events-auto"
-                :class="{hidden: paused}" @click="handleAction()">{{ buttonText }}</button>
+    <div>
+        <div class="flex absolute pin justify-center">
+            <img v-if="object.name" :src="`/storage/images/objects/${object.name}.svg`" :alt="object.description" class="block transition m-auto w-48 shadow-glow scale-0"
+                 :class="{
+                     'scale-100': showObject,
+                     'move-tl': objectOwner === 'Alice',
+                     'move-bl': objectOwner === 'Mad Hatter',
+                     'move-tr': objectOwner === 'White Rabbit',
+                     'move-br': objectOwner === 'Queen of Hearts',
+            }">
+        </div>
+        <div class="absolute pin-b pin-x flex justify-center">
+            <button class="bg-alice text-white px-4 py-2 rounded my-8 block cursor-pointer transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner"
+                    :class="{hidden: paused}" :aria-label="feedback" aria-live="polite" @click="handleAction()">{{ buttonText }}
+            </button>
+        </div>
     </div>
 </template>
 
@@ -14,7 +25,13 @@ export default {
         return {
             moveMazeMode: false,
             paused: true,
-            object: {},
+            object: {
+                name: 'spades',
+                description: 'a spades card',
+            },
+            showObject: false,
+            objectOwner: '',
+            feedback: '',
         };
     },
     created() {
@@ -39,7 +56,7 @@ export default {
     computed: {
         buttonText() {
             if (this.moveMazeMode) {
-                return 'rotate';
+                return 'rotate the tile';
             }
 
             return 'next player';
@@ -49,6 +66,12 @@ export default {
         handleAction() {
             if (this.moveMazeMode) {
                 Event.$emit('rotate');
+
+                setTimeout(() => {
+                    this.feedback = '';
+                }, 1000);
+
+                this.feedback = 'rotated';
             }
 
             // next player

@@ -15,6 +15,6 @@ class Player extends Model
 
     public function session(): BelongsTo
     {
-        return $this->belongsTo(GameSession::class);
+        return $this->belongsTo(GameSession::class,'game_session_id');
     }
 }

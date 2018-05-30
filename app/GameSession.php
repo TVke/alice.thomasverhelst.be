@@ -6,6 +6,7 @@ use App\Services\Tile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Spatie\Valuestore\Valuestore;
 
 class GameSession extends Model
 {
@@ -32,9 +33,12 @@ class GameSession extends Model
     {
         $token = static::generateToken();
 
+        $objects = Valuestore::make(resource_path('data/objects.json'));
+
         static::create([
             'session' => $token,
             'tiles' => Tile::createMap()->toJson(),
+            'objects' => collect($objects->all())->shuffle()->toJson(),
         ]);
 
         session(['game_token' => $token]);

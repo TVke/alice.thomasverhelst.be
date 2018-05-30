@@ -1,6 +1,8 @@
 <template>
     <a href="#" class="w-1/7 h-1/7 absolute transition"
-       :class="[`place-${tile.x}-${tile.y}`, {'z-50 tile-error': applyError}]"
+       :class="[`place-${tile.x}-${tile.y}`, {'z-50 filter-gray': applyError}]" aria-live="polite"
+       :title="applyError ? 'You can\'t move here.' : tile.object ? tile.type.description + ' with ' + tile.object.description : 'empty ' + tile.type.description"
+       :aria-label="applyError ? 'You can\'t move here.' : tile.object ? tile.type.description + ' with ' + tile.object.description : 'empty ' + tile.type.description"
        @click.prevent="$emit('tile-click',{x:tile.x,y:tile.y})">
         <img class="w-full block relative z--10"
              :class="`rotate-${tile.rotation}`"

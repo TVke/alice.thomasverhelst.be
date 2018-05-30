@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\GameSession;
 use App\Http\Controllers\Controller;
+use App\Player;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Spatie\Valuestore\Valuestore;
 
 class RegisterController extends Controller
 {
@@ -28,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/game/';
 
     /**
      * Create a new controller instance.
@@ -49,24 +53,26 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'username' => 'required|string|unique:players|max:255',
+            'pawn' => [
+                'required',
+                Rule::in(['Alice', 'Queen of Hearts', 'Mad Hatter', 'White Rabbit'])
+            ],
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        $session = GameSession::where('session', session('game_token'))->first();
+
+        $this->redirectTo += $session->session;
+
+        $positions = Valuestore::make(resource_path('data/startPositions.json'));
+
+        return $session->players()->create([
+            'username' => $data['username'],
+            'pawn' => $data['pawn'],
+            'position' => json_encode($positions->get($data['pawn'])),
         ]);
     }
 }

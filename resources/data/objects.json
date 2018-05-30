@@ -1,59 +1,59 @@
 [
     {
         "name" : "cake",
-        "description" : "cake with \"eat me\" on it"
+        "description" : "a cupcake with \"eat me\" on it"
     },
     {
         "name" : "doorknob",
-        "description" : "doorknob in the shape of a face"
+        "description" : "a doorknob in the shape of a face"
     },
     {
         "name" : "bottle",
-        "description" : "bottle with \"drink me\" on it"
+        "description" : "a bottle with \"drink me\" on it"
     },
     {
         "name" : "golfclubs",
-        "description" : "bag with flamingo golfclubs"
+        "description" : "a bag of flamingo mallets"
     },
     {
         "name" : "golfbal",
-        "description" : "hedgehog in the shape of a bal"
+        "description" : "a hedgehog in the shape of a bal"
     },
     {
         "name" : "hats",
-        "description" : "the hats of Tweedledee and Tweedledum"
+        "description" : "the hats of Tweedledum and Tweedledee"
     },
     {
         "name" : "cardsoldiers",
-        "description" : "the cardsoldiers of the queen of harts"
+        "description" : "the card soldiers of the Queen of Hearts"
     },
     {
         "name" : "harts",
-        "description" : "card with a harts symbol"
+        "description" : "a hearts card"
     },
     {
         "name" : "clubs",
-        "description" : "card with a clubs symbol"
+        "description" : "a clubs card"
     },
     {
         "name" : "spades",
-        "description" : "card with a spades symbol"
+        "description" : "a spades card"
     },
     {
         "name" : "diamonds",
-        "description" : "card with a diamonds symbol"
+        "description" : "a diamonds card"
     },
     {
         "name" : "crown",
-        "description" : "crown of the queen of hearts"
+        "description" : "the crown of the Queen of Hearts"
     },
     {
         "name" : "whiterose",
-        "description" : "white rose"
+        "description" : "a white rose"
     },
     {
         "name" : "redrose",
-        "description" : "a painted red rose"
+        "description" : "a painted, red rose"
     },
     {
         "name" : "shoe",
@@ -69,11 +69,11 @@
     },
     {
         "name" : "singingflower",
-        "description" : "a singing flower from Wonderland"
+        "description" : "a singing flower"
     },
     {
         "name" : "pocketwatch",
-        "description" : "the pocketwatch of the white rabbit"
+        "description" : "the pocketwatch of the White Rabbit"
     },
     {
         "name" : "mirror",
@@ -81,11 +81,11 @@
     },
     {
         "name" : "teacup",
-        "description" : "a teacup from the table of the mad hatter"
+        "description" : "a teacup from the table of the Mad Hatter"
     },
     {
         "name" : "teapot",
-        "description" : "a teapot from the table of the mad hatter"
+        "description" : "a teapot from the table of the Mad Hatter"
     },
     {
         "name" : "tree",
@@ -93,6 +93,6 @@
     },
     {
         "name" : "hammer",
-        "description" : "a judge hammer"
+        "description" : "the judge hammer of the Queen of Hearts"
     }
 ]

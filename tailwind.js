@@ -841,6 +841,7 @@ module.exports = {
         'green-active': "0 0 4px 0 " + colors['pawn-green'],
         'red-active': "0 0 4px 0 " + colors['pawn-red'],
         'white-active': "0 0 4px 0 " + colors['black'],
+        'glow': "0 0 150px 0 " + colors['yellow'],
         none: "none"
     },
 
@@ -1089,13 +1090,13 @@ module.exports = {
         function ({e, addUtilities}) {
             const transforms = {
                 '.tilt-board': {
-                    transform: 'translateY(-20px) rotateX(50deg)',
+                    transform: 'translateY(0) rotateX(50deg)',
                 },
                 '.tilt-board-sm': {
-                    transform: 'translateY(0px) rotateX(30deg)',
+                    transform: 'translateY(0) rotateX(30deg)',
                 },
                 '.tilt-board-md': {
-                    transform: 'translateY(-100px) rotateX(50deg)',
+                    transform: 'translateY(-60px) rotateX(50deg)',
                 },
                 '.pawn-start': {
                     transform: 'translateY(-150%) rotateX(50deg)',
@@ -1118,11 +1119,8 @@ module.exports = {
                 '.translateX-0': {
                     transform: 'translateX(0)',
                 },
-                '.pin-t .hide-card': {
-                    transform: 'translateY(-50%)',
-                },
-                '.pin-b .hide-card': {
-                    transform: 'translateY(50%)',
+                '.translate-0': {
+                    transform: 'translate(0)',
                 },
                 '.size-board': {
                     width: '80vw',
@@ -1132,9 +1130,6 @@ module.exports = {
                 },
                 '.size-board.paused': {
                     maxHeight: '35.816rem',
-                },
-                '.tile-error,.filter-gray': {
-                    filter: 'grayscale()',
                 },
                 '.move-mode': {
                     transform: 'scale(0.9)',
@@ -1150,7 +1145,16 @@ module.exports = {
             addUtilities(transforms, ['responsive']);
         },
         function ({addUtilities}) {
-            const cardHover = {
+            const transformSpecifics = {
+                '.filter-gray': {
+                    filter: 'grayscale()',
+                },
+                '.pin-t .hide-card': {
+                    transform: 'translateY(-50%)',
+                },
+                '.pin-b .hide-card': {
+                    transform: 'translateY(50%)',
+                },
                 '.pin-t .turned-card': {
                     transform: 'translateY(10%)',
                 },
@@ -1162,18 +1166,24 @@ module.exports = {
                 },
                 '.pin-b .active-card': {
                     transform: 'translateY(-60%)',
-                }
-            };
-
-            addUtilities(cardHover);
-        },
-        function ({addUtilities}) {
-            const transformSpecifics = {
+                },
                 '.scale-0': {
                     transform: 'scale(0)',
                 },
                 '.scale-100': {
                     transform: 'scale(1)',
+                },
+                '.move-tl': {
+                    transform: 'translate(-200%, -200%)',
+                },
+                '.move-bl': {
+                    transform: 'translate(-200%, 200%)',
+                },
+                '.move-tr': {
+                    transform: 'translate(200%, -200%)',
+                },
+                '.move-br': {
+                    transform: 'translate(200%, 200%)',
                 },
                 '.preserve3d': {
                     transformStyle: 'preserve-3d',
@@ -1181,6 +1191,9 @@ module.exports = {
                 '.origin-bottom': {
                     transformOrigin: 'bottom center',
                 },
+                '.focus-opacity-100:focus *': {
+                    opacity: 1,
+                }
             };
 
             addUtilities(transformSpecifics);

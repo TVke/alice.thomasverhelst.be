@@ -10,19 +10,22 @@
             <pawn v-for="player in players"
                   :active="activePawn"
                   :player="player"
-                  :key="player.id">
+                  :key="player.id"
+                  @pawn-move="checkMoveTo">
             </pawn>
         </div>
-        <div class="m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest pointer-events-auto size-board"
+        <div class="m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest size-board"
              :class="{
-                 'paused': paused,
-                 'sm:tilt-board tilt-board-sm md:tilt-board-md': !paused,
+                 'paused cursor-default pointer-events-none': paused,
+                 'sm:tilt-board tilt-board-sm md:tilt-board-md pointer-events-auto': !paused,
                  'move-mode sm:move-mode-sm md:move-mode-md': moveMazeMode,
         }">
             <tile v-for="(tile, index) in tiles"
                   :tile="tile"
                   :error="tileError"
                   :key="index"
+                  :disabled="paused"
+                  :tabindex="(paused || moveMazeMode)?'-1':'0'"
                   @tile-click="checkMoveTo">
             </tile>
             <move-maze
@@ -42,6 +45,7 @@ import MoveMaze from './moveMaze/MoveMaze.vue';
 
 export default {
     name: 'game-board',
+    props: ['token'],
     components: { Tile, Pawn, MoveMaze },
     data() {
         return {
@@ -56,6 +60,18 @@ export default {
         };
     },
     created() {
+        // window.Echo.join(`game.${this.token}`)
+        //     .here((players) => {
+        //         console.log(players);
+        //
+        //     })
+        //     .joining((player) => {
+        //         console.log(player);
+        //     })
+        //     .leaving((player) => {
+        //         console.log(player);
+        //     });
+
         window.axios.get('/game/tiles').then(({ data }) => {
             this.looseTile = data.pop();
 

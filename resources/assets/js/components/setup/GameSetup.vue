@@ -26,8 +26,8 @@
                         <strong class="text-grey-dark">{{ player.pawn }}</strong>
                     </li>
                 </ul>
-                <button class="block bg-alice-lighter text-base py-2 px-3 border-none rounded mt-6 mx-auto"
-                        :class="{hidden: !gameCanStart}" @click.prevent="setupIsDone">
+                <button class="block bg-alice-lighter text-base py-2 px-3 border-none transition rounded mt-6 mx-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner"
+                        :class="{hidden: !gameCanStart}" @click.prevent="setupIsDone" :disabled="setupDone">
                     Start the game
                 </button>
             </section>
@@ -42,12 +42,12 @@ import PlayerForm from './PlayerForm.vue';
 export default {
     name: 'GameSetup',
     components: { Qrcode, PlayerForm },
-    // props: {
-    //     token: {
-    //         type: String,
-    //         required: false,
-    //     }
-    // },
+    props: {
+        player: {
+            type: String,
+            required: false,
+        },
+    },
     data() {
         return {
             sessionToken: '',
@@ -98,15 +98,12 @@ export default {
 
             const gameUrl = `${location.protocol}//${location.hostname}/game/${this.sessionToken}`;
 
-            if (location.pathname.match('/game/?') && this.sessionToken !== '') {
+            if (location.pathname.match('/game/?$') && this.sessionToken !== '') {
                 location.href = gameUrl;
             }
 
             return gameUrl;
         },
-        // gameChannel() {
-        //     return window.Echo.join(`game-${this.sessionToken}`);
-        // }
     },
     methods: {
         setupIsDone() {

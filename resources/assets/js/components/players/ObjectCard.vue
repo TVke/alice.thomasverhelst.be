@@ -1,5 +1,6 @@
 <template>
-    <a href="#" class="perspective transition relative pointer-events-auto" @click.prevent="showTemp()" :class="{'turned-card': active,'active-card': show}">
+    <a href="#" class="perspective transition relative pointer-events-auto overflow-hidden"
+       @click.prevent="showTemp()" :class="{'turned-card': active,'active-card': show}" :tabindex="!active?'-1':0">
         <img src="/storage/images/card/back2.svg" alt="backside of the card" class="absolute pin block z--10"
              :class="{'hide-card opacity-0': active}">
         <img class="absolute pin m-auto p-1/5 transition transition-delay-long" v-if="active" :class="{'hide-card opacity-0': !active}"

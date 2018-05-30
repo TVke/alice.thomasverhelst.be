@@ -11,17 +11,17 @@ class Tile
     {
         $lineType = collect([
             'name' => 'line',
-            'description' => 'een rechte lijn tegel',
+            'description' => 'straight line tile',
         ]);
 
         $tpointType = collect([
             'name' => 'tpoint',
-            'description' => 'een t-punt tegel',
+            'description' => 't-point tile',
         ]);
 
         $cornerType = collect([
             'name' => 'corner',
-            'description' => 'een hoek tegel',
+            'description' => 'corner tile',
         ]);
 
         $objects = Valuestore::make(resource_path('data/objects.json'));

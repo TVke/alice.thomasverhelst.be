@@ -4116,6 +4116,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'GameActions',
@@ -4123,7 +4134,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             moveMazeMode: false,
             paused: true,
-            object: {}
+            object: {
+                name: 'spades',
+                description: 'a spades card'
+            },
+            showObject: false,
+            objectOwner: '',
+            feedback: ''
         };
     },
     created: function created() {
@@ -4151,7 +4168,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         buttonText: function buttonText() {
             if (this.moveMazeMode) {
-                return 'rotate';
+                return 'rotate the tile';
             }
 
             return 'next player';
@@ -4159,8 +4176,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         handleAction: function handleAction() {
+            var _this2 = this;
+
             if (this.moveMazeMode) {
                 Event.$emit('rotate');
+
+                setTimeout(function () {
+                    _this2.feedback = '';
+                }, 1000);
+
+                this.feedback = 'rotated';
             }
 
             // next player
@@ -4218,6 +4243,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -4225,6 +4253,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'game-board',
+    props: ['token'],
     components: { Tile: __WEBPACK_IMPORTED_MODULE_1__Tile_vue___default.a, Pawn: __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default.a, MoveMaze: __WEBPACK_IMPORTED_MODULE_2__moveMaze_MoveMaze_vue___default.a },
     data: function data() {
         return {
@@ -4240,6 +4269,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         var _this = this;
+
+        // window.Echo.join(`game.${this.token}`)
+        //     .here((players) => {
+        //         console.log(players);
+        //
+        //     })
+        //     .joining((player) => {
+        //         console.log(player);
+        //     })
+        //     .leaving((player) => {
+        //         console.log(player);
+        //     });
 
         window.axios.get('/game/tiles').then(function (_ref) {
             var data = _ref.data;
@@ -4637,6 +4678,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'pawn',
@@ -4676,6 +4722,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -4826,6 +4874,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -5026,6 +5075,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 array[i] = _ref2[0];
                 array[randomIndex] = _ref2[1];
             }
+
             return array;
         }
     }
@@ -5086,12 +5136,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'GameSetup',
     components: { Qrcode: __WEBPACK_IMPORTED_MODULE_0__xkeshi_vue_qrcode___default.a, PlayerForm: __WEBPACK_IMPORTED_MODULE_1__PlayerForm_vue___default.a },
-    // props: {
-    //     token: {
-    //         type: String,
-    //         required: false,
-    //     }
-    // },
+    props: {
+        player: {
+            type: String,
+            required: false
+        }
+    },
     data: function data() {
         return {
             sessionToken: '',
@@ -5143,7 +5193,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var gameUrl = location.protocol + '//' + location.hostname + '/game/' + this.sessionToken;
 
-            if (location.pathname.match('/game/?') && this.sessionToken !== '') {
+            if (location.pathname.match('/game/?$') && this.sessionToken !== '') {
                 location.href = gameUrl;
             }
 
@@ -11055,7 +11105,8 @@ var render = function() {
         _vm._l(_vm.players, function(player) {
           return _c("pawn", {
             key: player.id,
-            attrs: { active: _vm.activePawn, player: player }
+            attrs: { active: _vm.activePawn, player: player },
+            on: { "pawn-move": _vm.checkMoveTo }
           })
         })
       ),
@@ -11064,10 +11115,10 @@ var render = function() {
         "div",
         {
           staticClass:
-            "m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest pointer-events-auto size-board",
+            "m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest size-board",
           class: {
-            paused: _vm.paused,
-            "sm:tilt-board tilt-board-sm md:tilt-board-md": !_vm.paused,
+            "paused cursor-default pointer-events-none": _vm.paused,
+            "sm:tilt-board tilt-board-sm md:tilt-board-md pointer-events-auto": !_vm.paused,
             "move-mode sm:move-mode-sm md:move-mode-md": _vm.moveMazeMode
           }
         },
@@ -11075,7 +11126,12 @@ var render = function() {
           _vm._l(_vm.tiles, function(tile, index) {
             return _c("tile", {
               key: index,
-              attrs: { tile: tile, error: _vm.tileError },
+              attrs: {
+                tile: tile,
+                error: _vm.tileError,
+                disabled: _vm.paused,
+                tabindex: _vm.paused || _vm.moveMazeMode ? "-1" : "0"
+              },
               on: { "tile-click": _vm.checkMoveTo }
             })
           }),
@@ -11112,9 +11168,10 @@ var render = function() {
   return _c(
     "a",
     {
-      staticClass: "perspective transition relative pointer-events-auto",
+      staticClass:
+        "perspective transition relative pointer-events-auto overflow-hidden",
       class: { "turned-card": _vm.active, "active-card": _vm.show },
-      attrs: { href: "#" },
+      attrs: { href: "#", tabindex: !_vm.active ? "-1" : 0 },
       on: {
         click: function($event) {
           $event.preventDefault()
@@ -11178,7 +11235,7 @@ var render = function() {
     "a",
     {
       staticClass:
-        "w-1/7 h-1/7 shadow-inner absolute rounded-lg tr bg-grey-lighter opacity-75 hover:opacity-100 group",
+        "w-1/7 h-1/7 shadow-inner absolute rounded-lg tr bg-grey-lighter opacity-75 hover:opacity-100 focus-opacity-100 focus:opacity-100 group",
       class: "place-" + _vm.xPos + "-" + _vm.yPos,
       attrs: { href: "#" },
       on: {
@@ -11194,7 +11251,7 @@ var render = function() {
         {
           staticClass:
             "absolute opacity-0 group-hover:opacity-100 pin-t pin-r bg-alice rounded-full p-2 z-50 shadow -mt-2 -mr-2 w-8 h-8",
-          attrs: { href: "#" },
+          attrs: { href: "#", tabindex: "-1", role: "presentation" },
           on: {
             click: function($event) {
               $event.stopPropagation()
@@ -11206,7 +11263,7 @@ var render = function() {
         [
           _c("img", {
             staticClass: "w-full",
-            attrs: { src: "/storage/images/rotate.svg", alt: "Rotate the tile" }
+            attrs: { src: "/storage/images/rotate.svg", alt: "rotate the tile" }
           })
         ]
       ),
@@ -11269,7 +11326,7 @@ var render = function() {
           "left-out": _vm.paused && _vm.placement.left,
           "right-out": _vm.paused && _vm.placement.right,
           "translateX-0": !_vm.paused,
-          "bg-active-transparent": _vm.active === _vm.player.pawn
+          "bg-active-transparent text-white": _vm.active === _vm.player.pawn
         }
       },
       [
@@ -11359,7 +11416,78 @@ var render = function() {
         "-" +
         _vm.player.position.y +
         " z-" +
-        _vm.order
+        _vm.order,
+      on: {
+        keyup: [
+          function($event) {
+            if (
+              !("button" in $event) &&
+              _vm._k($event.keyCode, "up", 38, $event.key, ["Up", "ArrowUp"])
+            ) {
+              return null
+            }
+            $event.preventDefault()
+            _vm.$emit("pawn-move", {
+              x: _vm.player.position.x - 1,
+              y: _vm.player.position.y
+            })
+          },
+          function($event) {
+            if (
+              !("button" in $event) &&
+              _vm._k($event.keyCode, "down", 40, $event.key, [
+                "Down",
+                "ArrowDown"
+              ])
+            ) {
+              return null
+            }
+            $event.preventDefault()
+            _vm.$emit("pawn-move", {
+              x: _vm.player.position.x + 1,
+              y: _vm.player.position.y
+            })
+          },
+          function($event) {
+            if (
+              !("button" in $event) &&
+              _vm._k($event.keyCode, "left", 37, $event.key, [
+                "Left",
+                "ArrowLeft"
+              ])
+            ) {
+              return null
+            }
+            if ("button" in $event && $event.button !== 0) {
+              return null
+            }
+            $event.preventDefault()
+            _vm.$emit("pawn-move", {
+              x: _vm.player.position.x,
+              y: _vm.player.position.y - 1
+            })
+          },
+          function($event) {
+            if (
+              !("button" in $event) &&
+              _vm._k($event.keyCode, "right", 39, $event.key, [
+                "Right",
+                "ArrowRight"
+              ])
+            ) {
+              return null
+            }
+            if ("button" in $event && $event.button !== 2) {
+              return null
+            }
+            $event.preventDefault()
+            _vm.$emit("pawn-move", {
+              x: _vm.player.position.x,
+              y: _vm.player.position.y + 1
+            })
+          }
+        ]
+      }
     },
     [
       _c("img", {
@@ -11412,19 +11540,6 @@ var render = function() {
         })
       }),
       _vm._v(" "),
-      _vm._l(7, function(topTile) {
-        return _c("ghost-tile", {
-          key: topTile + 7,
-          attrs: { x: 7 - topTile, y: -1, tile: _vm.tile },
-          on: {
-            "add-tile": _vm.addTile,
-            rotate: function($event) {
-              _vm.$emit("rotate")
-            }
-          }
-        })
-      }),
-      _vm._v(" "),
       _vm._l(7, function(rightTile) {
         return _c("ghost-tile", {
           key: rightTile + 14,
@@ -11442,6 +11557,19 @@ var render = function() {
         return _c("ghost-tile", {
           key: bottomTile + 21,
           attrs: { x: 7 - bottomTile, y: 7, tile: _vm.tile },
+          on: {
+            "add-tile": _vm.addTile,
+            rotate: function($event) {
+              _vm.$emit("rotate")
+            }
+          }
+        })
+      }),
+      _vm._v(" "),
+      _vm._l(7, function(topTile) {
+        return _c("ghost-tile", {
+          key: topTile + 7,
+          attrs: { x: 7 - topTile, y: -1, tile: _vm.tile },
           on: {
             "add-tile": _vm.addTile,
             rotate: function($event) {
@@ -11637,9 +11765,22 @@ var render = function() {
       staticClass: "w-1/7 h-1/7 absolute transition",
       class: [
         "place-" + _vm.tile.x + "-" + _vm.tile.y,
-        { "z-50 tile-error": _vm.applyError }
+        { "z-50 filter-gray": _vm.applyError }
       ],
-      attrs: { href: "#" },
+      attrs: {
+        href: "#",
+        "aria-live": "polite",
+        title: _vm.applyError
+          ? "You can't move here."
+          : _vm.tile.object
+            ? _vm.tile.type.description + " with " + _vm.tile.object.description
+            : "empty " + _vm.tile.type.description,
+        "aria-label": _vm.applyError
+          ? "You can't move here."
+          : _vm.tile.object
+            ? _vm.tile.type.description + " with " + _vm.tile.object.description
+            : "empty " + _vm.tile.type.description
+      },
       on: {
         click: function($event) {
           $event.preventDefault()
@@ -11723,37 +11864,44 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "absolute pin-b pin-x flex justify-center" },
-    [
+  return _c("div", [
+    _c("div", { staticClass: "flex absolute pin justify-center" }, [
       _vm.object.name
         ? _c("img", {
-            staticClass: "block transition",
-            class: { hidden: !_vm.object.name },
+            staticClass: "block transition m-auto w-48 shadow-glow scale-0",
+            class: {
+              "scale-100": _vm.showObject,
+              "move-tl": _vm.objectOwner === "Alice",
+              "move-bl": _vm.objectOwner === "Mad Hatter",
+              "move-tr": _vm.objectOwner === "White Rabbit",
+              "move-br": _vm.objectOwner === "Queen of Hearts"
+            },
             attrs: {
               src: "/storage/images/objects/" + _vm.object.name + ".svg",
               alt: _vm.object.description
             }
           })
-        : _vm._e(),
-      _vm._v(" "),
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "absolute pin-b pin-x flex justify-center" }, [
       _c(
         "button",
         {
           staticClass:
-            "bg-alice text-white px-4 py-2 rounded my-8 block cursor-pointer pointer-events-auto",
+            "bg-alice text-white px-4 py-2 rounded my-8 block cursor-pointer transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner",
           class: { hidden: _vm.paused },
+          attrs: { "aria-label": _vm.feedback, "aria-live": "polite" },
           on: {
             click: function($event) {
               _vm.handleAction()
             }
           }
         },
-        [_vm._v(_vm._s(_vm.buttonText))]
+        [_vm._v(_vm._s(_vm.buttonText) + "\n        ")]
       )
-    ]
-  )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -11879,8 +12027,9 @@ var render = function() {
               "button",
               {
                 staticClass:
-                  "block bg-alice-lighter text-base py-2 px-3 border-none rounded mt-6 mx-auto",
+                  "block bg-alice-lighter text-base py-2 px-3 border-none transition rounded mt-6 mx-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner",
                 class: { hidden: !_vm.gameCanStart },
+                attrs: { disabled: _vm.setupDone },
                 on: {
                   click: function($event) {
                     $event.preventDefault()

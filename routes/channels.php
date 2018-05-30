@@ -11,9 +11,8 @@
 |
 */
 
-Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('game.{session}', function ($player, $session) {
+//    if ($session->players()->contains($player)) {
+        return ['id' => 4, 'name' => 'thomas'];
+//    }
 });
-//Broadcast::channel('game.{session}', function ($user, $session) {
-//    return (int) $user->id === (int) $id;
-//});

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\GameChanged;
 use App\GameSession;
+use App\Events\GameChanged;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Spatie\Valuestore\Valuestore;
@@ -31,21 +31,29 @@ class PlayerController extends Controller
             ],
         ]);
 
-        session(['pawn' => $request->pawn]);
-
-        $baseUrl = config('app.url');
-
         $session = GameSession::where('session', session('game_token'))->first();
 
         $sessionToken = $session->session;
 
         $positions = Valuestore::make(resource_path('data/startPositions.json'));
 
-        $session->players()->create([
+        $player = $session->players()->create([
             'username' => $request->username,
             'pawn' => $request->pawn,
             'position' => json_encode($positions->get($request->pawn)),
         ]);
+
+//        if (session()->has('player')){
+//            $sessionInfo = explode('_', session()->get('player'));
+//
+//            $player = Player::where('id', $sessionInfo[0])->where('pawn', $sessionInfo[1])->firstOrFail();
+//
+//            $player->session()->dissociate();
+//
+//            $player->save();
+//        }
+
+        session(['player' => "{$player->id}_{$player->pawn}"]);
 
         return $sessionToken;
     }
