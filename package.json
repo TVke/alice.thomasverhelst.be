@@ -20,7 +20,7 @@
         "@xkeshi/vue-qrcode": "^0.3.0",
         "axios": "^0.18",
         "babel-plugin-syntax-dynamic-import": "^6.18.0",
-        "caniuse-lite": "^1.0.30000846",
+        "caniuse-lite": "^1.0.30000847",
         "eslint": "^4.19.1",
         "eslint-config-prettier": "^2.9.0",
         "eslint-plugin-vue": "^4.5.0",

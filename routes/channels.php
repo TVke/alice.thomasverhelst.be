@@ -11,8 +11,13 @@
 |
 */
 
-Broadcast::channel('game.{session}', function ($player, $session) {
-//    if ($session->players()->contains($player)) {
-        return ['id' => 4, 'name' => 'thomas'];
-//    }
+Broadcast::channel('game.{session}', function ($player, \App\GameSession $session) {
+    if ($session->players()->where('id',$player->id)->exists()) {
+        return [
+            'id' => $player->id,
+            'username' => $player->username,
+            'pawn' => $player->pawn,
+            'position' => $player->position,
+        ];
+    }
 });

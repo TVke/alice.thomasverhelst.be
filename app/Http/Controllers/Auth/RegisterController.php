@@ -63,9 +63,15 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
-        $session = GameSession::where('session', session('game_token'))->first();
+        $game_token = session('game_token');
 
-        $this->redirectTo += $session->session;
+        if (! session()->has('game_token')) {
+            $game_token = GameSession::newSession();
+        }
+
+        $session = GameSession::where('session', $game_token)->first();
+
+        $this->redirectTo .= $session->session;
 
         $positions = Valuestore::make(resource_path('data/startPositions.json'));
 

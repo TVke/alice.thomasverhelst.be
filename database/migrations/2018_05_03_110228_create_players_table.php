@@ -18,14 +18,17 @@ class CreatePlayersTable extends Migration
             $table->string('username')->unique();
             $table->string('email')->nullable()->default(null);
             $table->string('password')->nullable()->default(null);
-            $table->string('pawn');
+            $table->string('pawn')->nullable()->default(null);
             $table->json('position');
             $table->json('objects')->nullable()->default(null);
+            $table->json('current_object')->nullable()->default(null);
             $table->integer('score')->nullable()->default(null);
+            $table->boolean('active')->default(false);
 
             $table->unsignedInteger('game_session_id')->nullable()->default(null);
             $table->foreign('game_session_id')->references('id')->on('game_sessions')->onDelete('cascade');
 
+            $table->rememberToken();
             $table->timestamps();
         });
     }

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Player;
 use App\GameSession;
 use App\Events\GameChanged;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Spatie\Valuestore\Valuestore;
 
 class PlayerController extends Controller
 {
@@ -23,39 +22,7 @@ class PlayerController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'username' => 'required|unique:players|max:255',
-            'pawn' => [
-                'required',
-                Rule::in(['Alice', 'Queen of Hearts', 'Mad Hatter', 'White Rabbit'])
-            ],
-        ]);
-
-        $session = GameSession::where('session', session('game_token'))->first();
-
-        $sessionToken = $session->session;
-
-        $positions = Valuestore::make(resource_path('data/startPositions.json'));
-
-        $player = $session->players()->create([
-            'username' => $request->username,
-            'pawn' => $request->pawn,
-            'position' => json_encode($positions->get($request->pawn)),
-        ]);
-
-//        if (session()->has('player')){
-//            $sessionInfo = explode('_', session()->get('player'));
-//
-//            $player = Player::where('id', $sessionInfo[0])->where('pawn', $sessionInfo[1])->firstOrFail();
-//
-//            $player->session()->dissociate();
-//
-//            $player->save();
-//        }
-
-        session(['player' => "{$player->id}_{$player->pawn}"]);
-
-        return $sessionToken;
+        //
     }
 
     public function show($id)
@@ -76,9 +43,7 @@ class PlayerController extends Controller
             return null;
         }
 
-        if ($pawn !== session('pawn')) {
-            return null;
-        }
+        // pawn check
 
         $path = $request->path;
 
@@ -91,8 +56,25 @@ class PlayerController extends Controller
         $session->players()->where('pawn', $pawn)->update(compact('position'));
     }
 
-    public function destroy($id)
+    public function destroy($pawn)
     {
-        //
+        $session = GameSession::where('session', session('game_token'))->firstOrFail();
+
+        $player = Player::where('pawn', $pawn)->where('game_session_id', $session->id)->firstOrFail();
+
+        $player->session()->dissociate();
+
+        $player->save();
+
+        Player::where('id', $player->id)->update([
+            'pawn' => null,
+        ]);
+
+        Player::where('id', $player->id)->whereNull('score')->delete();
+    }
+
+    public function next()
+    {
+
     }
 }

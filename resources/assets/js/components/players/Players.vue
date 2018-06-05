@@ -1,6 +1,12 @@
 <template>
     <div class="absolute pin">
-        <player v-for="(player, index) in players" :player="player" :active="activePlayer" :cards="objectsFor(index)" :key="player.id" :paused="paused"></player>
+        <player v-for="player in players"
+                :player="player"
+                :current="{pawn: playerpawn, object: object}"
+                :objects="cardsOfPlayer(player)"
+                :active="activePlayer"
+                :paused="paused"
+                :key="player.username"></player>
     </div>
 </template>
 
@@ -10,52 +16,52 @@ import Player from './Player.vue';
 export default {
     name: 'Players',
     components: { Player },
+    props: ['object', 'playerpawn'],
     data() {
         return {
             players: [],
             activePlayer: '',
             paused: true,
-            objects: [],
+            objectsCount: [],
         };
     },
-    created() {
-        window.axios.get('/game/objects').then(({ data }) => {
-            this.objects = this.shuffle(data);
-        });
-
-        Event.$on('start-play', event => {
-            this.players = event;
-
+    created: function () {
+        Event.$on('game-started', players => {
             setTimeout(() => {
                 this.paused = false;
             }, 25);
 
-            const option = Math.floor(Math.random() * event.length);
+            this.players = players;
 
-            this.activePlayer = this.players[option];
+            let cardsToUse = Math.round(24 / this.players.length);
 
-            this.activePlayer = this.players[option].pawn;
+            this.players.forEach(({pawn}) => {
+                let objects = cardsToUse;
 
-            Event.$emit('active-player', this.activePlayer);
+                if (pawn === this.playerpawn) {
+                    --objects;
+                }
+
+                this.objectsCount.push({pawn: pawn, objects: objects});
+            });
+        });
+
+        Event.$on('player-changed', ({pawn}) => {
+            this.activePlayer = pawn;
         });
     },
     methods: {
-        objectsFor(playerIndex) {
-            const amountOfCards = this.objects.length / this.players.length;
+        cardsOfPlayer({pawn}){
+            let cards = 0;
 
-            return this.objects.slice(
-                playerIndex * amountOfCards,
-                playerIndex * amountOfCards + amountOfCards
-            );
-        },
-        shuffle(array) {
-            for (let i = array.length - 1; i > 0; --i) {
-                const randomIndex = Math.floor(Math.random() * (i + 1));
-                [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
-            }
+            this.objectsCount.forEach((player) => {
+                if (pawn === player.pawn){
+                    cards = player.objects;
+                }
+            });
 
-            return array;
-        },
-    },
+            return cards;
+        }
+    }
 };
 </script>

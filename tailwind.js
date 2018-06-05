@@ -1162,10 +1162,10 @@ module.exports = {
                     transform: 'translateY(-10%)',
                 },
                 '.pin-t .active-card': {
-                    transform: 'translateY(60%)',
+                    transform: 'translateY(85%)',
                 },
                 '.pin-b .active-card': {
-                    transform: 'translateY(-60%)',
+                    transform: 'translateY(-85%)',
                 },
                 '.scale-0': {
                     transform: 'scale(0)',

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded transition-delay-longest transition"
+        <div class="absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded transition-delay-longest transition z-10"
              :class="{
                  'pin-t': placement.top,
                  'pin-b': placement.bottom,
@@ -22,13 +22,17 @@
             </div>
             <p class="my-auto p-2 truncate w-full md:w-3/4">{{ player.username }}</p>
         </div>
-        <div class="flex absolute z--10 w-1/4 py-12 md:py-4" :class="{
+        <div class="flex absolute w-1/4 py-12 md:py-4" :class="{
             'pin-t': placement.top,
             'pin-b': placement.bottom,
             'pin-l pl-12 ml-4': placement.left,
             'pin-r pr-12 flex-row-reverse mr-4': placement.right
         }">
-            <object-card v-for="card in cards" :object="card" :key="card.name" :active="card.name === activeCard"
+            <object-card v-for="card in objects"
+                         :key="card"
+                         :class="{'-ml-8': placement.left,'-mr-8': placement.right}"></object-card>
+            <object-card v-if="current.pawn === player.pawn"
+                         :object="JSON.parse(current.object)"
                          :class="{'-ml-8': placement.left,'-mr-8': placement.right}"></object-card>
         </div>
     </div>
@@ -45,14 +49,19 @@ export default {
             required: true,
             type: Object,
         },
+        current: {
+            required: true,
+            type: Object,
+        },
+        objects:{
+            required: true,
+            type: Number,
+        },
         active: {
             type: String,
         },
         paused: {
             type: Boolean,
-        },
-        cards: {
-            type: Array,
         },
     },
     computed: {
@@ -78,9 +87,6 @@ export default {
             }
 
             return places;
-        },
-        activeCard() {
-            return this.cards[this.cards.length - 1].name;
         },
     },
 };

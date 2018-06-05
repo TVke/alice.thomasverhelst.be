@@ -25,17 +25,14 @@ export default {
         return {
             moveMazeMode: false,
             paused: true,
-            object: {
-                name: 'spades',
-                description: 'a spades card',
-            },
+            object: {},
             showObject: false,
             objectOwner: '',
             feedback: '',
         };
     },
     created() {
-        Event.$on('start-play', () => {
+        Event.$on('game-started', () => {
             this.paused = false;
 
             this.moveMazeMode = true;
@@ -72,9 +69,13 @@ export default {
                 }, 1000);
 
                 this.feedback = 'rotated';
+
+                window.axios.post('/rotate/tile');
+
+                return;
             }
 
-            // next player
+            window.axios.post('/next/player');
         },
     },
 };

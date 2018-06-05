@@ -45,7 +45,7 @@ import MoveMaze from './moveMaze/MoveMaze.vue';
 
 export default {
     name: 'game-board',
-    props: ['token'],
+    props: ['token', 'playerpawn'],
     components: { Tile, Pawn, MoveMaze },
     data() {
         return {
@@ -60,17 +60,50 @@ export default {
         };
     },
     created() {
-        // window.Echo.join(`game.${this.token}`)
-        //     .here((players) => {
-        //         console.log(players);
-        //
-        //     })
-        //     .joining((player) => {
-        //         console.log(player);
-        //     })
-        //     .leaving((player) => {
-        //         console.log(player);
-        //     });
+        window.Echo.join(`game.${this.token}`)
+            .here(players => {
+                this.players = this.parsePosition(players);
+
+                this.$emit('present-players', this.players);
+            })
+            .joining(player => {
+                this.$emit('add-player', this.parsePosition(player));
+            })
+            .leaving((playerToRemove) => {
+                if (paused) {
+                    let playerIndex = 0;
+                    let pawnOfPlayer = '';
+
+                    this.players.forEach((player, index) => {
+                        if (player.username === playerToRemove.username) {
+                            playerIndex = index;
+                            pawnOfPlayer = player.pawn;
+                        }
+                    });
+
+                    this.$emit('remove-player', playerIndex);
+
+                    window.axios.delete(`/delete/player/${pawnOfPlayer}`);
+                }
+            })
+            .listen('GameStarted', ({players}) => {
+                Event.$emit('game-started', this.parsePosition(players));
+            })
+            .listen('TileMoved', data => {
+                console.log(data);
+            })
+            .listen('PawnMoved', data => {
+                console.log(data);
+            })
+            .listen('ObjectFound', data => {
+                console.log(data);
+            })
+            .listen('RotateTile', () => {
+                Event.$emit('rotate');
+            })
+            .listen('PlayerChanged', ({player}) => {
+                Event.$emit('player-changed', player);
+            });
 
         window.axios.get('/game/tiles').then(({ data }) => {
             this.looseTile = data.pop();
@@ -78,16 +111,16 @@ export default {
             this.tiles = data;
         });
 
-        Event.$on('start-play', event => {
+        Event.$on('game-started', players => {
             this.paused = false;
 
             this.moveMazeMode = true;
 
-            this.players = event;
+            this.players = players;
         });
 
-        Event.$on('active-player', event => {
-            this.activePawn = event;
+        Event.$on('player-changed', ({pawn}) => {
+            this.activePawn = pawn;
         });
 
         Event.$on('rotate', () => {
@@ -99,7 +132,7 @@ export default {
             let playerIndex = 0;
 
             this.players.forEach((player, index) => {
-                if (player.pawn === this.activePawn) {
+                if (this.playerPawn === this.activePawn) {
                     playerIndex = index;
                 }
             });
@@ -108,6 +141,19 @@ export default {
         },
     },
     methods: {
+        parsePosition(players) {
+            if (!players.length) {
+                players.position = JSON.parse(players.position);
+            }
+
+            if (players.length > 0) {
+                players.forEach(player => {
+                    player.position = JSON.parse(player.position);
+                });
+            }
+
+            return players;
+        },
         rotateLooseTile() {
             let newRotation = this.looseTile.rotation + 90;
 

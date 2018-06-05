@@ -12,19 +12,24 @@
 */
 
 Route::get('/', 'PageController@info')->name('info');
+Route::get('/test', 'GameController@start');
+
+Route::post('/register', 'Auth\RegisterController@register')->name('register');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/game/tiles', 'TileController@index');
 Route::get('/game/players', 'PlayerController@index');
 Route::get('/game/objects', 'GameController@objects');
 
-Route::put('/add/player', 'PlayerController@store');
-Route::patch('/update/player/{pawn}', 'PlayerController@update');
+Route::post('/next/player', 'PlayerController@next');
+Route::post('/rotate/tile', 'TileController@rotate');
+
 Route::patch('update/tiles', 'TileController@update');
+Route::patch('/update/player/{pawn}', 'PlayerController@update');
+Route::patch('/start/game/{session}', 'GameController@start');
+
+Route::delete('/delete/player/{pawn}', 'PlayerController@destroy');
 
 Route::get('/game/{session?}', 'GameController@index')->name('game');
 
-Auth::routes();
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+//Auth::routes();

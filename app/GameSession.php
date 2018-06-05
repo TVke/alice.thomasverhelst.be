@@ -42,5 +42,7 @@ class GameSession extends Model
         ]);
 
         session(['game_token' => $token]);
+
+        return $token;
     }
 }
