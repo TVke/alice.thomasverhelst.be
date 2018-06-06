@@ -69,28 +69,32 @@ export default {
             .joining(player => {
                 this.$emit('add-player', this.parsePosition(player));
             })
-            .leaving((playerToRemove) => {
-                if (paused) {
-                    let playerIndex = 0;
-                    let pawnOfPlayer = '';
+            .leaving(playerToRemove => {
+                // let playerIndex = 0;
+                // let pawnOfPlayer = '';
+                //
+                // this.players.forEach((player, index) => {
+                //     if (player.username === playerToRemove.username) {
+                //         playerIndex = index;
+                //         pawnOfPlayer = player.pawn;
+                //     }
+                // });
+                //
+                // if (this.paused) {
+                //     window.axios.delete(`/delete/player/${pawnOfPlayer}`);
+                // }
 
-                    this.players.forEach((player, index) => {
-                        if (player.username === playerToRemove.username) {
-                            playerIndex = index;
-                            pawnOfPlayer = player.pawn;
-                        }
-                    });
-
-                    this.$emit('remove-player', playerIndex);
-
-                    window.axios.delete(`/delete/player/${pawnOfPlayer}`);
-                }
+                // this.$emit('remove-player', playerIndex);
             })
-            .listen('GameStarted', ({players}) => {
+            .listen('GameStarted', ({ players }) => {
                 Event.$emit('game-started', this.parsePosition(players));
             })
-            .listen('TileMoved', data => {
-                console.log(data);
+            .listen('TileMoved', ({ changes, rotation }) => {
+                if (this.looseTile.rotation !== rotation) {
+                    this.looseTile.rotation = rotation;
+                }
+
+                this.moveMaze(changes);
             })
             .listen('PawnMoved', data => {
                 console.log(data);
@@ -101,7 +105,7 @@ export default {
             .listen('RotateTile', () => {
                 Event.$emit('rotate');
             })
-            .listen('PlayerChanged', ({player}) => {
+            .listen('PlayerChanged', ({ player }) => {
                 Event.$emit('player-changed', player);
             });
 
@@ -119,7 +123,7 @@ export default {
             this.players = players;
         });
 
-        Event.$on('player-changed', ({pawn}) => {
+        Event.$on('player-changed', ({ pawn }) => {
             this.activePawn = pawn;
         });
 

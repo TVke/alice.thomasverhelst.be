@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Player;
 use App\GameSession;
-use App\Events\GameChanged;
 use Illuminate\Http\Request;
 
 class PlayerController extends Controller
@@ -20,34 +19,17 @@ class PlayerController extends Controller
         return $session->players()->get();
     }
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
     public function update(Request $request, $pawn)
     {
         $session = GameSession::where('session', session('game_token'))->first();
 
         if (! $session) {
-            return null;
+            abort(404);
         }
 
         // pawn check
 
         $path = $request->path;
-
-        event(new GameChanged($session, [], $path));
 
         unset($path[0]['step']);
 

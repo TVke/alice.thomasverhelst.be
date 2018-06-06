@@ -16,13 +16,17 @@ class TileMoved implements ShouldBroadcast
     /** @var \App\GameSession */
     protected $gameSession;
 
-    public $changedTile;
+    public $changes;
 
-    public function __construct(GameSession $gameSession, $changedTile)
+    public $rotation;
+
+    public function __construct(GameSession $gameSession, $changes, $rotation)
     {
         $this->gameSession = $gameSession;
 
-        $this->tiles = $changedTile;
+        $this->changes = $changes;
+
+        $this->rotation = $rotation;
 
         $this->dontBroadcastToCurrentUser();
     }

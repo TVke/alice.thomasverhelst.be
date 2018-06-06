@@ -47,7 +47,8 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -56,7 +57,16 @@ class RegisterController extends Controller
             'username' => 'required|string|unique:players|max:255',
             'pawn' => [
                 'required',
-                Rule::in(['Alice', 'Queen of Hearts', 'Mad Hatter', 'White Rabbit'])
+                Rule::in(['Alice', 'Queen of Hearts', 'Mad Hatter', 'White Rabbit']),
+                Rule::unique('players')->where(function ($query) {
+                    if (! session()->has('game_token')) {
+                        return true;
+                    }
+
+                    $session = GameSession::where('session', session('game_token'))->first();
+
+                    return $query->where('game_session_id', $session->id);
+                }),
             ],
         ]);
     }

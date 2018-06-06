@@ -82,14 +82,14 @@
                 </section>
             </div>
         </div>
-        <game-actions></game-actions>
+        <game-actions playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"></game-actions>
         <game-board token="{{ session('game_token') }}"
-                    playerpawn="{{ Auth::user() }}"
+                    playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"
                     @present-players="players = $event"
                     @add-player="players.push($event)"
                     @remove-player="players.splice($event, 1)"></game-board>
-        <players object="{{ (Auth::check()) ? Auth::user()->current_object : '' }}"
-                 playerpawn="{{ (Auth::check()) ? Auth::user()->pawn : '' }}"></players>
+        <players object="{{ Auth::check() ? Auth::user()->current_object : '' }}"
+                 playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"></players>
     </div>
 
     <script src="{{ mix('js/app.js') }}"></script>

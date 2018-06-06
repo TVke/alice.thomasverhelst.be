@@ -53,7 +53,7 @@ export default {
             required: true,
             type: Object,
         },
-        objects:{
+        objects: {
             required: true,
             type: Number,
         },

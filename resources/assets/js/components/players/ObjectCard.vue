@@ -20,8 +20,8 @@ export default {
             show: false,
         };
     },
-    computed:{
-        active(){
+    computed: {
+        active() {
             return this.object;
         },
     },

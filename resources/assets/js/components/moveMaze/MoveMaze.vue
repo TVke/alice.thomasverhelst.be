@@ -63,7 +63,10 @@ export default {
                 };
             }
 
-            window.axios.patch('/update/tiles/', { tile: changes });
+            window.axios.patch('/update/tiles/', {
+                changes: changes,
+                rotation: this.tile.rotation,
+            });
 
             this.$emit('move-maze', changes);
         },

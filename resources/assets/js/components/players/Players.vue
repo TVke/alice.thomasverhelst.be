@@ -25,7 +25,7 @@ export default {
             objectsCount: [],
         };
     },
-    created: function () {
+    created: function() {
         Event.$on('game-started', players => {
             setTimeout(() => {
                 this.paused = false;
@@ -35,33 +35,33 @@ export default {
 
             let cardsToUse = Math.round(24 / this.players.length);
 
-            this.players.forEach(({pawn}) => {
+            this.players.forEach(({ pawn }) => {
                 let objects = cardsToUse;
 
                 if (pawn === this.playerpawn) {
                     --objects;
                 }
 
-                this.objectsCount.push({pawn: pawn, objects: objects});
+                this.objectsCount.push({ pawn: pawn, objects: objects });
             });
         });
 
-        Event.$on('player-changed', ({pawn}) => {
+        Event.$on('player-changed', ({ pawn }) => {
             this.activePlayer = pawn;
         });
     },
     methods: {
-        cardsOfPlayer({pawn}){
+        cardsOfPlayer({ pawn }) {
             let cards = 0;
 
-            this.objectsCount.forEach((player) => {
-                if (pawn === player.pawn){
+            this.objectsCount.forEach(player => {
+                if (pawn === player.pawn) {
                     cards = player.objects;
                 }
             });
 
             return cards;
-        }
-    }
+        },
+    },
 };
 </script>

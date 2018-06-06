@@ -892,6 +892,10 @@ button,
   opacity: .75;
 }
 
+.opacity-100 {
+  opacity: 1;
+}
+
 .group:hover .group-hover\:opacity-100 {
   opacity: 1;
 }
@@ -1098,6 +1102,11 @@ button,
 .shadow-glow {
   -webkit-box-shadow: 0 0 150px 0 #ffed4a;
           box-shadow: 0 0 150px 0 #ffed4a;
+}
+
+.shadow-none {
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .group:hover .group-hover\:shadow-blue-active {
@@ -1923,6 +1932,11 @@ button,
           transform: translate(200%, 200%);
 }
 
+.perspective {
+  -webkit-perspective: 2000px;
+          perspective: 2000px;
+}
+
 .preserve3d {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
@@ -1951,11 +1965,6 @@ button,
  * @import "utilities/background-patterns";
  * @import "utilities/skew-transforms";
  */
-
-.perspective {
-  -webkit-perspective: 2000;
-          perspective: 2000;
-}
 
 @media (min-width: 450px) {
 

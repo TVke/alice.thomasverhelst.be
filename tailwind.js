@@ -1185,6 +1185,9 @@ module.exports = {
                 '.move-br': {
                     transform: 'translate(200%, 200%)',
                 },
+                '.perspective': {
+                    perspective: '2000px',
+                },
                 '.preserve3d': {
                     transformStyle: 'preserve-3d',
                 },

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\GameChanged;
-use App\Events\RotateTile;
-use App\Events\TileMoved;
 use App\GameSession;
+use App\Events\TileMoved;
+use App\Events\RotateTile;
 use Illuminate\Http\Request;
 
 class TileController extends Controller
@@ -21,26 +20,6 @@ class TileController extends Controller
         return $session->tiles;
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
     public function update(Request $request)
     {
         $session = GameSession::where('session', session('game_token'))->first();
@@ -49,12 +28,12 @@ class TileController extends Controller
             return null;
         }
 
-        event(new TileMoved($session, $request->tile));
-    }
+//        return [
+//            ['changes' => $request->changes],
+//            ['rotation' => $request->rotation]
+//        ];
 
-    public function destroy($id)
-    {
-        //
+        event(new TileMoved($session, $request->changes, $request->rotation));
     }
 
     public function rotate()

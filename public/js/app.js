@@ -4127,9 +4127,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'GameActions',
+    props: ['playerpawn'],
     data: function data() {
         return {
             moveMazeMode: false,
@@ -4137,7 +4149,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             object: {},
             showObject: false,
             objectOwner: '',
-            feedback: ''
+            feedback: '',
+            activePawn: ''
         };
     },
     created: function created() {
@@ -4160,6 +4173,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             _this.object = object;
         });
+
+        Event.$on('player-changed', function (_ref) {
+            var pawn = _ref.pawn;
+
+            _this.activePawn = pawn;
+        });
     },
 
     computed: {
@@ -4169,6 +4188,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             return 'next player';
+        },
+        allowPlay: function allowPlay() {
+            return this.activePawn === this.playerpawn;
         }
     },
     methods: {
@@ -4278,41 +4300,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }).joining(function (player) {
             _this.$emit('add-player', _this.parsePosition(player));
         }).leaving(function (playerToRemove) {
-            if (paused) {
-                var playerIndex = 0;
-                var pawnOfPlayer = '';
+            // let playerIndex = 0;
+            // let pawnOfPlayer = '';
+            //
+            // this.players.forEach((player, index) => {
+            //     if (player.username === playerToRemove.username) {
+            //         playerIndex = index;
+            //         pawnOfPlayer = player.pawn;
+            //     }
+            // });
+            //
+            // if (this.paused) {
+            //     window.axios.delete(`/delete/player/${pawnOfPlayer}`);
+            // }
 
-                _this.players.forEach(function (player, index) {
-                    if (player.username === playerToRemove.username) {
-                        playerIndex = index;
-                        pawnOfPlayer = player.pawn;
-                    }
-                });
-
-                _this.$emit('remove-player', playerIndex);
-
-                window.axios.delete('/delete/player/' + pawnOfPlayer);
-            }
+            // this.$emit('remove-player', playerIndex);
         }).listen('GameStarted', function (_ref) {
             var players = _ref.players;
 
             Event.$emit('game-started', _this.parsePosition(players));
-        }).listen('TileMoved', function (data) {
-            console.log(data);
+        }).listen('TileMoved', function (_ref2) {
+            var changes = _ref2.changes,
+                rotation = _ref2.rotation;
+
+            if (_this.looseTile.rotation !== rotation) {
+                _this.looseTile.rotation = rotation;
+            }
+
+            _this.moveMaze(changes);
         }).listen('PawnMoved', function (data) {
             console.log(data);
         }).listen('ObjectFound', function (data) {
             console.log(data);
         }).listen('RotateTile', function () {
             Event.$emit('rotate');
-        }).listen('PlayerChanged', function (_ref2) {
-            var player = _ref2.player;
+        }).listen('PlayerChanged', function (_ref3) {
+            var player = _ref3.player;
 
             Event.$emit('player-changed', player);
         });
 
-        window.axios.get('/game/tiles').then(function (_ref3) {
-            var data = _ref3.data;
+        window.axios.get('/game/tiles').then(function (_ref4) {
+            var data = _ref4.data;
 
             _this.looseTile = data.pop();
 
@@ -4327,8 +4356,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.players = players;
         });
 
-        Event.$on('player-changed', function (_ref4) {
-            var pawn = _ref4.pawn;
+        Event.$on('player-changed', function (_ref5) {
+            var pawn = _ref5.pawn;
 
             _this.activePawn = pawn;
         });
@@ -4904,7 +4933,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 };
             }
 
-            window.axios.patch('/update/tiles/', { tile: changes });
+            window.axios.patch('/update/tiles/', {
+                changes: changes,
+                rotation: this.tile.rotation
+            });
 
             this.$emit('move-maze', changes);
         }
@@ -11543,9 +11575,17 @@ var render = function() {
         "button",
         {
           staticClass:
-            "bg-alice text-white px-4 py-2 rounded my-8 block cursor-pointer transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner",
-          class: { hidden: _vm.paused },
-          attrs: { "aria-label": _vm.feedback, "aria-live": "polite" },
+            "px-4 py-2 rounded my-8 block transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner",
+          class: {
+            hidden: _vm.paused,
+            "bg-grey shadow-none cursor-default opacity-0": !_vm.allowPlay,
+            "bg-alice text-white cursor-pointer opacity-100": _vm.allowPlay
+          },
+          attrs: {
+            "aria-label": _vm.feedback,
+            disabled: !_vm.allowPlay,
+            "aria-live": "polite"
+          },
           on: {
             click: function($event) {
               _vm.handleAction()

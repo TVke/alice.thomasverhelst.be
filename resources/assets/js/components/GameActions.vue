@@ -1,7 +1,10 @@
 <template>
     <div>
         <div class="flex absolute pin justify-center">
-            <img v-if="object.name" :src="`/storage/images/objects/${object.name}.svg`" :alt="object.description" class="block transition m-auto w-48 shadow-glow scale-0"
+            <img class="block transition m-auto w-48 shadow-glow scale-0"
+                 v-if="object.name"
+                 :src="`/storage/images/objects/${object.name}.svg`"
+                 :alt="object.description"
                  :class="{
                      'scale-100': showObject,
                      'move-tl': objectOwner === 'Alice',
@@ -11,8 +14,16 @@
             }">
         </div>
         <div class="absolute pin-b pin-x flex justify-center">
-            <button class="bg-alice text-white px-4 py-2 rounded my-8 block cursor-pointer transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner"
-                    :class="{hidden: paused}" :aria-label="feedback" aria-live="polite" @click="handleAction()">{{ buttonText }}
+            <button class="px-4 py-2 rounded my-8 block transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner"
+                    :class="{
+                    hidden: paused,
+                    'bg-grey shadow-none cursor-default opacity-0': !allowPlay,
+                    'bg-alice text-white cursor-pointer opacity-100': allowPlay
+                    }"
+                    :aria-label="feedback"
+                    :disabled="!allowPlay"
+                    aria-live="polite"
+                    @click="handleAction()">{{ buttonText }}
             </button>
         </div>
     </div>
@@ -21,6 +32,7 @@
 <script>
 export default {
     name: 'GameActions',
+    props: ['playerpawn'],
     data() {
         return {
             moveMazeMode: false,
@@ -29,6 +41,7 @@ export default {
             showObject: false,
             objectOwner: '',
             feedback: '',
+            activePawn: '',
         };
     },
     created() {
@@ -49,6 +62,10 @@ export default {
 
             this.object = object;
         });
+
+        Event.$on('player-changed', ({pawn}) => {
+            this.activePawn = pawn;
+        });
     },
     computed: {
         buttonText() {
@@ -58,6 +75,9 @@ export default {
 
             return 'next player';
         },
+        allowPlay(){
+            return this.activePawn === this.playerpawn;
+        }
     },
     methods: {
         handleAction() {

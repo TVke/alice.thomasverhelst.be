@@ -16,14 +16,14 @@ new Vue({
             players: [],
             setupDone: false,
             pawnOptions: [
-                {name: 'Alice', value: 'Alice'},
-                {name: 'Mad Hatter', value: 'Mad Hatter'},
-                {name: 'Queen of Hearts', value: 'Queen of Hearts'},
-                {name: 'White Rabbit', value: 'White Rabbit'},
+                { name: 'Alice', value: 'Alice' },
+                { name: 'Mad Hatter', value: 'Mad Hatter' },
+                { name: 'Queen of Hearts', value: 'Queen of Hearts' },
+                { name: 'White Rabbit', value: 'White Rabbit' },
             ],
-        }
+        };
     },
-    created(){
+    created() {
         Event.$on('game-started', () => {
             this.setupDone = true;
         });
@@ -43,7 +43,7 @@ new Vue({
         optionAvailable(pawnOption, players) {
             let available = false;
 
-            players.forEach((player) => {
+            players.forEach(player => {
                 if (player.pawn === pawnOption.value) {
                     available = true;
                 }
@@ -51,5 +51,5 @@ new Vue({
 
             return available;
         },
-    }
+    },
 });

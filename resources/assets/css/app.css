@@ -56,7 +56,3 @@
  * @import "utilities/background-patterns";
  * @import "utilities/skew-transforms";
  */
-
-.perspective {
-    perspective: 2000;
-}
