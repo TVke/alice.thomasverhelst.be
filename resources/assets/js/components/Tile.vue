@@ -4,7 +4,7 @@
        :title="applyError ? 'You can\'t move here.' : tile.object ? tile.type.description + ' with ' + tile.object.description : 'empty ' + tile.type.description"
        :aria-label="applyError ? 'You can\'t move here.' : tile.object ? tile.type.description + ' with ' + tile.object.description : 'empty ' + tile.type.description"
        @click.prevent="$emit('tile-click',{x:tile.x,y:tile.y})">
-        <img class="w-full block relative z--10"
+        <img class="w-full h-full block relative z--10"
              :class="`rotate-${tile.rotation}`"
              :src="`/storage/images/tiles/${tile.type.name}.svg`"
              :alt="tile.type.description">
