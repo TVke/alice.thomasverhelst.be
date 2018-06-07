@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PawnMoved;
 use App\Player;
 use App\GameSession;
 use Illuminate\Http\Request;
@@ -21,15 +22,17 @@ class PlayerController extends Controller
 
     public function update(Request $request, $pawn)
     {
-        $session = GameSession::where('session', session('game_token'))->first();
+        $session = GameSession::where('session', session('game_token'))->firstOrFail();
 
-        if (! $session) {
+        $activePawn = $session->players()->where('active', true)->first()->pawn;
+
+        if ($pawn !== $activePawn) {
             abort(404);
         }
 
-        // pawn check
-
         $path = $request->path;
+
+        event(new PawnMoved($session, $path));
 
         unset($path[0]['step']);
 

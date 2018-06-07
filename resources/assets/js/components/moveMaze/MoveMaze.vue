@@ -1,6 +1,6 @@
 <template>
     <div class="block transition transition-slow"
-         :class="{hidden: !active}">
+         :class="{hidden: !active, 'pointer-events-none': !allowPlay}">
         <ghost-tile v-for="leftTile in 7" :x="-1" :y="leftTile - 1" :tile="tile" :key="leftTile"
                     @add-tile="addTile" @rotate="$emit('rotate')">
         </ghost-tile>
@@ -22,7 +22,22 @@ import GhostTile from './GhostTile.vue';
 export default {
     name: 'MoveMaze',
     components: { GhostTile },
-    props: ['active', 'tile'],
+    props: ['active', 'tile', 'playerpawn'],
+    data(){
+        return {
+            activePawn: '',
+        }
+    },
+    created(){
+        Event.$on('player-changed', ({pawn}) => {
+            this.activePawn = pawn;
+        });
+    },
+    computed: {
+        allowPlay() {
+            return this.activePawn === this.playerpawn;
+        }
+    },
     methods: {
         addTile: function(position) {
             const x = position.x;

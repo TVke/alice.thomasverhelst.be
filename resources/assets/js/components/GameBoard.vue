@@ -31,6 +31,7 @@
             <move-maze
                 :active="moveMazeMode"
                 :tile="looseTile"
+                :playerpawn="playerpawn"
                 @move-maze="moveMaze"
                 @rotate="rotateLooseTile">
             </move-maze>
@@ -67,7 +68,7 @@ export default {
                 this.$emit('present-players', this.players);
             })
             .joining(player => {
-                this.$emit('add-player', this.parsePosition(player));
+                // this.$emit('add-player', this.parsePosition(player));
             })
             .leaving(playerToRemove => {
                 // let playerIndex = 0;
@@ -96,8 +97,10 @@ export default {
 
                 this.moveMaze(changes);
             })
-            .listen('PawnMoved', data => {
-                console.log(data);
+            .listen('PawnMoved', ({path}) => {
+                this.movePawnTo(path);
+                console.log(this.players);
+                console.log(this.activePlayerIndex);
             })
             .listen('ObjectFound', data => {
                 console.log(data);
@@ -136,7 +139,7 @@ export default {
             let playerIndex = 0;
 
             this.players.forEach((player, index) => {
-                if (this.playerPawn === this.activePawn) {
+                if (this.playerpawn === this.activePawn) {
                     playerIndex = index;
                 }
             });
@@ -146,11 +149,11 @@ export default {
     },
     methods: {
         parsePosition(players) {
-            if (!players.length) {
+            if (! Array.isArray(players)) {
                 players.position = JSON.parse(players.position);
             }
 
-            if (players.length > 0) {
+            if (Array.isArray(players)) {
                 players.forEach(player => {
                     player.position = JSON.parse(player.position);
                 });

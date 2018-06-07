@@ -17,8 +17,8 @@
             <button class="px-4 py-2 rounded my-8 block transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner"
                     :class="{
                     hidden: paused,
-                    'bg-grey shadow-none cursor-default opacity-0': !allowPlay,
-                    'bg-alice text-white cursor-pointer opacity-100': allowPlay
+                    'bg-grey shadow-none cursor-default': !allowPlay,
+                    'bg-alice text-white cursor-pointer': allowPlay
                     }"
                     :aria-label="feedback"
                     :disabled="!allowPlay"
@@ -69,6 +69,12 @@ export default {
     },
     computed: {
         buttonText() {
+            if (! this.allowPlay){
+                const article = this.activePawn === 'Alice' ? '' : ' the';
+
+                return `waiting on${article} ${this.activePawn} ...`
+            }
+
             if (this.moveMazeMode) {
                 return 'rotate the tile';
             }

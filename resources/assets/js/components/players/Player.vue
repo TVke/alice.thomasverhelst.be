@@ -32,7 +32,7 @@
                          :key="card"
                          :class="{'-ml-8': placement.left,'-mr-8': placement.right}"></object-card>
             <object-card v-if="current.pawn === player.pawn"
-                         :object="JSON.parse(current.object)"
+                         :object="current.object"
                          :class="{'-ml-8': placement.left,'-mr-8': placement.right}"></object-card>
         </div>
     </div>
