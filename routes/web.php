@@ -12,19 +12,19 @@
 */
 
 Route::get('/', 'PageController@info')->name('info');
-//Route::get('/test', 'TileController@update');
+Route::get('/test', 'PlayerController@next');
 
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/game/tiles', 'TileController@index');
 Route::get('/game/players', 'PlayerController@index');
-Route::get('/game/objects', 'GameController@objects');
 
-Route::post('/next/player', 'PlayerController@next');
 Route::post('/rotate/tile', 'TileController@rotate');
+Route::post('/next/player', 'PlayerController@next');
+Route::post('/found/object', 'GameController@rotate');
 
-Route::patch('update/tiles', 'TileController@update');
+Route::patch('/update/tiles', 'TileController@update');
 Route::patch('/update/player/{pawn}', 'PlayerController@update');
 Route::patch('/start/game/{session}', 'GameController@start');
 

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\GameChanged;
-use App\Events\GameStarted;
-use App\Events\PlayerChanged;
+use App\Events\ObjectFound;
 use App\Player;
 use App\GameSession;
+use App\Events\GameStarted;
+use App\Events\PlayerChanged;
 use Illuminate\Http\Request;
 use Spatie\Valuestore\Valuestore;
 use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
-    public function index(Request $request, ?GameSession $session = null)
+    public function index(?GameSession $session = null)
     {
 //        if ($player->session && $player->session->started) {
 //            return view('errors.started');
@@ -40,6 +40,8 @@ class GameController extends Controller
     {
         GameSession::where('session', $session->session)->update(['started' => true]);
 
+        $session->players()->update(['active' => false]);
+
         $players = $session->players;
 
         $allObjects = $this->makeJson($session->objects);
@@ -62,14 +64,27 @@ class GameController extends Controller
 
         event(new GameStarted($session, $session->players));
 
-        event(new PlayerChanged($session, $randomPlayer));
+        event(new PlayerChanged($session, $randomPlayer->pawn));
     }
 
-    public function objects(Player $player)
-    {
-        $objects = Valuestore::make(resource_path('data/objects.json'));
+    public function objectFound(Request $request){
+        $session = GameSession::where('session', session('game_token'))->firstOrFail();
 
-        return $objects->all();
+        $activePlayer = $session->players()->where('active', true)->where('pawn', $request->pawn)->firstOrFail();
+
+        $foundObject = $session->players()->where('active', true)->where('current_object->name', $request->object)->firstOrFail();
+
+
+
+        $newObject = '';
+
+        $newObjectList = '';
+
+        Player::where('id', $activePlayer->id)->update(['current_object'=> $newObject]);
+        Player::where('id', $activePlayer->id)->update(['objects'=> $newObjectList]);
+
+        event(new ObjectFound($session, $foundObject, $activePlayer->pawn));
+
     }
 
     protected function makeJson(string $json){

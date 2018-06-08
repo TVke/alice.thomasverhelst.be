@@ -21,19 +21,21 @@
                  'move-mode sm:move-mode-sm md:move-mode-md': moveMazeMode,
         }">
             <tile v-for="(tile, index) in tiles"
+                  :class="{'pointer-events-none': !allowPlay}"
                   :tile="tile"
                   :error="tileError"
                   :key="index"
                   :disabled="paused"
-                  :tabindex="(paused || moveMazeMode)?'-1':'0'"
+                  :tabindex="(paused || moveMazeMode || !allowPlay)?'-1':'0'"
                   @tile-click="checkMoveTo">
             </tile>
             <move-maze
-                :active="moveMazeMode"
-                :tile="looseTile"
-                :playerpawn="playerpawn"
-                @move-maze="moveMaze"
-                @rotate="rotateLooseTile">
+                    :class="{'pointer-events-none': !allowPlay}"
+                    :active="moveMazeMode"
+                    :tile="looseTile"
+                    :playerpawn="playerpawn"
+                    @move-maze="moveMaze"
+                    @rotate="rotateLooseTile">
             </move-maze>
         </div>
     </div>
@@ -46,7 +48,7 @@ import MoveMaze from './moveMaze/MoveMaze.vue';
 
 export default {
     name: 'game-board',
-    props: ['token', 'playerpawn'],
+    props: ['token', 'playerpawn', 'object'],
     components: { Tile, Pawn, MoveMaze },
     data() {
         return {
@@ -55,6 +57,7 @@ export default {
             looseTile: {},
             tileError: {},
             activePawn: '',
+            objectToFind: this.object,
             paused: true,
             moveMazeMode: false,
             movePawnMode: false,
@@ -68,24 +71,23 @@ export default {
                 this.$emit('present-players', this.players);
             })
             .joining(player => {
-                // this.$emit('add-player', this.parsePosition(player));
+                this.$emit('add-player', this.parsePosition(player));
             })
             .leaving(playerToRemove => {
-                // let playerIndex = 0;
-                // let pawnOfPlayer = '';
-                //
-                // this.players.forEach((player, index) => {
-                //     if (player.username === playerToRemove.username) {
-                //         playerIndex = index;
-                //         pawnOfPlayer = player.pawn;
-                //     }
-                // });
-                //
-                // if (this.paused) {
-                //     window.axios.delete(`/delete/player/${pawnOfPlayer}`);
-                // }
+                let playerIndex = 0;
+                let pawnOfPlayer = '';
 
-                // this.$emit('remove-player', playerIndex);
+                this.players.forEach((player, index) => {
+                    if (player.username === playerToRemove.username) {
+                        playerIndex = index;
+                        pawnOfPlayer = player.pawn;
+                    }
+                });
+
+                if (this.paused) {
+                    window.axios.delete(`/delete/player/${pawnOfPlayer}`);
+                }
+                this.$emit('remove-player', playerIndex);
             })
             .listen('GameStarted', ({ players }) => {
                 Event.$emit('game-started', this.parsePosition(players));
@@ -97,7 +99,7 @@ export default {
 
                 this.moveMaze(changes);
             })
-            .listen('PawnMoved', ({path}) => {
+            .listen('PawnMoved', ({ path }) => {
                 this.movePawnTo(path);
                 console.log(this.players);
                 console.log(this.activePlayerIndex);
@@ -108,8 +110,9 @@ export default {
             .listen('RotateTile', () => {
                 Event.$emit('rotate');
             })
-            .listen('PlayerChanged', ({ player }) => {
-                Event.$emit('player-changed', player);
+            .listen('PlayerChanged', ({pawn}) => {
+                console.log(pawn);
+                Event.$emit('player-changed', pawn);
             });
 
         window.axios.get('/game/tiles').then(({ data }) => {
@@ -120,14 +123,18 @@ export default {
 
         Event.$on('game-started', players => {
             this.paused = false;
-
             this.moveMazeMode = true;
+            this.movePawnMode = false;
+
 
             this.players = players;
         });
 
-        Event.$on('player-changed', ({ pawn }) => {
+        Event.$on('player-changed', pawn => {
             this.activePawn = pawn;
+
+            this.moveMazeMode = true;
+            this.movePawnMode = false;
         });
 
         Event.$on('rotate', () => {
@@ -139,17 +146,20 @@ export default {
             let playerIndex = 0;
 
             this.players.forEach((player, index) => {
-                if (this.playerpawn === this.activePawn) {
+                if (player.pawn === this.activePawn) {
                     playerIndex = index;
                 }
             });
 
             return playerIndex;
         },
+        allowPlay(){
+            return this.activePawn === this.playerpawn;
+        }
     },
     methods: {
         parsePosition(players) {
-            if (! Array.isArray(players)) {
+            if (!Array.isArray(players)) {
                 players.position = JSON.parse(players.position);
             }
 
@@ -313,6 +323,13 @@ export default {
                 return;
             }
 
+            if (found && this.objectIsAt(end.x, end.y)) {
+                window.axios.post('/object/found', {object: this.objectToFind, pawn: this.playerpawn})
+                    .then(newObject => {
+                        this.objectToFind = newObject;
+                    });
+            }
+
             mainList.reverse();
 
             const cleanPath = [];
@@ -421,6 +438,11 @@ export default {
             });
 
             return tileObject;
+        },
+        objectIsAt(x, y){
+            const object = this.getTileobject(x,y).object;
+
+            return object && object.name === this.objectToFind.name;
         },
         getDirection(positionOne, positionTwo) {
             if (positionOne.x === positionTwo.x) {

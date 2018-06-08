@@ -1,17 +1,41 @@
 <template>
     <div class="block transition transition-slow"
-         :class="{hidden: !active, 'pointer-events-none': !allowPlay}">
-        <ghost-tile v-for="leftTile in 7" :x="-1" :y="leftTile - 1" :tile="tile" :key="leftTile"
-                    @add-tile="addTile" @rotate="$emit('rotate')">
+         :class="{hidden: !active}">
+        <ghost-tile v-for="leftTile in 7"
+                    :x="-1"
+                    :y="leftTile - 1"
+                    :tile="tile"
+                    :key="leftTile"
+                    :tabindex="(!allowPlay)?'-1':'0'"
+                    @add-tile="addTile"
+                    @rotate="$emit('rotate')">
         </ghost-tile>
-        <ghost-tile v-for="rightTile in 7" :x="7" :y="rightTile - 1" :tile="tile" :key="rightTile + 14"
-                    @add-tile="addTile" @rotate="$emit('rotate')">
+        <ghost-tile v-for="rightTile in 7"
+                    :x="7"
+                    :y="rightTile - 1"
+                    :tile="tile"
+                    :key="rightTile + 14"
+                    :tabindex="(!allowPlay)?'-1':'0'"
+                    @add-tile="addTile"
+                    @rotate="$emit('rotate')">
         </ghost-tile>
-        <ghost-tile v-for="bottomTile in 7" :x="7 - bottomTile" :y="7" :tile="tile" :key="bottomTile + 21"
-                    @add-tile="addTile" @rotate="$emit('rotate')">
+        <ghost-tile v-for="bottomTile in 7"
+                    :x="7 - bottomTile"
+                    :y="7"
+                    :tile="tile"
+                    :key="bottomTile + 21"
+                    :tabindex="(!allowPlay)?'-1':'0'"
+                    @add-tile="addTile"
+                    @rotate="$emit('rotate')">
         </ghost-tile>
-        <ghost-tile v-for="topTile in 7" :x="7 - topTile" :y="-1" :tile="tile" :key="topTile + 7"
-                    @add-tile="addTile" @rotate="$emit('rotate')">
+        <ghost-tile v-for="topTile in 7"
+                    :x="7 - topTile"
+                    :y="-1"
+                    :tile="tile"
+                    :key="topTile + 7"
+                    :tabindex="(!allowPlay)?'-1':'0'"
+                    @add-tile="addTile"
+                    @rotate="$emit('rotate')">
         </ghost-tile>
     </div>
 </template>
@@ -26,10 +50,10 @@ export default {
     data(){
         return {
             activePawn: '',
-        }
+        };
     },
-    created(){
-        Event.$on('player-changed', ({pawn}) => {
+    created() {
+        Event.$on('player-changed', ({ pawn }) => {
             this.activePawn = pawn;
         });
     },

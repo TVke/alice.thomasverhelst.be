@@ -46,7 +46,7 @@ export default {
             });
         });
 
-        Event.$on('player-changed', ({ pawn }) => {
+        Event.$on('player-changed', pawn => {
             this.activePlayer = pawn;
         });
     },

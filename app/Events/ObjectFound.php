@@ -18,15 +18,15 @@ class ObjectFound implements ShouldBroadcast
 
     public $object;
 
-    public $player;
+    public $pawn;
 
-    public function __construct(GameSession $gameSession, $object, $player)
+    public function __construct(GameSession $gameSession, $object, $pawn)
     {
         $this->gameSession = $gameSession;
 
         $this->object = $object;
 
-        $this->player = $player;
+        $this->player = $pawn;
     }
 
     public function broadcastOn()

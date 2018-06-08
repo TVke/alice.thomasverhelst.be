@@ -24,11 +24,11 @@ export default {
         active() {
             return this.object;
         },
-        objectName(){
+        objectName() {
             if (this.object) {
                 return JSON.parse(this.object).name;
             }
-        }
+        },
     },
     methods: {
         showTemp() {

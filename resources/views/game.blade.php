@@ -85,6 +85,7 @@
         <game-actions playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"></game-actions>
         <game-board token="{{ session('game_token') }}"
                     playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"
+                    object="{{ Auth::check() ? Auth::user()->current_object : '' }}"
                     @present-players="players = $event"
                     @add-player="players.push($event)"
                     @remove-player="players.splice($event, 1)"></game-board>

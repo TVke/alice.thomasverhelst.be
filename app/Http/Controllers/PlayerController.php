@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\PawnMoved;
+use App\Events\PlayerChanged;
 use App\Player;
 use App\GameSession;
 use Illuminate\Http\Request;
@@ -24,11 +25,7 @@ class PlayerController extends Controller
     {
         $session = GameSession::where('session', session('game_token'))->firstOrFail();
 
-        $activePawn = $session->players()->where('active', true)->first()->pawn;
-
-        if ($pawn !== $activePawn) {
-            abort(404);
-        }
+        $session->players()->where('active', true)->where('pawn',$pawn)->firstOrFail();
 
         $path = $request->path;
 
@@ -60,6 +57,31 @@ class PlayerController extends Controller
 
     public function next()
     {
+        $session = GameSession::where('session', session('game_token'))->firstOrFail();
 
+        $players = $session->players()->orderBy('pawn')->get();
+
+        $currentPlayer = $session->players()->where('active', true)->first();
+
+        $pawns = $players->map(function (Player $player) use ($currentPlayer) {
+            return $player->pawn;
+        });
+
+        $nextPlayerPawn = '';
+
+        for ($i = 0, $ilen = count($pawns); $i < $ilen; ++$i) {
+            if ($pawns[$i] === $currentPlayer->pawn && $i+1 < $ilen) {
+                $nextPlayerPawn = $pawns[$i+1];
+            }
+
+            if ($pawns[$i] === $currentPlayer->pawn && $i + 1 === $ilen){
+                $nextPlayerPawn = $pawns[0];
+            }
+        }
+        $session->players()->where('active', true)->update(['active' => false]);
+
+        $session->players()->where('pawn', $nextPlayerPawn)->update(['active' => true]);
+
+        event(new PlayerChanged($session, $nextPlayerPawn));
     }
 }

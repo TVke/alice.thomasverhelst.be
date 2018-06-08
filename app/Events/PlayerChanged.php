@@ -16,13 +16,13 @@ class PlayerChanged implements ShouldBroadcast
     /** @var \App\GameSession */
     protected $gameSession;
 
-    public $player;
+    public $pawn;
 
-    public function __construct(GameSession $gameSession, $nextPlayer)
+    public function __construct(GameSession $gameSession, $nextPlayerPawn)
     {
         $this->gameSession = $gameSession;
 
-        $this->player = $nextPlayer;
+        $this->pawn = $nextPlayerPawn;
     }
 
     public function broadcastOn()
