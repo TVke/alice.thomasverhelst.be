@@ -48,7 +48,7 @@ import MoveMaze from './moveMaze/MoveMaze.vue';
 
 export default {
     name: 'game-board',
-    props: ['token', 'playerpawn', 'object'],
+    props: ['token', 'playerpawn'],
     components: { Tile, Pawn, MoveMaze },
     data() {
         return {
@@ -57,7 +57,7 @@ export default {
             looseTile: {},
             tileError: {},
             activePawn: '',
-            objectToFind: this.object,
+            newObject: '',
             paused: true,
             moveMazeMode: false,
             movePawnMode: false,
@@ -101,18 +101,18 @@ export default {
             })
             .listen('PawnMoved', ({ path }) => {
                 this.movePawnTo(path);
-                console.log(this.players);
-                console.log(this.activePlayerIndex);
             })
             .listen('ObjectFound', data => {
-                console.log(data);
+                Event.$emit('object-found', data);
             })
             .listen('RotateTile', () => {
                 Event.$emit('rotate');
             })
             .listen('PlayerChanged', ({pawn}) => {
-                console.log(pawn);
                 Event.$emit('player-changed', pawn);
+            })
+            .listen('PlayerWon', ({pawn}) => {
+                Event.$emit('player-won', pawn);
             });
 
         window.axios.get('/game/tiles').then(({ data }) => {
@@ -126,8 +126,11 @@ export default {
             this.moveMazeMode = true;
             this.movePawnMode = false;
 
-
             this.players = players;
+        });
+
+        Event.$on('new-object', object => {
+            this.newObject = object;
         });
 
         Event.$on('player-changed', pawn => {
@@ -155,7 +158,7 @@ export default {
         },
         allowPlay(){
             return this.activePawn === this.playerpawn;
-        }
+        },
     },
     methods: {
         parsePosition(players) {
@@ -324,9 +327,9 @@ export default {
             }
 
             if (found && this.objectIsAt(end.x, end.y)) {
-                window.axios.post('/object/found', {object: this.objectToFind, pawn: this.playerpawn})
-                    .then(newObject => {
-                        this.objectToFind = newObject;
+                window.axios.post('/found/object', {object: this.newObject.name, pawn: this.playerpawn})
+                    .then(({data}) => {
+                        Event.$emit('new-object', data);
                     });
             }
 
@@ -442,7 +445,7 @@ export default {
         objectIsAt(x, y){
             const object = this.getTileobject(x,y).object;
 
-            return object && object.name === this.objectToFind.name;
+            return object && object.name === this.newObject.name;
         },
         getDirection(positionOne, positionTwo) {
             if (positionOne.x === positionTwo.x) {

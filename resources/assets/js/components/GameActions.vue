@@ -1,7 +1,17 @@
 <template>
     <div>
+        <div class="absolute pin flex bg-black-transparent transition transition-delay-longer z-50"
+             :class="{'opacity-0 pointer-events-none': !winner, 'pointer-events-auto': winner}">
+            <div class="mx-auto w-1/2 sm:w-1/3 md:w-1/4">
+                <img v-if="activePawn" class="mx-auto block w-full pb-4 pt-16 px-8 max-w-sm"
+                     :src="`/storage/images/pawns/${activePawn}.svg`"
+                     :alt="`${activePawn} pawn`">
+                <h3 class="font-noteworthy text-center text-white text-5xl">{{ winner }}</h3>
+                <p class="font-noteworthy text-center text-white text-xl pt-3">won Alice's magical maze</p>
+            </div>
+        </div>
         <div class="flex absolute pin justify-center">
-            <img class="block transition m-auto w-48 shadow-glow scale-0"
+            <img class="block transition m-auto w-48 filter-shadow scale-0"
                  v-if="object.name"
                  :src="`/storage/images/objects/${object.name}.svg`"
                  :alt="object.description"
@@ -42,6 +52,7 @@ export default {
             objectOwner: '',
             feedback: '',
             activePawn: '',
+            winner: '',
         };
     },
     created() {
@@ -55,10 +66,22 @@ export default {
             this.moveMazeMode = false;
         });
 
-        Event.$on('object-found', object => {
+        Event.$on('object-found', ({object, pawn}) => {
             setTimeout(() => {
                 this.object = {};
-            }, 1000);
+
+                this.showObject = false;
+
+                this.objectOwner = '';
+            }, 2500);
+
+            setTimeout(() => {
+                this.objectOwner = pawn;
+            }, 2000);
+
+            setTimeout(() => {
+                this.showObject = true;
+            }, 250);
 
             this.object = object;
         });

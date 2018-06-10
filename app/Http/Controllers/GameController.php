@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ObjectFound;
+use App\Events\PlayerWon;
 use App\Player;
 use App\GameSession;
 use App\Events\GameStarted;
-use App\Events\PlayerChanged;
+use App\Events\ObjectFound;
 use Illuminate\Http\Request;
-use Spatie\Valuestore\Valuestore;
+use App\Events\PlayerChanged;
 use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
@@ -33,7 +33,7 @@ class GameController extends Controller
 
         $players = $session->players()->get();
 
-        return view('game',compact('players'));
+        return view('game', compact('players'));
     }
 
     public function start(GameSession $session)
@@ -67,27 +67,74 @@ class GameController extends Controller
         event(new PlayerChanged($session, $randomPlayer->pawn));
     }
 
-    public function objectFound(Request $request){
+    public function firstObject(Request $request)
+    {
         $session = GameSession::where('session', session('game_token'))->firstOrFail();
 
-        $activePlayer = $session->players()->where('active', true)->where('pawn', $request->pawn)->firstOrFail();
-
-        $foundObject = $session->players()->where('active', true)->where('current_object->name', $request->object)->firstOrFail();
-
-
-
-        $newObject = '';
-
-        $newObjectList = '';
-
-        Player::where('id', $activePlayer->id)->update(['current_object'=> $newObject]);
-        Player::where('id', $activePlayer->id)->update(['objects'=> $newObjectList]);
-
-        event(new ObjectFound($session, $foundObject, $activePlayer->pawn));
-
+        return $activePlayer = Player::where('game_session_id', $session->id)
+            ->where('pawn', $request->pawn)
+            ->firstOrFail()
+            ->current_object;
     }
 
-    protected function makeJson(string $json){
+    public function objectFound(Request $request)
+    {
+        $session = GameSession::where('session', session('game_token'))->firstOrFail();
+
+        $activePlayer = Player::where('game_session_id', $session->id)
+            ->where('active', true)
+            ->where('pawn', $request->pawn)
+            ->firstOrFail();
+
+        $foundObject = Player::where('game_session_id', $session->id)
+            ->where('active', true)
+            ->where('current_object->name', $request->object)
+            ->firstOrFail()
+            ->current_object;
+
+        event(new ObjectFound($session, $this->makeJson($foundObject), $activePlayer->pawn));
+
+        $objects = $this->makeJson($activePlayer->objects);
+
+        if ($objects->isEmpty()){
+            event(new PlayerWon($session, $activePlayer->pawn));
+
+            $this->calculateScores($session, $activePlayer);
+
+            return null;
+        }
+
+        $newObject = $objects->pop();
+
+        Player::where('id', $activePlayer->id)->update(['current_object' => json_encode($newObject)]);
+
+        Player::where('id', $activePlayer->id)->update(['objects' => json_encode($objects)]);
+
+        return collect($newObject);
+    }
+
+    protected function makeJson(string $json)
+    {
         return collect(json_decode($json));
-}
+    }
+
+    protected function calculateScores($session, $winner)
+    {
+        $amountOfPlayers = $session->players->count();
+
+        $players = Player::where('game_session_id',$session->id)->get();
+
+        $players->each(function ($player) use ($amountOfPlayers, $winner) {
+            $objectsLeftCount = $this->makeJson($player->objects)->count();
+            $objectsFound = 24 / $amountOfPlayers - $objectsLeftCount;
+
+            $score = 10 * $amountOfPlayers * $objectsFound;
+
+            if ($player->id === $winner->id){
+                $score = 10 * $amountOfPlayers * $objectsFound * $amountOfPlayers;
+            }
+
+            Player::where('id',$player->id)->update(['score' => $score]);
+        });
+    }
 }

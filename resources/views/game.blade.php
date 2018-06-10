@@ -13,14 +13,32 @@
                  :class="{'move-up': setupDone}">
                 <h2 class="p-2 font-noteworthy font-light"
                     :class="{hidden: ! allowNewPlayer}">Choose your pawn</h2>
-                <form class="md:flex-wrap md:flex" method="post" action="{{ route('register') }}"
-                      :class="{hidden: ! allowNewPlayer}">
+                @if(! Auth::check())
+                    <form class="md:flex-wrap md:flex" method="post" :action="(login) ? '/login' : '/register'"
+                          :class="{hidden: ! allowNewPlayer}">
+                @endif
+                @if(Auth::check())
+                    <form class="md:flex-wrap md:flex" method="post" action="{{ route('logout') }}">
+                @endif
                     @csrf
                     <div class="flex-1 p-2">
-                        <label class="py-2 block{{ $errors->has('username') ? ' text-red' : '' }}" for="username">Username</label>
+                        <div class="flex">
+                            <label class="py-2 block{{ $errors->has('username') ? ' text-red' : '' }}" for="username">Username</label>
+                            {{--@if(! Auth::check())--}}
+                                {{--<a class="block my-auto mr-auto p-2" :class="{'hidden':login}" href="#" @click.prevent="login = true"> already played? Login</a>--}}
+                            {{--@endif--}}
+                            @if(Auth::check())
+                                <input type="submit" value="Change your choice" class="appearance-none bg-white cursor-pointer hover:underline text-alice rounded pt-1 px-4 my-auto">
+                            @endif
+                        </div>
+
                         <input class="block p-2 w-full border border-grey rounded text-base{{ $errors->has('username') ? ' border-red' : '' }}"
                                required id="username" name="username" value="{{ Auth::check() ? Auth::user()->username : old('username') }}"
                                 {{ Auth::check() ? 'disabled': '' }}>
+
+                        <label v-if="login" class="py-2 block{{ $errors->has('password') ? ' text-red' : '' }}" for="password">Password</label>
+                        <input v-if="login" class="block p-2 w-full border border-grey rounded text-base{{ $errors->has('password') ? ' border-red' : '' }}"
+                               type="password" required id="password" name="password" value="{{ old('password') ?: '' }}">
                     </div>
                     <div class="p-2">
                         <label class="py-2 block{{$errors->has('pawn') ? ' text-red' : ''}}" for="pawn">Your pawn</label>
@@ -47,6 +65,9 @@
                         @if ($errors->has('pawn') && !Auth::check())
                             <p class="block p-2 bg-grey-lighter rounded mb-4 -mt-2">{{ $errors->first('pawn') }}</p>
                         @endif
+                        @if ($errors->has('password') && !Auth::check())
+                            <p class="block p-2 bg-grey-lighter rounded mb-4 -mt-2">{{ $errors->first('password') }}</p>
+                        @endif
                         <input type="submit" value="Submit choose" class="py-2 px-3 rounded mt-2{{ Auth::check() ? ' bg-grey' : ' bg-alice-lighter' }}"
                                 {{ Auth::check() ? 'disabled' : '' }}>
                     </div>
@@ -54,9 +75,9 @@
                 @if(Auth::check())
                     <section class="w-full p-2 py-4 block">
                         <h2 class="py-2 font-noteworthy font-light">Share this url</h2>
-                        <div class="flex">
+                        <div class="flex flex-wrap">
                             <qrcode value="{{ route('game', ['session' => session('game_token')]) }}" tag="img"></qrcode>
-                            <a href="{{ route('game', ['session' => session('game_token')]) }}" class=" block m-auto">
+                            <a href="{{ route('game', ['session' => session('game_token')]) }}" class="block m-auto truncate direction-reverse">
                                 {{ route('game', ['session' => session('game_token')]) }}
                             </a>
                         </div>
@@ -71,9 +92,9 @@
                                     <strong class="text-grey-dark">{{ $player->pawn }}</strong></li>
                             @endforeach
                         @endif
-                        <li v-for="player in players" :key="player.username">
-                            - @{{ player.username }} is @{{ (player.pawn !== 'Alice') ? 'the ' : '' }}
-                            <strong class="text-grey-dark">@{{ player.pawn }}</strong>
+                        <li v-for="player in players" :key="player.username" v-html="
+                        ` - ${player.username} is ${(player.pawn !== 'Alice') ? 'the ' : '' }
+                        <strong class='text-grey-dark'>${ player.pawn }</strong>`">
                         </li>
                     </ul>
                     <button class="block bg-alice-lighter text-base py-2 px-3 border-none transition rounded mt-6 mx-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner"
@@ -85,12 +106,10 @@
         <game-actions playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"></game-actions>
         <game-board token="{{ session('game_token') }}"
                     playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"
-                    object="{{ Auth::check() ? Auth::user()->current_object : '' }}"
                     @present-players="players = $event"
                     @add-player="players.push($event)"
                     @remove-player="players.splice($event, 1)"></game-board>
-        <players object="{{ Auth::check() ? Auth::user()->current_object : '' }}"
-                 playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"></players>
+        <players playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"></players>
     </div>
 
     <script src="{{ mix('js/app.js') }}"></script>

@@ -8,25 +8,19 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Support\Collection;
 
-class ObjectFound implements ShouldBroadcast
+class PlayerWon implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /** @var \App\GameSession */
     protected $gameSession;
 
-    /** @var \Illuminate\Support\Collection */
-    public $object;
+    public $pawn;
 
-    public $pawn = '';
-
-    public function __construct(GameSession $gameSession, Collection $object, string $pawn)
+    public function __construct(GameSession $gameSession, $pawn)
     {
         $this->gameSession = $gameSession;
-
-        $this->object = $object;
 
         $this->pawn = $pawn;
     }

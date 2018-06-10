@@ -43,10 +43,10 @@ View the full documentation at https://tailwindcss.com.
 */
 
 let colors = {
-    transparent: "transparent",
-    "white-transparent": "rgba(255,255,255,0.9)",
-    "black-transparent": "rgba(0,0,0,0.6)",
-    "active-transparent": "rgba(100,100,100,0.6)",
+    transparent: 'transparent',
+    'white-transparent': 'rgba(255,255,255,0.9)',
+    'black-transparent': 'rgba(0,0,0,0.6)',
+    'active-transparent': 'rgba(100,100,100,0.6)',
 
     'pawn-blue': '#36A9E1',
     'pawn-green': '#95C11F',
@@ -117,6 +117,7 @@ let colors = {
     "blue-light": "#6cb2eb",
     "blue-lighter": "#bcdefa",
     "blue-lightest": "#eff8ff",
+    "blue-link": "link",
 
     "indigo-darkest": "#191e38",
     "indigo-darker": "#2f365f",
@@ -701,6 +702,7 @@ module.exports = {
 
     maxHeight: {
         '1/4': "25%",
+        'cards': "6rem",
         xs: "20rem",
         sm: "30rem",
         md: "40rem",
@@ -1148,6 +1150,12 @@ module.exports = {
             const transformSpecifics = {
                 '.filter-gray': {
                     filter: 'grayscale()',
+                },
+                '.filter-shadow': {
+                    filter: `drop-shadow(0 0 40px ${colors['yellow']})`,
+                },
+                '.direction-reverse': {
+                    direction: 'rtl',
                 },
                 '.pin-t .hide-card': {
                     transform: 'translateY(-50%)',

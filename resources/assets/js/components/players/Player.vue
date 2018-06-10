@@ -28,7 +28,7 @@
             'pin-l pl-12 ml-4': placement.left,
             'pin-r pr-12 flex-row-reverse mr-4': placement.right
         }">
-            <object-card v-for="card in objects"
+            <object-card v-for="card in objectsToShow"
                          :key="card"
                          :class="{'-ml-8': placement.left,'-mr-8': placement.right}"></object-card>
             <object-card v-if="current.pawn === player.pawn"
@@ -63,6 +63,18 @@ export default {
         paused: {
             type: Boolean,
         },
+    },
+    data() {
+        return {
+            objectsToShow: this.objects,
+        }
+    },
+    created(){
+        Event.$on('object-found', ({object, pawn}) => {
+            if (pawn === this.player.pawn) {
+                this.objectsToShow -= 1;
+            }
+        });
     },
     computed: {
         placement() {

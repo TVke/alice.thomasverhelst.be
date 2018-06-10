@@ -15,6 +15,7 @@ new Vue({
         return {
             players: [],
             setupDone: false,
+            login: false,
             pawnOptions: [
                 { name: 'Alice', value: 'Alice' },
                 { name: 'Mad Hatter', value: 'Mad Hatter' },

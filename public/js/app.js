@@ -4138,6 +4138,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'GameActions',
@@ -4150,7 +4160,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             showObject: false,
             objectOwner: '',
             feedback: '',
-            activePawn: ''
+            activePawn: '',
+            winner: ''
         };
     },
     created: function created() {
@@ -4166,10 +4177,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.moveMazeMode = false;
         });
 
-        Event.$on('object-found', function (object) {
+        Event.$on('object-found', function (_ref) {
+            var object = _ref.object,
+                pawn = _ref.pawn;
+
             setTimeout(function () {
                 _this.object = {};
-            }, 1000);
+
+                _this.showObject = false;
+
+                _this.objectOwner = '';
+            }, 2500);
+
+            setTimeout(function () {
+                _this.objectOwner = pawn;
+            }, 2000);
+
+            setTimeout(function () {
+                _this.showObject = true;
+            }, 250);
 
             _this.object = object;
         });
@@ -4285,7 +4311,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'game-board',
-    props: ['token', 'playerpawn', 'object'],
+    props: ['token', 'playerpawn'],
     components: { Tile: __WEBPACK_IMPORTED_MODULE_1__Tile_vue___default.a, Pawn: __WEBPACK_IMPORTED_MODULE_0__Pawn_vue___default.a, MoveMaze: __WEBPACK_IMPORTED_MODULE_2__moveMaze_MoveMaze_vue___default.a },
     data: function data() {
         return {
@@ -4294,7 +4320,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             looseTile: {},
             tileError: {},
             activePawn: '',
-            objectToFind: this.object,
+            newObject: '',
             paused: true,
             moveMazeMode: false,
             movePawnMode: false
@@ -4341,21 +4367,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var path = _ref3.path;
 
             _this.movePawnTo(path);
-            console.log(_this.players);
-            console.log(_this.activePlayerIndex);
         }).listen('ObjectFound', function (data) {
-            console.log(data);
+            Event.$emit('object-found', data);
         }).listen('RotateTile', function () {
             Event.$emit('rotate');
         }).listen('PlayerChanged', function (_ref4) {
             var pawn = _ref4.pawn;
 
-            console.log(pawn);
             Event.$emit('player-changed', pawn);
+        }).listen('PlayerWon', function (_ref5) {
+            var pawn = _ref5.pawn;
+
+            Event.$emit('player-won', pawn);
         });
 
-        window.axios.get('/game/tiles').then(function (_ref5) {
-            var data = _ref5.data;
+        window.axios.get('/game/tiles').then(function (_ref6) {
+            var data = _ref6.data;
 
             _this.looseTile = data.pop();
 
@@ -4368,6 +4395,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.movePawnMode = false;
 
             _this.players = players;
+        });
+
+        Event.$on('new-object', function (object) {
+            _this.newObject = object;
         });
 
         Event.$on('player-changed', function (pawn) {
@@ -4570,8 +4601,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (found && this.objectIsAt(end.x, end.y)) {
-                window.axios.post('/object/found', { object: this.objectToFind, pawn: this.playerpawn }).then(function (newObject) {
-                    _this3.objectToFind = newObject;
+                window.axios.post('/found/object', { object: this.newObject.name, pawn: this.playerpawn }).then(function (_ref7) {
+                    var data = _ref7.data;
+
+                    Event.$emit('new-object', data);
                 });
             }
 
@@ -4684,7 +4717,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         objectIsAt: function objectIsAt(x, y) {
             var object = this.getTileobject(x, y).object;
 
-            return object && object.name === this.objectToFind.name;
+            return object && object.name === this.newObject.name;
         },
         getDirection: function getDirection(positionOne, positionTwo) {
             if (positionOne.x === positionTwo.x) {
@@ -5044,11 +5077,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         active: function active() {
             return this.object;
-        },
-        objectName: function objectName() {
-            if (this.object) {
-                return JSON.parse(this.object).name;
-            }
         }
     },
     methods: {
@@ -5141,6 +5169,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: Boolean
         }
     },
+    data: function data() {
+        return {
+            objectsToShow: this.objects
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        Event.$on('object-found', function (_ref) {
+            var object = _ref.object,
+                pawn = _ref.pawn;
+
+            if (pawn === _this.player.pawn) {
+                _this.objectsToShow -= 1;
+            }
+        });
+    },
+
     computed: {
         placement: function placement() {
             var places = {
@@ -5195,13 +5241,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'Players',
     components: { Player: __WEBPACK_IMPORTED_MODULE_0__Player_vue___default.a },
-    props: ['object', 'playerpawn'],
+    props: ['playerpawn'],
     data: function data() {
         return {
             players: [],
             activePlayer: '',
             paused: true,
-            objectsCount: []
+            objectsCount: [],
+            newObject: ''
         };
     },
 
@@ -5209,6 +5256,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
 
         Event.$on('game-started', function (players) {
+            window.axios.post('/first/object', { pawn: _this.playerpawn }).then(function (_ref) {
+                var data = _ref.data;
+
+                Event.$emit('new-object', data);
+            });
+
             setTimeout(function () {
                 _this.paused = false;
             }, 25);
@@ -5217,8 +5270,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var cardsToUse = Math.round(24 / _this.players.length);
 
-            _this.players.forEach(function (_ref) {
-                var pawn = _ref.pawn;
+            _this.players.forEach(function (_ref2) {
+                var pawn = _ref2.pawn;
 
                 var objects = cardsToUse;
 
@@ -5233,10 +5286,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Event.$on('player-changed', function (pawn) {
             _this.activePlayer = pawn;
         });
+
+        Event.$on('new-object', function (object) {
+            _this.newObject = object;
+        });
     },
     methods: {
-        cardsOfPlayer: function cardsOfPlayer(_ref2) {
-            var pawn = _ref2.pawn;
+        cardsOfPlayer: function cardsOfPlayer(_ref3) {
+            var pawn = _ref3.pawn;
 
             var cards = 0;
 
@@ -11075,7 +11132,7 @@ var render = function() {
     "a",
     {
       staticClass:
-        "perspective transition relative pointer-events-auto overflow-hidden",
+        "perspective transition relative pointer-events-auto overflow-hidden max-h-cards",
       class: { "turned-card": _vm.active, "active-card": _vm.show },
       attrs: { href: "#", tabindex: !_vm.active ? "-1" : 0 },
       on: {
@@ -11101,8 +11158,8 @@ var render = function() {
               "absolute pin m-auto p-1/5 transition transition-delay-long",
             class: { "hide-card opacity-0": !_vm.active },
             attrs: {
-              src: "/storage/images/objects/" + _vm.objectName + ".svg",
-              alt: _vm.objectName
+              src: "/storage/images/objects/" + _vm.object.name + ".svg",
+              alt: _vm.object.description
             }
           })
         : _vm._e(),
@@ -11286,7 +11343,7 @@ var render = function() {
         }
       },
       [
-        _vm._l(_vm.objects, function(card) {
+        _vm._l(_vm.objectsToShow, function(card) {
           return _c("object-card", {
             key: card,
             class: { "-ml-8": _vm.placement.left, "-mr-8": _vm.placement.right }
@@ -11549,7 +11606,7 @@ var render = function() {
         key: player.username,
         attrs: {
           player: player,
-          current: { pawn: _vm.playerpawn, object: _vm.object },
+          current: { pawn: _vm.playerpawn, object: _vm.newObject },
           objects: _vm.cardsOfPlayer(player),
           active: _vm.activePlayer,
           paused: _vm.paused
@@ -11578,10 +11635,49 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass:
+          "absolute pin flex bg-black-transparent transition transition-delay-longer z-50",
+        class: {
+          "opacity-0 pointer-events-none": !_vm.winner,
+          "pointer-events-auto": _vm.winner
+        }
+      },
+      [
+        _c("div", { staticClass: "mx-auto w-1/2 sm:w-1/3 md:w-1/4" }, [
+          _vm.activePawn
+            ? _c("img", {
+                staticClass: "mx-auto block w-full pb-4 pt-16 px-8 max-w-sm",
+                attrs: {
+                  src: "/storage/images/pawns/" + _vm.activePawn + ".svg",
+                  alt: _vm.activePawn + " pawn"
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "h3",
+            { staticClass: "font-noteworthy text-center text-white text-5xl" },
+            [_vm._v(_vm._s(_vm.winner))]
+          ),
+          _vm._v(" "),
+          _c(
+            "p",
+            {
+              staticClass: "font-noteworthy text-center text-white text-xl pt-3"
+            },
+            [_vm._v("won Alice's magical maze")]
+          )
+        ])
+      ]
+    ),
+    _vm._v(" "),
     _c("div", { staticClass: "flex absolute pin justify-center" }, [
       _vm.object.name
         ? _c("img", {
-            staticClass: "block transition m-auto w-48 shadow-glow scale-0",
+            staticClass: "block transition m-auto w-48 filter-shadow scale-0",
             class: {
               "scale-100": _vm.showObject,
               "move-tl": _vm.objectOwner === "Alice",
@@ -22658,6 +22754,7 @@ new Vue({
         return {
             players: [],
             setupDone: false,
+            login: false,
             pawnOptions: [{ name: 'Alice', value: 'Alice' }, { name: 'Mad Hatter', value: 'Mad Hatter' }, { name: 'Queen of Hearts', value: 'Queen of Hearts' }, { name: 'White Rabbit', value: 'White Rabbit' }]
         };
     },

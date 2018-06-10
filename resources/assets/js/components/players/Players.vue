@@ -2,7 +2,7 @@
     <div class="absolute pin">
         <player v-for="player in players"
                 :player="player"
-                :current="{pawn: playerpawn, object: object}"
+                :current="{pawn: playerpawn, object: newObject}"
                 :objects="cardsOfPlayer(player)"
                 :active="activePlayer"
                 :paused="paused"
@@ -16,17 +16,23 @@ import Player from './Player.vue';
 export default {
     name: 'Players',
     components: { Player },
-    props: ['object', 'playerpawn'],
+    props: ['playerpawn'],
     data() {
         return {
             players: [],
             activePlayer: '',
             paused: true,
             objectsCount: [],
+            newObject: '',
         };
     },
     created: function() {
         Event.$on('game-started', players => {
+            window.axios.post('/first/object', {pawn: this.playerpawn})
+                .then(({data}) => {
+                    Event.$emit('new-object', data);
+                });
+
             setTimeout(() => {
                 this.paused = false;
             }, 25);
@@ -48,6 +54,10 @@ export default {
 
         Event.$on('player-changed', pawn => {
             this.activePlayer = pawn;
+        });
+
+        Event.$on('new-object', object => {
+            this.newObject = object;
         });
     },
     methods: {
