@@ -77,7 +77,7 @@
                         <h2 class="py-2 font-noteworthy font-light">Share this url</h2>
                         <div class="flex flex-wrap">
                             <qrcode value="{{ route('game', ['session' => session('game_token')]) }}" tag="img"></qrcode>
-                            <a href="{{ route('game', ['session' => session('game_token')]) }}" class="block m-auto truncate direction-reverse">
+                            <a href="{{ route('game', ['session' => session('game_token')]) }}" class="text-alice no-underline hover:underline block m-auto truncate">
                                 {{ route('game', ['session' => session('game_token')]) }}
                             </a>
                         </div>
@@ -111,6 +111,42 @@
                     @remove-player="players.splice($event, 1)"></game-board>
         <players playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"></players>
     </div>
+
+    <audio id="tileSound" src="{{ url('/storage/audio/tile.mp3') }}" preload="auto"></audio>
+    <audio id="pawnSound" src="{{ url('/storage/audio/pawn.mp3') }}" preload="auto"></audio>
+    <audio id="objectSound" src="{{ url('/storage/audio/object.mp3') }}" preload="auto"></audio>
+
+    {{--@if(Auth::check() && Auth::user()->pawn === 'Alice')--}}
+        {{--<audio id="welcomeSound" src="{{ url("/storage/audio/Alice/welcome.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="rotateSound" src="{{ url("/storage/audio/Alice/rotate.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="moveSound" src="{{ url("/storage/audio/Alice/movePawn.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="foundSound" src="{{ url("/storage/audio/Alice/objectFound.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="waitingSound" src="{{ url("/storage/audio/Alice/waiting.mp3") }}" preload="auto"></audio>--}}
+    {{--@endif--}}
+
+    {{--@if(Auth::check() && Auth::user()->pawn === 'Mad Hatter')--}}
+        {{--<audio id="welcomeSound" src="{{ url("/storage/audio/Mad Hatter/welcome.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="rotateSound" src="{{ url("/storage/audio/Mad Hatter/rotate.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="moveSound" src="{{ url("/storage/audio/Mad Hatter/movePawn.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="foundSound" src="{{ url("/storage/audio/Mad Hatter/objectFound.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="waitingSound" src="{{ url("/storage/audio/Mad Hatter/waiting.mp3") }}" preload="auto"></audio>--}}
+    {{--@endif--}}
+
+    {{--@if(Auth::check() && Auth::user()->pawn === 'Queen of Hearts')--}}
+        {{--<audio id="welcomeSound" src="{{ url("/storage/audio/Queen of Hearts/welcome.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="rotateSound" src="{{ url("/storage/audio/Queen of Hearts/rotate.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="moveSound" src="{{ url("/storage/audio/Queen of Hearts/movePawn.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="foundSound" src="{{ url("/storage/audio/Queen of Hearts/objectFound.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="waitingSound" src="{{ url("/storage/audio/Queen of Hearts/waiting.mp3") }}" preload="auto"></audio>--}}
+    {{--@endif--}}
+
+    {{--@if(Auth::check() && Auth::user()->pawn === 'White Rabbit')--}}
+        {{--<audio id="welcomeSound" src="{{ url("/storage/audio/White Rabbit/welcome.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="rotateSound" src="{{ url("/storage/audio/White Rabbit/rotate.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="moveSound" src="{{ url("/storage/audio/White Rabbit/movePawn.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="foundSound" src="{{ url("/storage/audio/White Rabbit/objectFound.mp3") }}" preload="auto"></audio>--}}
+        {{--<audio id="waitingSound" src="{{ url("/storage/audio/White Rabbit/waiting.mp3") }}" preload="auto"></audio>--}}
+    {{--@endif--}}
 
     <script src="{{ mix('js/app.js') }}"></script>
 @endsection

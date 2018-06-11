@@ -3,7 +3,7 @@
        :class="[`place-${tile.x}-${tile.y}`, {'z-50 filter-gray': applyError}]"
        :title="applyError ? 'You can\'t move here.' : tile.object ? tile.type.description + ' with ' + tile.object.description : 'empty ' + tile.type.description"
        :aria-label="applyError ? 'You can\'t move here.' : tile.object ? tile.type.description + ' with ' + tile.object.description : 'empty ' + tile.type.description"
-       @click.prevent="$emit('tile-click',{x:tile.x,y:tile.y})">
+       @click.prevent="handleTileClick()">
         <img class="w-full h-full block relative z--10"
              :class="`rotate-${tile.rotation}`"
              :src="`/storage/images/tiles/${tile.type.name}.svg`"
@@ -18,10 +18,23 @@
 export default {
     name: 'tile',
     props: ['tile', 'error'],
+    data(){
+        return {
+            pawnSound: null,
+        }
+    },
+    mounted() {
+        this.pawnSound = document.getElementById('pawnSound');
+    },
     computed: {
         applyError() {
             return this.error.x === this.tile.x && this.error.y === this.tile.y;
         },
     },
+    methods: {
+        handleTileClick(){
+            this.$emit('tile-click', {x: this.tile.x, y: this.tile.y});
+        }
+    }
 };
 </script>

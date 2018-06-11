@@ -28,10 +28,9 @@ export default {
     },
     created: function() {
         Event.$on('game-started', players => {
-            window.axios.post('/first/object', {pawn: this.playerpawn})
-                .then(({data}) => {
-                    Event.$emit('new-object', data);
-                });
+            window.axios.post('/first/object', { pawn: this.playerpawn }).then(({ data }) => {
+                Event.$emit('new-object', data);
+            });
 
             setTimeout(() => {
                 this.paused = false;
@@ -39,6 +38,7 @@ export default {
 
             this.players = players;
 
+            //
             let cardsToUse = Math.round(24 / this.players.length);
 
             this.players.forEach(({ pawn }) => {

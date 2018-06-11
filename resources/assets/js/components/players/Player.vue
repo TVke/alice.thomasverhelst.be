@@ -10,6 +10,10 @@
                  'right-out': paused && placement.right,
                  'translateX-0': !paused,
                  'bg-active-transparent text-white': active === player.pawn,
+                 'shadow-blue-active': current.pawn === 'Alice' && player.pawn === 'Alice',
+                 'shadow-green-active': current.pawn === 'Mad Hatter' && player.pawn === 'Mad Hatter',
+                 'shadow-red-active': current.pawn === 'Queen of Hearts' && player.pawn === 'Queen of Hearts',
+                 'shadow-white-active': current.pawn === 'White Rabbit' && player.pawn === 'White Rabbit',
         }">
             <div class="h-full rounded-full w-12 md:w-1/4 bg-white"
                  :class="{
@@ -30,10 +34,12 @@
         }">
             <object-card v-for="card in objectsToShow"
                          :key="card"
-                         :class="{'-ml-8': placement.left,'-mr-8': placement.right}"></object-card>
-            <object-card v-if="current.pawn === player.pawn"
+                         :class="{'-ml-8': placement.left,'-mr-8': placement.right}"
+            ></object-card>
+            <object-card v-if="current.object && current.pawn === player.pawn"
                          :object="current.object"
-                         :class="{'-ml-8': placement.left,'-mr-8': placement.right}"></object-card>
+                         :class="{'-ml-8': placement.left,'-mr-8': placement.right}"
+            ></object-card>
         </div>
     </div>
 </template>
@@ -67,12 +73,14 @@ export default {
     data() {
         return {
             objectsToShow: this.objects,
-        }
+        };
     },
-    created(){
-        Event.$on('object-found', ({object, pawn}) => {
+    created() {
+        Event.$on('object-found', ({ object, pawn }) => {
             if (pawn === this.player.pawn) {
-                this.objectsToShow -= 1;
+                if (this.objectsToShow > 0){
+                    this.objectsToShow -= 1;
+                }
             }
         });
     },

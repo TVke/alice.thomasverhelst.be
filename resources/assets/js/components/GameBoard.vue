@@ -61,6 +61,14 @@ export default {
             paused: true,
             moveMazeMode: false,
             movePawnMode: false,
+            tileSound: null,
+            pawnSound: null,
+            objectSound: null,
+            welcomeSound: null,
+            rotateSound: null,
+            moveSound: null,
+            foundSound: null,
+            waitingSound: null,
         };
     },
     created() {
@@ -97,6 +105,10 @@ export default {
                     this.looseTile.rotation = rotation;
                 }
 
+                if (this.tileSound) {
+                    this.tileSound.play();
+                }
+
                 this.moveMaze(changes);
             })
             .listen('PawnMoved', ({ path }) => {
@@ -108,11 +120,11 @@ export default {
             .listen('RotateTile', () => {
                 Event.$emit('rotate');
             })
-            .listen('PlayerChanged', ({pawn}) => {
+            .listen('PlayerChanged', ({ pawn }) => {
                 Event.$emit('player-changed', pawn);
             })
-            .listen('PlayerWon', ({pawn}) => {
-                Event.$emit('player-won', pawn);
+            .listen('PlayerWon', ({ username }) => {
+                Event.$emit('player-won', username);
             });
 
         window.axios.get('/game/tiles').then(({ data }) => {
@@ -144,6 +156,26 @@ export default {
             this.rotateLooseTile();
         });
     },
+    mounted() {
+        this.tileSound = document.getElementById('tileSound');
+        this.pawnSound = document.getElementById('pawnSound');
+        this.objectSound = document.getElementById('objectSound');
+        this.welcomeSound = document.getElementById('welcomeSound');
+        this.rotateSound = document.getElementById('rotateSound');
+        this.moveSound = document.getElementById('moveSound');
+        this.foundSound = document.getElementById('foundSound');
+        this.waitingSound = document.getElementById('waitingSound');
+
+        // this.foundSound = document.getElementById('found');
+        // this.foundSound = document.getElementById('found');
+        // this.foundSound = document.getElementById('found');
+        // this.foundSound = document.getElementById('found');
+        // this.foundSound = document.getElementById('found');
+        // this.foundSound = document.getElementById('found');
+        // this.foundSound = document.getElementById('found');
+        // this.foundSound = document.getElementById('found');
+
+    },
     computed: {
         activePlayerIndex() {
             let playerIndex = 0;
@@ -156,7 +188,7 @@ export default {
 
             return playerIndex;
         },
-        allowPlay(){
+        allowPlay() {
             return this.activePawn === this.playerpawn;
         },
     },
@@ -201,6 +233,7 @@ export default {
             this.tiles.forEach((tile, index) => {
                 if (tile[lineDirection] === line) {
                     tile[direction] += amount;
+
                     if (tile[direction] > 6 || tile[direction] < 0) {
                         newLooseTile = tile;
 
@@ -212,6 +245,24 @@ export default {
             this.tiles.splice(toRemove, 1, this.looseTile);
 
             this.looseTile = newLooseTile;
+
+            this.players.forEach(player => {
+                if (player.position[lineDirection] === line) {
+                    if (player.position[direction] === 0 && amount < 0) {
+                        setTimeout(() => {
+                            player.position[direction] = 6;
+                        }, 250);
+                    }
+
+                    if (player.position[direction] === 6 && amount > 0) {
+                        setTimeout(() => {
+                            player.position[direction] = 0;
+                        }, 250);
+                    }
+
+                    player.position[direction] += amount;
+                }
+            });
 
             this.moveMazeMode = false;
             this.movePawnMode = true;
@@ -327,8 +378,9 @@ export default {
             }
 
             if (found && this.objectIsAt(end.x, end.y)) {
-                window.axios.post('/found/object', {object: this.newObject.name, pawn: this.playerpawn})
-                    .then(({data}) => {
+                window.axios
+                    .post('/found/object', { object: this.newObject.name, pawn: this.playerpawn })
+                    .then(({ data }) => {
                         Event.$emit('new-object', data);
                     });
             }
@@ -384,6 +436,10 @@ export default {
                     };
 
                     this.players.splice(this.activePlayerIndex, 1, newPlayer);
+
+                    if (this.pawnSound) {
+                        this.pawnSound.play();
+                    }
                 }, 250);
             }
 
@@ -442,8 +498,8 @@ export default {
 
             return tileObject;
         },
-        objectIsAt(x, y){
-            const object = this.getTileobject(x,y).object;
+        objectIsAt(x, y) {
+            const object = this.getTileobject(x, y).object;
 
             return object && object.name === this.newObject.name;
         },

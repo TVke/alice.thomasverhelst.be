@@ -38,22 +38,23 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $session = GameSession::where('session', session('game_token'))->firstOrFail();
+        $session = GameSession::where('session', session('game_token'))->first();
 
-        $this->redirectTo .= $session->session;
+        if (! $session || ! Auth::check()) {
+            $this->redirectTo .= $session->session;
 
-        $player = Player::where('pawn', Auth::user()->pawn)->where('game_session_id', $session->id)->firstOrFail();
+            $player = Player::where('pawn', Auth::user()->pawn)->where('game_session_id', $session->id)->first();
 
-        $player->session()->dissociate();
+            $player->session()->dissociate();
 
-        $player->save();
+            $player->save();
 
-        Player::where('id', $player->id)->update([
-            'pawn' => null,
-        ]);
+            Player::where('id', $player->id)->update([
+                'pawn' => null,
+            ]);
 
-        Player::where('id', $player->id)->whereNull('score')->delete();
-
+            Player::where('id', $player->id)->whereNull('score')->delete();
+        }
         $this->guard()->logout();
 
         $request->session()->invalidate();

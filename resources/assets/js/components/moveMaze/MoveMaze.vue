@@ -47,7 +47,7 @@ export default {
     name: 'MoveMaze',
     components: { GhostTile },
     props: ['active', 'tile', 'playerpawn'],
-    data(){
+    data() {
         return {
             activePawn: '',
         };
@@ -60,7 +60,7 @@ export default {
     computed: {
         allowPlay() {
             return this.activePawn === this.playerpawn;
-        }
+        },
     },
     methods: {
         addTile: function(position) {

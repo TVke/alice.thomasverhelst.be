@@ -43,5 +43,5 @@ mix
 
     .purgeCss({
         enabled: true,
-        whitelistPatterns: [/^place-/, /^rotate-/],
+        whitelistPatterns: [/^place-/, /^rotate-/, /^z-/],
     });

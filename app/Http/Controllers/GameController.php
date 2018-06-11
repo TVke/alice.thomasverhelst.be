@@ -96,8 +96,8 @@ class GameController extends Controller
 
         $objects = $this->makeJson($activePlayer->objects);
 
-        if ($objects->isEmpty()){
-            event(new PlayerWon($session, $activePlayer->pawn));
+        if ($objects->isEmpty()) {
+            event(new PlayerWon($session, $activePlayer->username));
 
             $this->calculateScores($session, $activePlayer);
 

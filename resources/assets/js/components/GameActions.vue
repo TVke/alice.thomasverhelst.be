@@ -8,9 +8,12 @@
                      :alt="`${activePawn} pawn`">
                 <h3 class="font-noteworthy text-center text-white text-5xl">{{ winner }}</h3>
                 <p class="font-noteworthy text-center text-white text-xl pt-3">won Alice's magical maze</p>
+                <a href="/leaderboard" class="px-4 py-2 rounded my-8 block transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner bg-alice text-white cursor-pointer">
+                    Leaderboard</a>
             </div>
         </div>
-        <div class="flex absolute pin justify-center">
+        <div class="flex absolute pin justify-center"
+             :class="{'pointer-events-none': !showObject, 'pointer-events-auto': showObject}">
             <img class="block transition m-auto w-48 filter-shadow scale-0"
                  v-if="object.name"
                  :src="`/storage/images/objects/${object.name}.svg`"
@@ -66,7 +69,7 @@ export default {
             this.moveMazeMode = false;
         });
 
-        Event.$on('object-found', ({object, pawn}) => {
+        Event.$on('object-found', ({ object, pawn }) => {
             setTimeout(() => {
                 this.object = {};
 
@@ -90,6 +93,10 @@ export default {
             this.activePawn = pawn;
 
             this.moveMazeMode = true;
+        });
+
+        Event.$on('player-won', username => {
+            this.winner = username;
         });
     },
     computed: {

@@ -1,6 +1,6 @@
 <template>
     <a href="#" class="w-1/7 h-1/7 shadow-inner absolute rounded-lg tr bg-grey-lighter opacity-75 hover:opacity-100 focus-opacity-100 focus:opacity-100 group"
-       :class="`place-${xPos}-${yPos}`" @click.prevent="$emit('add-tile',{ x:xPos, y:yPos })">
+       :class="`place-${xPos}-${yPos}`" @click.prevent="handleTileClick()">
         <a href="#" tabindex="-1" role="presentation"
            class="absolute opacity-0 group-hover:opacity-100 pin-t pin-r bg-alice rounded-full p-2 z-50 shadow -mt-2 -mr-2 w-8 h-8"
            @click.stop.prevent="$emit('rotate')">
@@ -24,7 +24,19 @@ export default {
         return {
             xPos: this.x,
             yPos: this.y,
+            tileSound: null,
         };
     },
+    mounted(){
+        this.tileSound = document.getElementById('tileSound');
+    },
+    methods: {
+        handleTileClick() {
+            this.$emit('add-tile', {x: this.xPos, y: this.yPos});
+            if (this.tileSound) {
+                this.tileSound.play();
+            }
+        }
+    }
 };
 </script>

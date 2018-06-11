@@ -16,13 +16,13 @@ class PlayerWon implements ShouldBroadcast
     /** @var \App\GameSession */
     protected $gameSession;
 
-    public $pawn;
+    public $username;
 
-    public function __construct(GameSession $gameSession, $pawn)
+    public function __construct(GameSession $gameSession, $username)
     {
         $this->gameSession = $gameSession;
 
-        $this->pawn = $pawn;
+        $this->username = $username;
     }
 
     public function broadcastOn()

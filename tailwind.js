@@ -52,13 +52,21 @@ let colors = {
     'pawn-green': '#95C11F',
     'pawn-red': '#BE1622',
 
+    // 'alice-lightest': '#EBF6FC',
+    // 'alice-lighter': '#AFDDF3',
+    // 'alice-light': '#72C3EA',
+    // alice: '#36A9E1',
+    // 'alice-dark': '#3198CB',
+    // 'alice-darker': '#206587',
+    // 'alice-darkest': '#103344',
+
     'alice-lightest': '#EBF6FC',
     'alice-lighter': '#AFDDF3',
     'alice-light': '#72C3EA',
-    alice: '#36A9E1',
-    'alice-dark': '#3198CB',
-    'alice-darker': '#206587',
-    'alice-darkest': '#103344',
+    alice: '#4D9BD5',
+    'alice-dark': '#458CC0',
+    'alice-darker': '#2E5D80',
+    'alice-darkest': '#172F40',
 
     black: "#22292f",
     "grey-darkest": "#3d4852",
@@ -673,6 +681,7 @@ module.exports = {
 
     maxWidth: {
         '1/4': "25%",
+        'cards': "6rem",
         xs: "20rem",
         sm: "30rem",
         md: "40rem",
@@ -1182,16 +1191,16 @@ module.exports = {
                     transform: 'scale(1)',
                 },
                 '.move-tl': {
-                    transform: 'translate(-200%, -200%)',
+                    transform: 'translate(-300%, -500%)',
                 },
                 '.move-bl': {
-                    transform: 'translate(-200%, 200%)',
+                    transform: 'translate(-300%, 500%)',
                 },
                 '.move-tr': {
-                    transform: 'translate(200%, -200%)',
+                    transform: 'translate(300%, -500%)',
                 },
                 '.move-br': {
-                    transform: 'translate(200%, 200%)',
+                    transform: 'translate(300%, 500%)',
                 },
                 '.perspective': {
                     perspective: '2000px',

@@ -16,10 +16,10 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body class="font-sans pointer-events-none">
-<a href="{{ route('info') }}" class="text-black no-underline absolute pin-t pin-x z-10 px-4 w-1/2 mx-auto rounded-b-lg pointer-events-auto">
+<a href="{{ route('info') }}" class="text-black no-underline absolute pin-t pin-x z-10 px-4 w-full sm:w-1/2 mx-auto rounded-b-lg pointer-events-auto">
     <header class="pt-2 mx-auto">
         <h1 class="text-center flex-auto font-noteworthy text-xl md:text-3xl flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410.64 550" class="w-4 md:w-8 h-full block mx-4">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410.64 550" class="w-4 md:w-8 h-full block mr-4">
             <path fill="#063" d="M205.18 464.89l34.45-4.1-2.44 37.96-32.01 18.44v-52.3z"/>
             <path d="M294.08 439.8s-58.41 54.83-53.15 84.45l-57.29 23.71s-19.7 5.84-32.89-2.24c0 0 37.19-28.73-19.91-89.21-32.77-34.71 84.5-12.33 84.5-12.33l1 53.77 2.29 12.09 12.27-64.11z" fill="#3aaa35"/>
             <path d="M166.59 463.91s100.25 13.21 140.92-7.59 85.12-55.8 100.25-130.52-58.64-153.21-51.07-175.91z" fill="#2f4596"/>

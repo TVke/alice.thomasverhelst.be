@@ -22,6 +22,7 @@ new Vue({
                 { name: 'Queen of Hearts', value: 'Queen of Hearts' },
                 { name: 'White Rabbit', value: 'White Rabbit' },
             ],
+            welcomeSound: null,
         };
     },
     created() {
@@ -40,6 +41,10 @@ new Vue({
     methods: {
         setupIsDone(token) {
             window.axios.patch(`/start/game/${token}`);
+
+            if (this.welcomeSound) {
+                this.welcomeSound.play();
+            }
         },
         optionAvailable(pawnOption, players) {
             let available = false;
