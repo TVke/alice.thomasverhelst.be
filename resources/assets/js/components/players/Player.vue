@@ -1,6 +1,11 @@
 <template>
-    <div>
-        <div class="absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded transition-delay-longest transition z-10"
+    <div class="absolute w-1/4 flex" :class="{
+    'pin-t flex-col': placement.top,
+    'pin-b flex-col-reverse': placement.bottom,
+    'pin-l': placement.left,
+    'pin-r': placement.right,
+    }">
+        <div class="flex flex-wrap p-2 bg-white-transparent rounded transition-delay-longest transition z-10 block w-full"
              :class="{
                  'pin-t': placement.top,
                  'pin-b': placement.bottom,
@@ -26,19 +31,21 @@
             </div>
             <p class="my-auto p-2 truncate w-full md:w-3/4">{{ player.username }}</p>
         </div>
-        <div class="flex absolute w-1/4 py-12 md:py-4" :class="{
-            'pin-t': placement.top,
-            'pin-b': placement.bottom,
-            'pin-l pl-12 ml-4': placement.left,
-            'pin-r pr-12 flex-row-reverse mr-4': placement.right
+        <div class="flex" :class="{
+            'pin-t flex-col-reverse': placement.top,
+            'pin-b flex-col': placement.bottom,
+            'pin-l ml-4 items-start': placement.left,
+            'pin-r mr-4 items-end': placement.right
         }">
             <object-card v-for="card in objectsToShow"
+                         :placement="placement"
                          :key="card"
-                         :class="{'-ml-8': placement.left,'-mr-8': placement.right}"
+                         :class="{'-mb-16 xs:-mb-18 sm:-mb-24 md:-mb-28': placement.top,'-mt-16 xs:-mt-18 sm:-mt-24 md:-mt-28': placement.bottom}"
             ></object-card>
             <object-card v-if="current.object && current.pawn === player.pawn"
+                         :placement="placement"
                          :object="current.object"
-                         :class="{'-ml-8': placement.left,'-mr-8': placement.right}"
+                         :class="{'-mb-16 xs:-mb-18 sm:-mb-24 md:-mb-28': placement.top,'-mt-16 xs:-mt-18 sm:-mt-24 md:-mt-28': placement.bottom}"
             ></object-card>
         </div>
     </div>

@@ -4151,6 +4151,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'GameActions',
@@ -4159,12 +4163,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             moveMazeMode: false,
             paused: true,
-            object: {},
             showObject: false,
+            object: {},
             objectOwner: '',
             feedback: '',
             activePawn: '',
-            winner: ''
+            winner: '',
+            objectSound: null
         };
     },
     created: function created() {
@@ -4198,6 +4203,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             setTimeout(function () {
                 _this.showObject = true;
+
+                if (_this.objectSound) {
+                    _this.objectSound.play();
+                }
             }, 250);
 
             _this.object = object;
@@ -4212,6 +4221,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Event.$on('player-won', function (username) {
             _this.winner = username;
         });
+    },
+    mounted: function mounted() {
+        this.objectSound = document.getElementById('objectSound');
     },
 
     computed: {
@@ -4268,7 +4280,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Tile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Tile_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__moveMaze_MoveMaze_vue__ = __webpack_require__("./resources/assets/js/components/moveMaze/MoveMaze.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__moveMaze_MoveMaze_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__moveMaze_MoveMaze_vue__);
-//
 //
 //
 //
@@ -5152,10 +5163,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'ObjectCard',
-    props: ['object'],
+    props: ['object', 'placement'],
     data: function data() {
         return {
             show: false
@@ -5191,6 +5211,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue__ = __webpack_require__("./resources/assets/js/components/players/ObjectCard.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ObjectCard_vue__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11138,21 +11165,18 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass:
-        "mx-auto max-w-md relative z--20 w-full mb-4 perspective mt-32 sm:mt-16 p-8",
-      class: { "sm:w-3/4 sm:p-0": !_vm.paused }
-    },
+    { staticClass: "m-auto z--20 w-full perspective absolute pin flex" },
     [
       _c(
         "div",
         {
           staticClass:
-            "preserve3d max-w-md m-auto absolute pin z-10 block transition pointer-events-none transition-timing-ease-out transition-slow transition-delay-longest size-board",
+            "preserve3d m-auto absolute pin z-10 block transition pointer-events-none transition-timing-ease-out transition-slow transition-delay-longest size-board",
           class: {
-            "tilt-board-sm sm:tilt-board md:tilt-board-md": !_vm.paused,
+            "tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x":
+              !_vm.paused && (_vm.moveMazeMode && !_vm.allowPlay),
             "pawn-start-sm sm:pawn-start": _vm.paused,
-            "move-mode sm:move-mode-sm md:move-mode-md": _vm.moveMazeMode
+            "move-mode": _vm.moveMazeMode && _vm.allowPlay
           }
         },
         _vm._l(_vm.players, function(player) {
@@ -11171,8 +11195,9 @@ var render = function() {
             "m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest size-board",
           class: {
             "paused cursor-default pointer-events-none": _vm.paused,
-            "sm:tilt-board tilt-board-sm md:tilt-board-md pointer-events-auto": !_vm.paused,
-            "move-mode sm:move-mode-sm md:move-mode-md": _vm.moveMazeMode
+            "tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x pointer-events-auto":
+              !_vm.paused && (_vm.moveMazeMode && !_vm.allowPlay),
+            "move-mode pointer-events-auto": _vm.moveMazeMode && _vm.allowPlay
           }
         },
         [
@@ -11194,7 +11219,7 @@ var render = function() {
           _c("move-maze", {
             class: { "pointer-events-none": !_vm.allowPlay },
             attrs: {
-              active: _vm.moveMazeMode,
+              active: _vm.moveMazeMode && _vm.allowPlay,
               tile: _vm.looseTile,
               playerpawn: _vm.playerpawn
             },
@@ -11229,7 +11254,7 @@ var render = function() {
     "a",
     {
       staticClass:
-        "perspective transition relative pointer-events-auto overflow-hidden max-h-cards",
+        "perspective transition pointer-events-auto overflow-hidden w-3/5 sm:w-1/2 max-w-cards",
       class: { "turned-card": _vm.active, "active-card": _vm.show },
       attrs: { href: "#", tabindex: !_vm.active ? "-1" : 0 },
       on: {
@@ -11240,20 +11265,20 @@ var render = function() {
       }
     },
     [
-      _c("img", {
-        staticClass: "absolute pin block max-h-cards",
-        class: { "hide-card opacity-0": _vm.active },
-        attrs: {
-          src: "/storage/images/card/back2.svg",
-          alt: "backside of the card"
-        }
-      }),
+      !_vm.active
+        ? _c("img", {
+            staticClass: "absolute pin block w-full max-h-cards",
+            attrs: {
+              src: "/storage/images/card/back2.svg",
+              alt: "backside of the card"
+            }
+          })
+        : _vm._e(),
       _vm._v(" "),
       _vm.active
         ? _c("img", {
             staticClass:
-              "absolute pin m-auto p-1/5 transition transition-delay-long max-h-cards",
-            class: { "hide-card opacity-0": !_vm.active },
+              "absolute pin m-auto p-1/5 transition transition-delay-long w-full max-h-cards",
             attrs: {
               src: "/storage/images/objects/" + _vm.object.name + ".svg",
               alt: _vm.object.description
@@ -11263,8 +11288,8 @@ var render = function() {
       _vm._v(" "),
       _c("img", {
         staticClass:
-          "w-full block transition transition-delay-long max-h-cards",
-        class: { "hide-card opacity-0": !_vm.active },
+          "block transition transition-delay-long w-full max-h-cards",
+        class: { "opacity-0": !_vm.active },
         attrs: {
           src: "/storage/images/card/front2.svg",
           alt: "the front of the card"
@@ -11376,102 +11401,118 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        staticClass:
-          "absolute flex flex-wrap w-1/4 p-2 bg-white-transparent rounded transition-delay-longest transition z-10",
-        class: {
-          "pin-t": _vm.placement.top,
-          "pin-b": _vm.placement.bottom,
-          "pin-l": _vm.placement.left,
-          "pin-r flex-row-reverse text-right": _vm.placement.right,
-          "left-out": _vm.paused && _vm.placement.left,
-          "right-out": _vm.paused && _vm.placement.right,
-          "translateX-0": !_vm.paused,
-          "bg-active-transparent text-white": _vm.active === _vm.player.pawn,
-          "shadow-blue-active":
-            _vm.current.pawn === "Alice" && _vm.player.pawn === "Alice",
-          "shadow-green-active":
-            _vm.current.pawn === "Mad Hatter" &&
-            _vm.player.pawn === "Mad Hatter",
-          "shadow-red-active":
-            _vm.current.pawn === "Queen of Hearts" &&
-            _vm.player.pawn === "Queen of Hearts",
-          "shadow-white-active":
-            _vm.current.pawn === "White Rabbit" &&
-            _vm.player.pawn === "White Rabbit"
-        }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "h-full rounded-full w-12 md:w-1/4 bg-white",
-            class: {
-              "border border-pawn-blue shadow-blue-active":
-                _vm.active === _vm.player.pawn && _vm.player.pawn === "Alice",
-              "border border-pawn-green shadow-green-active":
-                _vm.active === _vm.player.pawn &&
-                _vm.player.pawn === "Mad Hatter",
-              "border border-pawn-red shadow-red-active":
-                _vm.active === _vm.player.pawn &&
-                _vm.player.pawn === "Queen of Hearts",
-              "border border-black shadow-white-active bg-black-transparent":
-                _vm.active === _vm.player.pawn &&
-                _vm.player.pawn === "White Rabbit"
-            }
-          },
-          [
-            _c("img", {
-              staticClass: "block p-1",
-              attrs: {
-                src: "/storage/images/pawns/" + _vm.player.pawn + ".svg",
-                alt: _vm.player.pawn + " pawn"
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c("p", { staticClass: "my-auto p-2 truncate w-full md:w-3/4" }, [
-          _vm._v(_vm._s(_vm.player.username))
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "flex absolute w-1/4 py-12 md:py-4",
-        class: {
-          "pin-t": _vm.placement.top,
-          "pin-b": _vm.placement.bottom,
-          "pin-l pl-12 ml-4": _vm.placement.left,
-          "pin-r pr-12 flex-row-reverse mr-4": _vm.placement.right
-        }
-      },
-      [
-        _vm._l(_vm.objectsToShow, function(card) {
-          return _c("object-card", {
-            key: card,
-            class: { "-ml-8": _vm.placement.left, "-mr-8": _vm.placement.right }
-          })
-        }),
-        _vm._v(" "),
-        _vm.current.object && _vm.current.pawn === _vm.player.pawn
-          ? _c("object-card", {
+  return _c(
+    "div",
+    {
+      staticClass: "absolute w-1/4 flex",
+      class: {
+        "pin-t flex-col": _vm.placement.top,
+        "pin-b flex-col-reverse": _vm.placement.bottom,
+        "pin-l": _vm.placement.left,
+        "pin-r": _vm.placement.right
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "flex flex-wrap p-2 bg-white-transparent rounded transition-delay-longest transition z-10 block w-full",
+          class: {
+            "pin-t": _vm.placement.top,
+            "pin-b": _vm.placement.bottom,
+            "pin-l": _vm.placement.left,
+            "pin-r flex-row-reverse text-right": _vm.placement.right,
+            "left-out": _vm.paused && _vm.placement.left,
+            "right-out": _vm.paused && _vm.placement.right,
+            "translateX-0": !_vm.paused,
+            "bg-active-transparent text-white": _vm.active === _vm.player.pawn,
+            "shadow-blue-active":
+              _vm.current.pawn === "Alice" && _vm.player.pawn === "Alice",
+            "shadow-green-active":
+              _vm.current.pawn === "Mad Hatter" &&
+              _vm.player.pawn === "Mad Hatter",
+            "shadow-red-active":
+              _vm.current.pawn === "Queen of Hearts" &&
+              _vm.player.pawn === "Queen of Hearts",
+            "shadow-white-active":
+              _vm.current.pawn === "White Rabbit" &&
+              _vm.player.pawn === "White Rabbit"
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass: "h-full rounded-full w-12 md:w-1/4 bg-white",
               class: {
-                "-ml-8": _vm.placement.left,
-                "-mr-8": _vm.placement.right
+                "border border-pawn-blue shadow-blue-active":
+                  _vm.active === _vm.player.pawn && _vm.player.pawn === "Alice",
+                "border border-pawn-green shadow-green-active":
+                  _vm.active === _vm.player.pawn &&
+                  _vm.player.pawn === "Mad Hatter",
+                "border border-pawn-red shadow-red-active":
+                  _vm.active === _vm.player.pawn &&
+                  _vm.player.pawn === "Queen of Hearts",
+                "border border-black shadow-white-active bg-black-transparent":
+                  _vm.active === _vm.player.pawn &&
+                  _vm.player.pawn === "White Rabbit"
+              }
+            },
+            [
+              _c("img", {
+                staticClass: "block p-1",
+                attrs: {
+                  src: "/storage/images/pawns/" + _vm.player.pawn + ".svg",
+                  alt: _vm.player.pawn + " pawn"
+                }
+              })
+            ]
+          ),
+          _vm._v(" "),
+          _c("p", { staticClass: "my-auto p-2 truncate w-full md:w-3/4" }, [
+            _vm._v(_vm._s(_vm.player.username))
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "flex",
+          class: {
+            "pin-t flex-col-reverse": _vm.placement.top,
+            "pin-b flex-col": _vm.placement.bottom,
+            "pin-l ml-4 items-start": _vm.placement.left,
+            "pin-r mr-4 items-end": _vm.placement.right
+          }
+        },
+        [
+          _vm._l(_vm.objectsToShow, function(card) {
+            return _c("object-card", {
+              key: card,
+              class: {
+                "-mb-16 xs:-mb-18 sm:-mb-24 md:-mb-28": _vm.placement.top,
+                "-mt-16 xs:-mt-18 sm:-mt-24 md:-mt-28": _vm.placement.bottom
               },
-              attrs: { object: _vm.current.object }
+              attrs: { placement: _vm.placement }
             })
-          : _vm._e()
-      ],
-      2
-    )
-  ])
+          }),
+          _vm._v(" "),
+          _vm.current.object && _vm.current.pawn === _vm.player.pawn
+            ? _c("object-card", {
+                class: {
+                  "-mb-16 xs:-mb-18 sm:-mb-24 md:-mb-28": _vm.placement.top,
+                  "-mt-16 xs:-mt-18 sm:-mt-24 md:-mt-28": _vm.placement.bottom
+                },
+                attrs: { placement: _vm.placement, object: _vm.current.object }
+              })
+            : _vm._e()
+        ],
+        2
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -11785,7 +11826,8 @@ var render = function() {
             {
               staticClass:
                 "px-4 py-2 rounded my-8 block transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner bg-alice text-white cursor-pointer",
-              attrs: { href: "/leaderboard" }
+              class: _vm.winner ? "pointer-events-auto" : "pointer-events-none",
+              attrs: { href: "/leaderboard", "tab-index": _vm.winner ? 0 : -1 }
             },
             [_vm._v("\n                Leaderboard")]
           )
@@ -22884,7 +22926,8 @@ new Vue({
             players: [],
             setupDone: false,
             login: false,
-            pawnOptions: [{ name: 'Alice', value: 'Alice' }, { name: 'Mad Hatter', value: 'Mad Hatter' }, { name: 'Queen of Hearts', value: 'Queen of Hearts' }, { name: 'White Rabbit', value: 'White Rabbit' }],
+            selectedPawn: '',
+            pawnOptions: [{ name: 'Alice', value: 'Alice', chosen: false }, { name: 'Mad Hatter', value: 'Mad Hatter', chosen: false }, { name: 'Queen of Hearts', value: 'Queen of Hearts', chosen: false }, { name: 'White Rabbit', value: 'White Rabbit', chosen: false }],
             welcomeSound: null
         };
     },
@@ -22922,6 +22965,47 @@ new Vue({
             });
 
             return available;
+        },
+        handlePawnClick: function handlePawnClick(pawnOption) {
+            this.selectedPawn = pawnOption.value;
+        },
+        addPlayer: function addPlayer(player) {
+            this.players.push(player);
+
+            var removeId = 0;
+
+            var newPawn = {};
+
+            this.pawnOptions.forEach(function (option, index) {
+                if (option.value === player.pawn) {
+                    removeId = index;
+
+                    option.chosen = true;
+
+                    newPawn = option;
+                }
+            });
+
+            this.pawnOptions.splice(removeId, 1, newPawn);
+        },
+        removePlayer: function removePlayer(player) {
+            var playerToRemove = this.players.splice(player, 1);
+
+            var removeId = 0;
+
+            var newPawn = {};
+
+            this.pawnOptions.forEach(function (option, index) {
+                if (option.value === playerToRemove[0].pawn) {
+                    removeId = index;
+
+                    option.chosen = false;
+
+                    newPawn = option;
+                }
+            });
+
+            this.pawnOptions.splice(removeId, 1, newPawn);
         }
     }
 });

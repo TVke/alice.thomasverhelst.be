@@ -210,6 +210,7 @@ module.exports = {
     */
 
     screens: {
+        xs: "350px",
         sm: "450px",
         md: "768px",
         lg: "992px",
@@ -681,7 +682,7 @@ module.exports = {
 
     maxWidth: {
         '1/4': "25%",
-        'cards': "6rem",
+        'cards': "5rem",
         xs: "20rem",
         sm: "30rem",
         md: "40rem",
@@ -752,6 +753,7 @@ module.exports = {
         "8": "2rem",
         "12": "3rem",
         "16": "4rem",
+        "18": "5rem",
         "24": "6rem",
         "28": "7rem",
         "32": "8rem",
@@ -787,6 +789,7 @@ module.exports = {
         "8": "2rem",
         "12": "3rem",
         "16": "4rem",
+        "18": "5rem",
         "24": "6rem",
         "28": "7rem",
         "32": "8rem",
@@ -820,7 +823,9 @@ module.exports = {
         "8": "2rem",
         "12": "3rem",
         "16": "4rem",
+        "18": "5rem",
         "24": "6rem",
+        "28": "7rem",
         "32": "8rem",
         "48": "12rem",
         "64": "16rem"
@@ -1101,13 +1106,16 @@ module.exports = {
         function ({e, addUtilities}) {
             const transforms = {
                 '.tilt-board': {
-                    transform: 'translateY(0) rotateX(50deg)',
+                    transform: 'scale(.8) rotateX(50deg)',
                 },
                 '.tilt-board-sm': {
-                    transform: 'translateY(0) rotateX(30deg)',
+                    transform: 'scale(.7) rotateX(30deg)',
                 },
-                '.tilt-board-md': {
-                    transform: 'translateY(-60px) rotateX(50deg)',
+                '.origin-x': {
+                    transformOrigin: 'center 35%',
+                },
+                '.origin-x-sm': {
+                    transformOrigin: 'center 45%',
                 },
                 '.pawn-start': {
                     transform: 'translateY(-150%) rotateX(50deg)',
@@ -1134,22 +1142,16 @@ module.exports = {
                     transform: 'translate(0)',
                 },
                 '.size-board': {
-                    width: '80vw',
-                    height: '75vw',
-                    maxWidth: '100%',
-                    maxHeight: '39.816rem',
+                    width: '100%',
+                    height: '100vw',
+                    maxWidth: '100vh',
+                    maxHeight: '100vh',
                 },
                 '.size-board.paused': {
                     maxHeight: '35.816rem',
                 },
                 '.move-mode': {
-                    transform: 'scale(0.9)',
-                },
-                '.move-mode-sm': {
                     transform: 'scale(0.6)',
-                },
-                '.move-mode-md': {
-                    transform: 'translateY(-12%) scale(0.6)',
                 },
             };
 
@@ -1166,23 +1168,11 @@ module.exports = {
                 '.direction-reverse': {
                     direction: 'rtl',
                 },
-                '.pin-t .hide-card': {
-                    transform: 'translateY(-50%)',
+                '.pin-l .active-card': {
+                    transform: 'translateX(45%)',
                 },
-                '.pin-b .hide-card': {
-                    transform: 'translateY(50%)',
-                },
-                '.pin-t .turned-card': {
-                    transform: 'translateY(10%)',
-                },
-                '.pin-b .turned-card': {
-                    transform: 'translateY(-10%)',
-                },
-                '.pin-t .active-card': {
-                    transform: 'translateY(85%)',
-                },
-                '.pin-b .active-card': {
-                    transform: 'translateY(-85%)',
+                '.pin-r .active-card': {
+                    transform: 'translateX(-45%)',
                 },
                 '.scale-0': {
                     transform: 'scale(0)',
@@ -1211,9 +1201,6 @@ module.exports = {
                 '.origin-bottom': {
                     transformOrigin: 'bottom center',
                 },
-                '.focus-opacity-100:focus *': {
-                    opacity: 1,
-                }
             };
 
             addUtilities(transformSpecifics);

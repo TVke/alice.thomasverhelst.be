@@ -1,11 +1,10 @@
 <template>
-    <div class="mx-auto max-w-md relative z--20 w-full mb-4 perspective mt-32 sm:mt-16 p-8"
-         :class="{'sm:w-3/4 sm:p-0': !paused}">
-        <div class="preserve3d max-w-md m-auto absolute pin z-10 block transition pointer-events-none transition-timing-ease-out transition-slow transition-delay-longest size-board"
+    <div class="m-auto z--20 w-full perspective absolute pin flex">
+        <div class="preserve3d m-auto absolute pin z-10 block transition pointer-events-none transition-timing-ease-out transition-slow transition-delay-longest size-board"
              :class="{
-                 'tilt-board-sm sm:tilt-board md:tilt-board-md': !paused,
+                 'tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x': !paused && (moveMazeMode && !allowPlay),
                  'pawn-start-sm sm:pawn-start': paused,
-                 'move-mode sm:move-mode-sm md:move-mode-md': moveMazeMode,
+                 'move-mode': moveMazeMode && allowPlay,
         }">
             <pawn v-for="player in players"
                   :active="activePawn"
@@ -17,8 +16,8 @@
         <div class="m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest size-board"
              :class="{
                  'paused cursor-default pointer-events-none': paused,
-                 'sm:tilt-board tilt-board-sm md:tilt-board-md pointer-events-auto': !paused,
-                 'move-mode sm:move-mode-sm md:move-mode-md': moveMazeMode,
+                 'tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x pointer-events-auto': !paused && (moveMazeMode && !allowPlay),
+                 'move-mode pointer-events-auto': moveMazeMode && allowPlay,
         }">
             <tile v-for="(tile, index) in tiles"
                   :class="{'pointer-events-none': !allowPlay}"
@@ -31,7 +30,7 @@
             </tile>
             <move-maze
                     :class="{'pointer-events-none': !allowPlay}"
-                    :active="moveMazeMode"
+                    :active="moveMazeMode  && allowPlay"
                     :tile="looseTile"
                     :playerpawn="playerpawn"
                     @move-maze="moveMaze"

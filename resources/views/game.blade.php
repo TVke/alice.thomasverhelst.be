@@ -27,9 +27,9 @@
                             {{--@if(! Auth::check())--}}
                                 {{--<a class="block my-auto mr-auto p-2" :class="{'hidden':login}" href="#" @click.prevent="login = true"> already played? Login</a>--}}
                             {{--@endif--}}
-                            @if(Auth::check())
-                                <input type="submit" value="Change your choice" class="appearance-none bg-white cursor-pointer hover:underline text-alice rounded pt-1 px-4 my-auto">
-                            @endif
+                            {{--@if(Auth::check())--}}
+                                {{--<input type="submit" value="Change your choice" class="appearance-none bg-white cursor-pointer hover:underline text-alice rounded pt-1 px-4 my-auto">--}}
+                            {{--@endif--}}
                         </div>
 
                         <input class="block p-2 w-full border border-grey rounded text-base{{ $errors->has('username') ? ' border-red' : '' }}"
@@ -42,21 +42,39 @@
                     </div>
                     <div class="p-2">
                         <label class="py-2 block{{$errors->has('pawn') ? ' text-red' : ''}}" for="pawn">Your pawn</label>
-                        <select class="block w-full border border-grey text-base{{ $errors->has('pawn') ? ' border-red' : '' }}"
-                                required id="pawn" name="pawn" {{ Auth::check() ? 'disabled' : '' }}>
-                            @if(Auth::check())
-                                <option value="{{ Auth::user()->pawn }}">{{ Auth::user()->pawn }}</option>
-                            @endif
-                                @if(old('pawn'))
-                                    <option value="{{ old('pawn') }}">{{ old('pawn') }}</option>
-                                @endif
-                                <option value=""></option>
-                                <option v-for="option in pawnOptions"
-                                    :value="option.value"
-                                    :key="option.name"
-                                    :disabled="optionAvailable(option, {{ $players }})"
-                                    v-text="option.name"></option>
-                        </select>
+                        {{--<select class="block w-full border border-grey text-base{{ $errors->has('pawn') ? ' border-red' : '' }}"--}}
+                                {{--required id="pawn" name="pawn" {{ Auth::check() ? 'disabled' : '' }}>--}}
+                            {{--@if(Auth::check())--}}
+                                {{--<option value="{{ Auth::user()->pawn }}">{{ Auth::user()->pawn }}</option>--}}
+                            {{--@endif--}}
+                                {{--@if(old('pawn'))--}}
+                                    {{--<option value="{{ old('pawn') }}">{{ old('pawn') }}</option>--}}
+                                {{--@endif--}}
+                                {{--<option value=""></option>--}}
+                                {{--<option v-for="option in pawnOptions"--}}
+                                    {{--:value="option.value"--}}
+                                    {{--:key="option.name"--}}
+                                    {{--:disabled="optionAvailable(option, {{ $players }})"--}}
+                                    {{--v-text="option.name"></option>--}}
+                        {{--</select>--}}
+                        <input type="hidden" name="pawn" :value="selectedPawn">
+                        <div class="flex w-full flex-wrap justify-between">
+                            <a v-for="option in pawnOptions" href="#"
+                               class="block w-12 transition transition-fast p-1 rounded-full border mx-1 focus:border-black"
+                               @click.prevent="handlePawnClick(option)"
+                               :key="option.name"
+                               :tabindex="{{ (Auth::check()) ? '-1' : "(option.chosen || optionAvailable(option, {$players})) ? '-1': '0'" }}"
+                               :class="{
+                               'pointer-events-none border-none': {{ (Auth::check()) ? 'true' : 'false' }},
+                               'border-none filter-gray pointer-events-none': option.chosen || optionAvailable(option, {{ $players }}),
+                               'border-black': selectedPawn === option.value
+                               }">
+                                <img class="m-auto block"
+                                     :src="`/storage/images/pawns/${option.name}.svg`"
+                                     :alt="`${option.name} pawn`">
+                            </a>
+                        </div>
+
                     </div>
                     <div class="w-full p-2 block">
                         @if ($errors->has('username') && !Auth::check())
@@ -88,13 +106,18 @@
                     <ul class="block list-reset">
                         @if(! Auth::check())
                             @foreach($players as $player)
-                                <li>- {{ $player->username }} is {{ $player->pawn !== 'Alice' ? 'the ':'' }}
-                                    <strong class="text-grey-dark">{{ $player->pawn }}</strong></li>
+                                <li class="flex items-center">
+                                    - {{ $player->username }} is
+                                    <img class='block w-6 h-full m-2' src="/storage/images/pawns/{{ $player->pawn }}.svg" alt="{{ $player->pawn }}">
+                                </li>
                             @endforeach
                         @endif
-                        <li v-for="player in players" :key="player.username" v-html="
-                        ` - ${player.username} is ${(player.pawn !== 'Alice') ? 'the ' : '' }
-                        <strong class='text-grey-dark'>${ player.pawn }</strong>`">
+                        <li v-for="player in players"
+                            class="flex items-center"
+                            :key="player.username"
+                            v-html="
+                        ` - ${player.username} is
+                        <img class='block w-6 h-full mx-2 my-px' src='/storage/images/pawns/${player.pawn}.svg' alt='${player.pawn}'>`">
                         </li>
                     </ul>
                     <button class="block bg-alice-lighter text-base py-2 px-3 border-none transition rounded mt-6 mx-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner"
@@ -107,8 +130,8 @@
         <game-board token="{{ session('game_token') }}"
                     playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"
                     @present-players="players = $event"
-                    @add-player="players.push($event)"
-                    @remove-player="players.splice($event, 1)"></game-board>
+                    @add-player="addPlayer"
+                    @remove-player="removePlayer"></game-board>
         <players playerpawn="{{ Auth::check() ? Auth::user()->pawn : '' }}"></players>
     </div>
 

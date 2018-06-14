@@ -8,7 +8,11 @@
                      :alt="`${activePawn} pawn`">
                 <h3 class="font-noteworthy text-center text-white text-5xl">{{ winner }}</h3>
                 <p class="font-noteworthy text-center text-white text-xl pt-3">won Alice's magical maze</p>
-                <a href="/leaderboard" class="px-4 py-2 rounded my-8 block transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner bg-alice text-white cursor-pointer">
+                <a href="/leaderboard"
+                   class="px-4 py-2 rounded my-8 block transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner bg-alice text-white cursor-pointer"
+                   :tab-index="(winner)? 0 : -1"
+                   :class="(winner)? 'pointer-events-auto' : 'pointer-events-none'"
+                >
                     Leaderboard</a>
             </div>
         </div>
@@ -50,12 +54,13 @@ export default {
         return {
             moveMazeMode: false,
             paused: true,
-            object: {},
             showObject: false,
+            object: {},
             objectOwner: '',
             feedback: '',
             activePawn: '',
             winner: '',
+            objectSound: null,
         };
     },
     created() {
@@ -84,6 +89,10 @@ export default {
 
             setTimeout(() => {
                 this.showObject = true;
+
+                if (this.objectSound){
+                    this.objectSound.play();
+                }
             }, 250);
 
             this.object = object;
@@ -98,6 +107,9 @@ export default {
         Event.$on('player-won', username => {
             this.winner = username;
         });
+    },
+    mounted() {
+        this.objectSound = document.getElementById('objectSound');
     },
     computed: {
         buttonText() {

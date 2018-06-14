@@ -16,11 +16,12 @@ new Vue({
             players: [],
             setupDone: false,
             login: false,
+            selectedPawn: '',
             pawnOptions: [
-                { name: 'Alice', value: 'Alice' },
-                { name: 'Mad Hatter', value: 'Mad Hatter' },
-                { name: 'Queen of Hearts', value: 'Queen of Hearts' },
-                { name: 'White Rabbit', value: 'White Rabbit' },
+                {name: 'Alice', value: 'Alice', chosen: false},
+                {name: 'Mad Hatter', value: 'Mad Hatter', chosen: false},
+                {name: 'Queen of Hearts', value: 'Queen of Hearts', chosen: false},
+                {name: 'White Rabbit', value: 'White Rabbit', chosen: false},
             ],
             welcomeSound: null,
         };
@@ -56,6 +57,47 @@ new Vue({
             });
 
             return available;
+        },
+        handlePawnClick(pawnOption) {
+            this.selectedPawn = pawnOption.value;
+        },
+        addPlayer(player) {
+            this.players.push(player);
+
+            let removeId = 0;
+
+            let newPawn = {};
+
+            this.pawnOptions.forEach((option, index) => {
+                if (option.value === player.pawn) {
+                    removeId = index;
+
+                    option.chosen = true;
+
+                    newPawn = option;
+                }
+            });
+
+            this.pawnOptions.splice(removeId, 1, newPawn);
+        },
+        removePlayer(player) {
+            const playerToRemove = this.players.splice(player, 1);
+
+            let removeId = 0;
+
+            let newPawn = {};
+
+            this.pawnOptions.forEach((option, index) => {
+                if (option.value === playerToRemove[0].pawn) {
+                    removeId = index;
+
+                    option.chosen = false;
+
+                    newPawn = option;
+                }
+            });
+
+            this.pawnOptions.splice(removeId, 1, newPawn);
         },
     },
 });
