@@ -410,6 +410,8 @@ export default {
             if (cleanPath.length > 1) {
                 window.axios.patch(`/update/player/${this.activePawn}`, { path: cleanPath });
 
+                Event.$emit('pawn-moving');
+
                 this.movePawnTo(cleanPath);
             }
         },
@@ -420,6 +422,8 @@ export default {
                 const move = setInterval(() => {
                     if (pathToMove.length <= 1) {
                         clearInterval(move);
+
+                        Event.$emit('player-may-change');
                     }
 
                     const moveTo = pathToMove.pop();
