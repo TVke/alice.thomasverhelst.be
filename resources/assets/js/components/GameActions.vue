@@ -9,7 +9,7 @@
                 <h3 class="font-noteworthy text-center text-white text-5xl">{{ winner }}</h3>
                 <p class="font-noteworthy text-center text-white text-xl pt-3">won Alice's magical maze</p>
                 <a href="/leaderboard"
-                   class="px-4 py-2 rounded my-8 block transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner bg-alice text-white cursor-pointer"
+                   class="px-4 py-2 rounded my-8 block transition shadow-lg hover:shadow active:shadow-inner focus:shadow-inner bg-alice text-white"
                    :tab-index="(winner)? 0 : -1"
                    :class="(winner)? 'pointer-events-auto' : 'pointer-events-none'"
                 >

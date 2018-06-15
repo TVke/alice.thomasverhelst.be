@@ -52,14 +52,6 @@ let colors = {
     'pawn-green': '#95C11F',
     'pawn-red': '#BE1622',
 
-    // 'alice-lightest': '#EBF6FC',
-    // 'alice-lighter': '#AFDDF3',
-    // 'alice-light': '#72C3EA',
-    // alice: '#36A9E1',
-    // 'alice-dark': '#3198CB',
-    // 'alice-darker': '#206587',
-    // 'alice-darkest': '#103344',
-
     'alice-lightest': '#EBF6FC',
     'alice-lighter': '#AFDDF3',
     'alice-light': '#72C3EA',
@@ -1148,7 +1140,8 @@ module.exports = {
                     maxHeight: '100vh',
                 },
                 '.size-board.paused': {
-                    maxHeight: '35.816rem',
+                    maxHeight: '100vh',
+                    transform: 'scale(.9)',
                 },
                 '.move-mode': {
                     transform: 'scale(0.6)',
@@ -1164,6 +1157,9 @@ module.exports = {
                 },
                 '.filter-shadow': {
                     filter: `drop-shadow(0 0 40px ${colors['yellow']})`,
+                },
+                '.no-filter': {
+                    filter: 'initial',
                 },
                 '.direction-reverse': {
                     direction: 'rtl',

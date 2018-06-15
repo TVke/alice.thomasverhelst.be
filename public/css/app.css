@@ -595,10 +595,6 @@ button,
   background-color: rgba(0, 0, 0, .6);
 }
 
-.bg-active-transparent {
-  background-color: rgba(100, 100, 100, .6);
-}
-
 .bg-alice-lighter {
   background-color: #afddf3;
 }
@@ -2025,8 +2021,9 @@ button,
 }
 
 .size-board.paused {
-  max-height: 573.056px;
-  max-height: 35.816rem;
+  max-height: 100vh;
+  -webkit-transform: scale(.9);
+          transform: scale(.9);
 }
 
 .move-mode {
@@ -2043,6 +2040,11 @@ button,
   filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur in="SourceAlpha" stdDeviation="40" /><feOffset dx="1" dy="1" result="offsetblur" /><feFlood flood-color="rgba(255,237,74,1)" /><feComposite in2="offsetblur" operator="in" /><feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge></filter></svg>#filter');
   -webkit-filter: drop-shadow(0 0 40px #ffed4a);
           filter: drop-shadow(0 0 40px #ffed4a);
+}
+
+.no-filter {
+  -webkit-filter: initial;
+          filter: initial;
 }
 
 .pin-l .active-card {
@@ -2326,6 +2328,11 @@ button,
     -webkit-transform: translateY(-150%) rotateX(50deg);
             transform: translateY(-150%) rotateX(50deg);
   }
+
+  .sm\:move-mode {
+    -webkit-transform: scale(.6);
+            transform: scale(.6);
+  }
 }
 
 @media (min-width: 768px) {
@@ -2452,6 +2459,11 @@ button,
 
   .md\:w-3\/4 {
     width: 75%;
+  }
+
+  .md\:move-mode {
+    -webkit-transform: scale(.6);
+            transform: scale(.6);
   }
 }
 

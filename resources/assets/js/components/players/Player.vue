@@ -14,18 +14,13 @@
                  'left-out': paused && placement.left,
                  'right-out': paused && placement.right,
                  'translateX-0': !paused,
-                 'bg-active-transparent text-white': active === player.pawn,
-                 'shadow-blue-active': current.pawn === 'Alice' && player.pawn === 'Alice',
-                 'shadow-green-active': current.pawn === 'Mad Hatter' && player.pawn === 'Mad Hatter',
-                 'shadow-red-active': current.pawn === 'Queen of Hearts' && player.pawn === 'Queen of Hearts',
-                 'shadow-white-active': current.pawn === 'White Rabbit' && player.pawn === 'White Rabbit',
         }">
-            <div class="h-full rounded-full w-12 md:w-1/4 bg-white"
+            <div class="h-full rounded-full w-12 md:w-1/4 bg-white filter-gray"
                  :class="{
-                     'border border-pawn-blue shadow-blue-active': active === player.pawn && player.pawn === 'Alice',
-                     'border border-pawn-green shadow-green-active': active === player.pawn && player.pawn === 'Mad Hatter',
-                     'border border-pawn-red shadow-red-active': active === player.pawn && player.pawn === 'Queen of Hearts',
-                     'border border-black shadow-white-active bg-black-transparent': active === player.pawn && player.pawn === 'White Rabbit',
+                     'no-filter border border-pawn-blue shadow-blue-active': active === player.pawn && player.pawn === 'Alice',
+                     'no-filter border border-pawn-green shadow-green-active': active === player.pawn && player.pawn === 'Mad Hatter',
+                     'no-filter border border-pawn-red shadow-red-active': active === player.pawn && player.pawn === 'Queen of Hearts',
+                     'no-filter border border-black shadow-white-active bg-black-transparent': active === player.pawn && player.pawn === 'White Rabbit',
             }">
                 <img class="block p-1" :src="`/storage/images/pawns/${player.pawn}.svg`" :alt="`${player.pawn} pawn`">
             </div>

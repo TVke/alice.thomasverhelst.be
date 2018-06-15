@@ -2,9 +2,9 @@
     <div class="m-auto z--20 w-full perspective absolute pin flex">
         <div class="preserve3d m-auto absolute pin z-10 block transition pointer-events-none transition-timing-ease-out transition-slow transition-delay-longest size-board"
              :class="{
-                 'tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x': !paused && (moveMazeMode && !allowPlay),
+                 'tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x': !paused,
                  'pawn-start-sm sm:pawn-start': paused,
-                 'move-mode': moveMazeMode && allowPlay,
+                 'move-mode sm:move-mode md:move-mode': moveMazeMode && allowPlay,
         }">
             <pawn v-for="player in players"
                   :active="activePawn"
@@ -15,9 +15,9 @@
         </div>
         <div class="m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest size-board"
              :class="{
+                 'tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x pointer-events-auto': !paused,
                  'paused cursor-default pointer-events-none': paused,
-                 'tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x pointer-events-auto': !paused && (moveMazeMode && !allowPlay),
-                 'move-mode pointer-events-auto': moveMazeMode && allowPlay,
+                 'move-mode sm:move-mode md:move-mode pointer-events-auto ': moveMazeMode && allowPlay,
         }">
             <tile v-for="(tile, index) in tiles"
                   :class="{'pointer-events-none': !allowPlay}"

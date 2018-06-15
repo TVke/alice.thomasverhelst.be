@@ -5259,11 +5259,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -11173,10 +11168,10 @@ var render = function() {
           staticClass:
             "preserve3d m-auto absolute pin z-10 block transition pointer-events-none transition-timing-ease-out transition-slow transition-delay-longest size-board",
           class: {
-            "tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x":
-              !_vm.paused && (_vm.moveMazeMode && !_vm.allowPlay),
+            "tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x": !_vm.paused,
             "pawn-start-sm sm:pawn-start": _vm.paused,
-            "move-mode": _vm.moveMazeMode && _vm.allowPlay
+            "move-mode sm:move-mode md:move-mode":
+              _vm.moveMazeMode && _vm.allowPlay
           }
         },
         _vm._l(_vm.players, function(player) {
@@ -11194,10 +11189,10 @@ var render = function() {
           staticClass:
             "m-auto flex flex-wrap preserve3d tablecloth rounded transition transition-timing-ease-out transition-slow transition-delay-longest size-board",
           class: {
+            "tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x pointer-events-auto": !_vm.paused,
             "paused cursor-default pointer-events-none": _vm.paused,
-            "tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x pointer-events-auto":
-              !_vm.paused && (_vm.moveMazeMode && !_vm.allowPlay),
-            "move-mode pointer-events-auto": _vm.moveMazeMode && _vm.allowPlay
+            "move-mode sm:move-mode md:move-mode pointer-events-auto ":
+              _vm.moveMazeMode && _vm.allowPlay
           }
         },
         [
@@ -11425,36 +11420,25 @@ var render = function() {
             "pin-r flex-row-reverse text-right": _vm.placement.right,
             "left-out": _vm.paused && _vm.placement.left,
             "right-out": _vm.paused && _vm.placement.right,
-            "translateX-0": !_vm.paused,
-            "bg-active-transparent text-white": _vm.active === _vm.player.pawn,
-            "shadow-blue-active":
-              _vm.current.pawn === "Alice" && _vm.player.pawn === "Alice",
-            "shadow-green-active":
-              _vm.current.pawn === "Mad Hatter" &&
-              _vm.player.pawn === "Mad Hatter",
-            "shadow-red-active":
-              _vm.current.pawn === "Queen of Hearts" &&
-              _vm.player.pawn === "Queen of Hearts",
-            "shadow-white-active":
-              _vm.current.pawn === "White Rabbit" &&
-              _vm.player.pawn === "White Rabbit"
+            "translateX-0": !_vm.paused
           }
         },
         [
           _c(
             "div",
             {
-              staticClass: "h-full rounded-full w-12 md:w-1/4 bg-white",
+              staticClass:
+                "h-full rounded-full w-12 md:w-1/4 bg-white filter-gray",
               class: {
-                "border border-pawn-blue shadow-blue-active":
+                "no-filter border border-pawn-blue shadow-blue-active":
                   _vm.active === _vm.player.pawn && _vm.player.pawn === "Alice",
-                "border border-pawn-green shadow-green-active":
+                "no-filter border border-pawn-green shadow-green-active":
                   _vm.active === _vm.player.pawn &&
                   _vm.player.pawn === "Mad Hatter",
-                "border border-pawn-red shadow-red-active":
+                "no-filter border border-pawn-red shadow-red-active":
                   _vm.active === _vm.player.pawn &&
                   _vm.player.pawn === "Queen of Hearts",
-                "border border-black shadow-white-active bg-black-transparent":
+                "no-filter border border-black shadow-white-active bg-black-transparent":
                   _vm.active === _vm.player.pawn &&
                   _vm.player.pawn === "White Rabbit"
               }
@@ -11825,7 +11809,7 @@ var render = function() {
             "a",
             {
               staticClass:
-                "px-4 py-2 rounded my-8 block transition pointer-events-auto shadow-lg hover:shadow active:shadow-inner focus:shadow-inner bg-alice text-white cursor-pointer",
+                "px-4 py-2 rounded my-8 block transition shadow-lg hover:shadow active:shadow-inner focus:shadow-inner bg-alice text-white",
               class: _vm.winner ? "pointer-events-auto" : "pointer-events-none",
               attrs: { href: "/leaderboard", "tab-index": _vm.winner ? 0 : -1 }
             },

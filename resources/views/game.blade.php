@@ -14,7 +14,9 @@
                 <h2 class="p-2 font-noteworthy font-light"
                     :class="{hidden: ! allowNewPlayer}">Choose your pawn</h2>
                 @if(! Auth::check())
-                    <form class="md:flex-wrap md:flex" method="post" :action="(login) ? '/login' : '/register'"
+                    <form class="md:flex-wrap md:flex"
+                          method="post"
+                          :action="(login) ? '{{ route('login') }}' : '{{ route('register') }}'"
                           :class="{hidden: ! allowNewPlayer}">
                 @endif
                 @if(Auth::check())
@@ -65,9 +67,9 @@
                                :key="option.name"
                                :tabindex="{{ (Auth::check()) ? '-1' : "(option.chosen || optionAvailable(option, {$players})) ? '-1': '0'" }}"
                                :class="{
-                               'pointer-events-none border-none': {{ (Auth::check()) ? 'true' : 'false' }},
-                               'border-none filter-gray pointer-events-none': option.chosen || optionAvailable(option, {{ $players }}),
-                               'border-black': selectedPawn === option.value
+                               'pointer-events-none border-none': {{ (Auth::check()) ? 'true' : 'false' }} && option.value !== '{{ (Auth::check()) ? Auth::user()->pawn : '' }}',
+                               'filter-gray pointer-events-none': option.chosen || optionAvailable(option, {{ $players }}),
+                               'border-black': selectedPawn === option.value || option.value === '{{ (Auth::check()) ? Auth::user()->pawn : '' }}'
                                }">
                                 <img class="m-auto block"
                                      :src="`/storage/images/pawns/${option.name}.svg`"
@@ -86,7 +88,7 @@
                         @if ($errors->has('password') && !Auth::check())
                             <p class="block p-2 bg-grey-lighter rounded mb-4 -mt-2">{{ $errors->first('password') }}</p>
                         @endif
-                        <input type="submit" value="Submit choose" class="py-2 px-3 rounded mt-2{{ Auth::check() ? ' bg-grey' : ' bg-alice-lighter' }}"
+                        <input type="submit" value="Enter the game" class="py-2 px-3 rounded mt-2{{ Auth::check() ? ' bg-grey' : ' bg-alice-lighter' }}"
                                 {{ Auth::check() ? 'disabled' : '' }}>
                     </div>
                 </form>
