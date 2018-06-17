@@ -92,7 +92,7 @@ export default {
             setTimeout(() => {
                 this.showObject = true;
 
-                if (this.objectSound){
+                if (this.objectSound) {
                     this.objectSound.play();
                 }
             }, 250);

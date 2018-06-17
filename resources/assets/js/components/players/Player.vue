@@ -81,7 +81,7 @@ export default {
     created() {
         Event.$on('object-found', ({ object, pawn }) => {
             if (pawn === this.player.pawn) {
-                if (this.objectsToShow > 0){
+                if (this.objectsToShow > 0) {
                     this.objectsToShow -= 1;
                 }
             }

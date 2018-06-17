@@ -99,7 +99,7 @@ export default {
             .listen('GameStarted', ({ players }) => {
                 Event.$emit('game-started', this.parsePosition(players));
             })
-            .listen('TileMoved', ({tiles, players}) => {
+            .listen('TileMoved', ({ tiles, players }) => {
                 this.players = this.parsePosition(players);
 
                 this.looseTile = tiles.pop();
@@ -126,12 +126,11 @@ export default {
                 Event.$emit('player-won', username);
             });
 
-        window.axios.get('/game/tiles')
-            .then(({data}) => {
-                this.looseTile = data.pop();
+        window.axios.get('/game/tiles').then(({ data }) => {
+            this.looseTile = data.pop();
 
-                this.tiles = data;
-            });
+            this.tiles = data;
+        });
 
         Event.$on('game-started', players => {
             this.paused = false;
@@ -174,7 +173,6 @@ export default {
         // this.foundSound = document.getElementById('found');
         // this.foundSound = document.getElementById('found');
         // this.foundSound = document.getElementById('found');
-
     },
     computed: {
         activePlayerIndex() {

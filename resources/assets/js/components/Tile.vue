@@ -18,10 +18,10 @@
 export default {
     name: 'tile',
     props: ['tile', 'error'],
-    data(){
+    data() {
         return {
             pawnSound: null,
-        }
+        };
     },
     mounted() {
         this.pawnSound = document.getElementById('pawnSound');
@@ -39,7 +39,7 @@ export default {
                 return 't-point tile';
             }
 
-            return 'straight line tile'
+            return 'straight line tile';
         },
         titleContent() {
             if (this.applyError) {
@@ -47,16 +47,16 @@ export default {
             }
 
             if (this.tile.object) {
-                return `${this.tileDescription} with ${this.tile.object.description}`
+                return `${this.tileDescription} with ${this.tile.object.description}`;
             }
 
-            return `empty ${this.tileDescription}`
+            return `empty ${this.tileDescription}`;
         },
     },
     methods: {
-        handleTileClick(){
-            this.$emit('tile-click', {x: this.tile.x, y: this.tile.y});
-        }
-    }
+        handleTileClick() {
+            this.$emit('tile-click', { x: this.tile.x, y: this.tile.y });
+        },
+    },
 };
 </script>

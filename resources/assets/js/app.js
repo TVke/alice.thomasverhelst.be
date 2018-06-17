@@ -18,10 +18,10 @@ new Vue({
             login: false,
             selectedPawn: '',
             pawnOptions: [
-                {name: 'Alice', value: 'Alice', chosen: false},
-                {name: 'Mad Hatter', value: 'Mad Hatter', chosen: false},
-                {name: 'Queen of Hearts', value: 'Queen of Hearts', chosen: false},
-                {name: 'White Rabbit', value: 'White Rabbit', chosen: false},
+                { name: 'Alice', value: 'Alice', chosen: false },
+                { name: 'Mad Hatter', value: 'Mad Hatter', chosen: false },
+                { name: 'Queen of Hearts', value: 'Queen of Hearts', chosen: false },
+                { name: 'White Rabbit', value: 'White Rabbit', chosen: false },
             ],
             welcomeSound: null,
         };

@@ -17,44 +17,44 @@
 </template>
 
 <script>
-    export default {
-        name: 'GhostTile',
-        props: ['x', 'y', 'tile'],
-        data() {
-            return {
-                xPos: this.x,
-                yPos: this.y,
-                tileSound: null,
-            };
-        },
-        mounted() {
-            this.tileSound = document.getElementById('tileSound');
-        },
-        computed: {
-            tileDescription() {
-                if (this.tile.type === 'corner') {
-                    return 'corner tile';
-                }
-
-                if (this.tile.type === 'tpoint') {
-                    return 't-point tile';
-                }
-
-                return 'straight line tile'
-            },
-        },
-        methods: {
-            handleTileClick() {
-                this.$emit('add-tile', {x: this.xPos, y: this.yPos});
-                if (this.tileSound) {
-                    this.tileSound.play();
-                }
-            },
-            handleTileRotation() {
-                this.$emit('rotate');
-
-                window.axios.post('/rotate/tile');
+export default {
+    name: 'GhostTile',
+    props: ['x', 'y', 'tile'],
+    data() {
+        return {
+            xPos: this.x,
+            yPos: this.y,
+            tileSound: null,
+        };
+    },
+    mounted() {
+        this.tileSound = document.getElementById('tileSound');
+    },
+    computed: {
+        tileDescription() {
+            if (this.tile.type === 'corner') {
+                return 'corner tile';
             }
-        }
-    };
+
+            if (this.tile.type === 'tpoint') {
+                return 't-point tile';
+            }
+
+            return 'straight line tile';
+        },
+    },
+    methods: {
+        handleTileClick() {
+            this.$emit('add-tile', { x: this.xPos, y: this.yPos });
+            if (this.tileSound) {
+                this.tileSound.play();
+            }
+        },
+        handleTileRotation() {
+            this.$emit('rotate');
+
+            window.axios.post('/rotate/tile');
+        },
+    },
+};
 </script>
