@@ -5060,6 +5060,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.tileSound) {
                 this.tileSound.play();
             }
+        },
+        handleTileRotation: function handleTileRotation() {
+            this.$emit('rotate');
+
+            window.axios.post('/rotate/tile');
         }
     }
 });
@@ -11390,7 +11395,7 @@ var render = function() {
             click: function($event) {
               $event.stopPropagation()
               $event.preventDefault()
-              _vm.$emit("rotate")
+              _vm.handleTileRotation()
             }
           }
         },

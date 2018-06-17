@@ -3,7 +3,7 @@
        :class="`place-${xPos}-${yPos}`" @click.prevent="handleTileClick()">
         <a href="#" tabindex="-1" role="presentation"
            class="absolute opacity-0 group-hover:opacity-100 pin-t pin-r bg-alice rounded-full p-2 z-50 shadow -mt-2 -mr-2 w-8 h-8 hidden sm:block"
-           @click.stop.prevent="$emit('rotate')">
+           @click.stop.prevent="handleTileRotation()">
             <img src="/storage/images/rotate.svg" alt="rotate the tile" class="w-full">
         </a>
         <img class="w-full rounded-lg relative z--10 opacity-25 group-hover:opacity-100 transition transition-property-transform" v-if="this.tile.type"
@@ -49,6 +49,11 @@
                 if (this.tileSound) {
                     this.tileSound.play();
                 }
+            },
+            handleTileRotation() {
+                this.$emit('rotate');
+
+                window.axios.post('/rotate/tile');
             }
         }
     };
