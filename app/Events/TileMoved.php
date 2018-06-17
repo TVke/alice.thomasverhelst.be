@@ -3,12 +3,12 @@
 namespace App\Events;
 
 use App\GameSession;
+use Illuminate\Support\Collection;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Support\Collection;
 
 class TileMoved implements ShouldBroadcast
 {
@@ -17,21 +17,15 @@ class TileMoved implements ShouldBroadcast
     /** @var \App\GameSession */
     protected $gameSession;
 
-//    public $changes;
-//
-//    public $rotation;
-
+    /** @var \Illuminate\Support\Collection */
     public $tiles;
 
+    /** @var \Illuminate\Support\Collection */
     public $players;
 
     public function __construct(GameSession $gameSession, Collection $tiles, Collection $players)
     {
         $this->gameSession = $gameSession;
-
-//        $this->changes = $changes;
-//
-//        $this->rotation = $rotation;
 
         $this->tiles = $tiles;
 
