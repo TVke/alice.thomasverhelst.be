@@ -17,7 +17,7 @@
              :class="{
                  'tilt-board-sm sm:tilt-board origin-x-sm sm:origin-x pointer-events-auto': !paused,
                  'paused cursor-default pointer-events-none': paused,
-                 'move-mode sm:move-mode md:move-mode pointer-events-auto ': moveMazeMode && allowPlay,
+                 'move-mode sm:move-mode md:move-mode pointer-events-auto': moveMazeMode && allowPlay,
         }">
             <tile v-for="(tile, index) in tiles"
                   :class="{'pointer-events-none': !allowPlay}"
@@ -99,16 +99,16 @@ export default {
             .listen('GameStarted', ({ players }) => {
                 Event.$emit('game-started', this.parsePosition(players));
             })
-            .listen('TileMoved', ({ changes, rotation }) => {
-                if (this.looseTile.rotation !== rotation) {
-                    this.looseTile.rotation = rotation;
-                }
+            .listen('TileMoved', ({tiles, players}) => {
+                this.players = this.parsePosition(players);
+
+                this.looseTile = tiles.pop();
+
+                this.tiles = tiles;
 
                 if (this.tileSound) {
                     this.tileSound.play();
                 }
-
-                this.moveMaze(changes);
             })
             .listen('PawnMoved', ({ path }) => {
                 this.movePawnTo(path);
@@ -126,11 +126,12 @@ export default {
                 Event.$emit('player-won', username);
             });
 
-        window.axios.get('/game/tiles').then(({ data }) => {
-            this.looseTile = data.pop();
+        window.axios.get('/game/tiles')
+            .then(({data}) => {
+                this.looseTile = data.pop();
 
-            this.tiles = data;
-        });
+                this.tiles = data;
+            });
 
         Event.$on('game-started', players => {
             this.paused = false;
@@ -212,7 +213,7 @@ export default {
                 newRotation = 0;
             }
 
-            if (newRotation > 90 && this.looseTile.type.name === 'line') {
+            if (newRotation > 90 && this.looseTile.type === 'line') {
                 newRotation = 0;
             }
 
@@ -534,7 +535,7 @@ export default {
                 left: false,
             };
 
-            if (tile.type.name === 'line') {
+            if (tile.type === 'line') {
                 if (tile.rotation === 0 || tile.rotation === 180) {
                     walls.top = true;
                     walls.bottom = true;
@@ -546,7 +547,7 @@ export default {
                 }
             }
 
-            if (tile.type.name === 'corner') {
+            if (tile.type === 'corner') {
                 if (tile.rotation === 0) {
                     walls.top = true;
                     walls.right = true;
@@ -565,7 +566,7 @@ export default {
                 }
             }
 
-            if (tile.type.name === 'tpoint') {
+            if (tile.type === 'tpoint') {
                 if (tile.rotation === 0) {
                     walls.bottom = true;
                 }

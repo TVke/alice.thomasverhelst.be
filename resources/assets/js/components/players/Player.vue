@@ -30,7 +30,8 @@
             'pin-t flex-col-reverse': placement.top,
             'pin-b flex-col': placement.bottom,
             'pin-l ml-4 items-start': placement.left,
-            'pin-r mr-4 items-end': placement.right
+            'pin-r mr-4 items-end': placement.right,
+            'z-50': current.object && current.pawn === player.pawn,
         }">
             <object-card v-for="card in objectsToShow"
                          :placement="placement"

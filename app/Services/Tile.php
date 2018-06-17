@@ -9,33 +9,18 @@ class Tile
 {
     public static function createMap(): Collection
     {
-        $lineType = collect([
-            'name' => 'line',
-            'description' => 'straight line tile',
-        ]);
-
-        $tpointType = collect([
-            'name' => 'tpoint',
-            'description' => 't-point tile',
-        ]);
-
-        $cornerType = collect([
-            'name' => 'corner',
-            'description' => 'corner tile',
-        ]);
-
         $objects = Valuestore::make(resource_path('data/objects.json'));
 
         $objects = collect($objects->all())->shuffle();
 
         $types = collect([])
-            ->pad(12, collect($lineType))
-            ->pad(12 + 18, collect($tpointType))
-            ->pad(12 + 18 + 16, collect($cornerType))
+            ->pad(12, collect(['type' => 'line']))
+            ->pad(12 + 18, collect(['type' => 'tpoint']))
+            ->pad(12 + 18 + 16, collect(['type' => 'corner']))
             ->toArray();
 
         for ($i = 0, $typeCount = count($types); $i < $typeCount; ++$i) {
-            if ($objects->isNotEmpty() && ($types[$i]['name'] === 'tpoint' || $types[$i]['name'] === 'corner')) {
+            if ($objects->isNotEmpty() && ($types[$i]['type'] === 'tpoint' || $types[$i]['type'] === 'corner')) {
                 array_push($types[$i], $objects->pop());
             }
         }
@@ -47,17 +32,15 @@ class Tile
         for ($y = 0; $y < 7; ++$y) {
             for ($x = 0; $x < 7; ++$x) {
                 if (($y === 0 || $y === 6) && ($x === 0 || $x === 6)) {
-                    $type = $cornerType;
+                    $type = collect(['type' => 'corner']);
                 } else {
-                    $type = $types->pop();
+                    $type = collect($types->pop());
                 }
 
                 $object = null;
 
-                if (collect($type)->has(0)) {
-                    $object = collect($type)->get(0);
-
-                    collect($type)->forget(0);
+                if ($type->has(0)) {
+                    $object = $type->get(0);
                 }
 
                 $rotation = collect([0, 90, 180, 270])->random();
@@ -79,27 +62,25 @@ class Tile
                     'x' => $x,
                     'y' => $y,
                     'object' => $object,
-                    'type' => $type,
+                    'type' => $type->get('type'),
                     'rotation' => $rotation,
                 ];
             }
         }
 
-        $extraTile = $types->pop();
+        $extraTile = collect($types->pop());
 
         $object = null;
 
-        if (collect($extraTile)->has(0)) {
-            $object = collect($extraTile)->get(0);
-
-            collect($extraTile)->forget(0);
+        if ($extraTile->has(0)) {
+            $object = $extraTile->get(0);
         }
 
         return collect($tiles)->flatten(1)->push(collect([
             'x' => -1,
             'y' => -1,
             'object' => $object,
-            'type' => $extraTile,
+            'type' => $extraTile->get('type'),
             'rotation' => 0,
         ]));
     }

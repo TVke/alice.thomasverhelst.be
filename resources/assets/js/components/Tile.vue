@@ -1,16 +1,16 @@
 <template>
     <a href="#" class="w-1/7 h-1/7 absolute transition" aria-live="polite"
        :class="[`place-${tile.x}-${tile.y}`, {'z-50 filter-gray': applyError}]"
-       :title="applyError ? 'You can\'t move here.' : tile.object ? tile.type.description + ' with ' + tile.object.description : 'empty ' + tile.type.description"
-       :aria-label="applyError ? 'You can\'t move here.' : tile.object ? tile.type.description + ' with ' + tile.object.description : 'empty ' + tile.type.description"
+       :title="titleContent"
+       :aria-label="titleContent"
        @click.prevent="handleTileClick()">
         <img class="w-full h-full block relative z--10"
              :class="`rotate-${tile.rotation}`"
-             :src="`/storage/images/tiles/${tile.type.name}.svg`"
-             :alt="tile.type.description">
+             :src="`/storage/images/tiles/${tile.type}.svg`"
+             :alt="tileDescription">
         <img class="absolute w-2/5 h-2/5 pin m-auto block" v-if="tile.object"
              :src="`/storage/images/objects/${tile.object.name}.svg`"
-             :alt="tile.object.description">
+             :alt="tileDescription">
     </a>
 </template>
 
@@ -29,6 +29,28 @@ export default {
     computed: {
         applyError() {
             return this.error.x === this.tile.x && this.error.y === this.tile.y;
+        },
+        tileDescription() {
+            if (this.tile.type === 'corner') {
+                return 'corner tile';
+            }
+
+            if (this.tile.type === 'tpoint') {
+                return 't-point tile';
+            }
+
+            return 'straight line tile'
+        },
+        titleContent() {
+            if (this.applyError) {
+                return "You can't move here.";
+            }
+
+            if (this.tile.object) {
+                return `${this.tileDescription} with ${this.tile.object.description}`
+            }
+
+            return `empty ${this.tileDescription}`
         },
     },
     methods: {

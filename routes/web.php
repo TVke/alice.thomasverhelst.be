@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'PageController@info')->name('info');
-//Route::get('/test', 'GameController@calculateScores');
+Route::get('/test', 'TileController@update');
 Route::get('/leaderboard', 'PageController@leaderboard')->name('leaderboard');
 
 Route::post('/register', 'Auth\RegisterController@register')->name('register');

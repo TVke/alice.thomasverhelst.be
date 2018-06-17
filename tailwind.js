@@ -1144,6 +1144,7 @@ module.exports = {
                     transform: 'scale(.9)',
                 },
                 '.move-mode': {
+                    transformOrigin: 'center center',
                     transform: 'scale(0.6)',
                 },
             };
