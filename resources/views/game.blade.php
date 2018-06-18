@@ -44,21 +44,6 @@
                     </div>
                     <div class="p-2">
                         <label class="py-2 block{{$errors->has('pawn') ? ' text-red' : ''}}" for="pawn">Your pawn</label>
-                        {{--<select class="block w-full border border-grey text-base{{ $errors->has('pawn') ? ' border-red' : '' }}"--}}
-                                {{--required id="pawn" name="pawn" {{ Auth::check() ? 'disabled' : '' }}>--}}
-                            {{--@if(Auth::check())--}}
-                                {{--<option value="{{ Auth::user()->pawn }}">{{ Auth::user()->pawn }}</option>--}}
-                            {{--@endif--}}
-                                {{--@if(old('pawn'))--}}
-                                    {{--<option value="{{ old('pawn') }}">{{ old('pawn') }}</option>--}}
-                                {{--@endif--}}
-                                {{--<option value=""></option>--}}
-                                {{--<option v-for="option in pawnOptions"--}}
-                                    {{--:value="option.value"--}}
-                                    {{--:key="option.name"--}}
-                                    {{--:disabled="optionAvailable(option, {{ $players }})"--}}
-                                    {{--v-text="option.name"></option>--}}
-                        {{--</select>--}}
                         <input type="hidden" name="pawn" :value="selectedPawn">
                         <div class="flex w-full flex-wrap justify-between">
                             <a v-for="option in pawnOptions" href="#"

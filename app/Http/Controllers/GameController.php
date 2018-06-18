@@ -15,12 +15,12 @@ class GameController extends Controller
 {
     public function index(?GameSession $session = null)
     {
-//        if ($player->session && $player->session->started) {
-//            return view('errors.started');
-//        }
-
         if ($session) {
             session(['game_token' => $session->session]);
+
+            if ($session->started) {
+                return view('errors.started');
+            }
         }
 
         if (! $session) {
