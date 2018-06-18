@@ -3,7 +3,7 @@
 @section('content')
 
     <h2 class="p-2 pt-24 text-center font-noteworthy font-light pointer-events-auto">Leaderboard</h2>
-    @if(empty($scores))
+    @if($scores->isNotEmpty())
         <ol class="px-16 py-4 m-auto max-w-sm w-full pointer-events-auto">
             @foreach($scores as $score)
                 <li>
