@@ -1157,7 +1157,7 @@ module.exports = {
                     whiteSpace: 'normal',
                 },
                 '.filter-gray': {
-                    filter: 'grayscale()',
+                    filter: 'grayscale(100%)',
                 },
                 '.filter-shadow': {
                     filter: `drop-shadow(0 0 40px ${colors['yellow']})`,
