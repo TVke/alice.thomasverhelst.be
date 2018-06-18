@@ -3,11 +3,12 @@
 namespace App\Events;
 
 use App\GameSession;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class PlayerWon implements ShouldBroadcast
 {
@@ -16,13 +17,18 @@ class PlayerWon implements ShouldBroadcast
     /** @var \App\GameSession */
     protected $gameSession;
 
-    public $username;
+    public $username = "";
 
-    public function __construct(GameSession $gameSession, $username)
+    /** @var \Illuminate\Support\Collection */
+    public $scores;
+
+    public function __construct(GameSession $gameSession, string $username, Collection $scores)
     {
         $this->gameSession = $gameSession;
 
         $this->username = $username;
+
+        $this->scores = $scores;
     }
 
     public function broadcastOn()

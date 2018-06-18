@@ -19,7 +19,7 @@ class GameSession extends Model
 
     public function players(): HasMany
     {
-        return $this->hasMany(Player::class)->select(['id', 'username', 'pawn', 'position']);
+        return $this->hasMany(Player::class)->select(['id', 'username', 'pawn', 'position','score']);
     }
 
     public static function generateToken(): string

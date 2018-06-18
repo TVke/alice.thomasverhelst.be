@@ -3,11 +3,11 @@
 namespace App\Events;
 
 use App\GameSession;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class GameStarted implements ShouldBroadcast
 {
@@ -28,6 +28,5 @@ class GameStarted implements ShouldBroadcast
     public function broadcastOn()
     {
         return new PresenceChannel("game.{$this->gameSession->session}");
-
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User;
 
 class Player extends User
 {
@@ -15,6 +15,6 @@ class Player extends User
 
     public function session(): BelongsTo
     {
-        return $this->belongsTo(GameSession::class,'game_session_id');
+        return $this->belongsTo(GameSession::class, 'game_session_id');
     }
 }

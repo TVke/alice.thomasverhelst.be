@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\GameSession;
-use App\Events\TileMoved;
 use App\Events\RotateTile;
+use App\Events\TileMoved;
+use App\GameSession;
 use App\Player;
 use Illuminate\Http\Request;
 
@@ -30,7 +30,7 @@ class TileController extends Controller
         }
 
         $changes = collect($request->changes);
-        $rotation = collect($request->rotation);
+        $rotation = $request->rotation;
 
         $tiles = collect(json_decode($session->tiles));
 

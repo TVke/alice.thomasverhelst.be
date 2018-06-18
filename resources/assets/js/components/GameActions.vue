@@ -6,10 +6,20 @@
                 <img v-if="activePawn" class="mx-auto block w-full pb-4 pt-16 px-8 max-w-sm"
                      :src="`/storage/images/pawns/${activePawn}.svg`"
                      :alt="`${activePawn} pawn`">
-                <h3 class="font-noteworthy text-center text-white text-5xl">{{ winner }}</h3>
+                <h3 class="font-noteworthy text-center text-white text-5xl whitespace-normal truncate pb-4">{{ winner }}</h3>
                 <p class="font-noteworthy text-center text-white text-xl pt-3">won Alice's magical maze</p>
+                <ul v-if="scores" class="list-reset pt-4">
+                    <li v-for="player in scores" :key="player.username" class="flex py-2 text-white">
+                        <p class="pr-2">-</p>
+                        <img class="block w-8 h-full pr-2"
+                             :src="`/storage/images/pawns/${player.pawn}.svg`"
+                             :alt="`${player.pawn} pawn`">
+                        <p class="pr-2 my-auto">{{ player.username }}:</p>
+                        <strong class="my-auto">{{ player.score }}</strong>
+                    </li>
+                </ul>
                 <a href="/leaderboard"
-                   class="px-4 py-2 rounded my-8 block transition shadow-lg hover:shadow active:shadow-inner focus:shadow-inner bg-alice text-white"
+                   class="px-4 py-2 rounded m-8 block transition shadow-lg hover:shadow active:shadow-inner focus:shadow-inner bg-alice text-white no-underline hover:underline text-center"
                    :tab-index="(winner)? 0 : -1"
                    :class="(winner)? 'pointer-events-auto' : 'pointer-events-none'"
                 >
@@ -62,6 +72,7 @@ export default {
             feedback: '',
             activePawn: '',
             winner: '',
+            scores: [],
             objectSound: null,
         };
     },
@@ -114,8 +125,10 @@ export default {
             this.moveMazeMode = true;
         });
 
-        Event.$on('player-won', username => {
+        Event.$on('player-won', ({ username, scores }) => {
             this.winner = username;
+            console.log(scores);
+            this.scores = scores;
         });
     },
     mounted() {

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PlayerWon;
-use App\Player;
-use App\GameSession;
 use App\Events\GameStarted;
 use App\Events\ObjectFound;
-use Illuminate\Http\Request;
 use App\Events\PlayerChanged;
+use App\Events\PlayerWon;
+use App\GameSession;
+use App\Player;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
@@ -97,9 +97,17 @@ class GameController extends Controller
         $objects = $this->makeJson($activePlayer->objects);
 
         if ($objects->isEmpty()) {
-            event(new PlayerWon($session, $activePlayer->username));
-
             $this->calculateScores($session, $activePlayer);
+
+            $scores = $session->players()->get()->map(function ($player) {
+                return [
+                    'pawn' => $player->pawn,
+                    'username' => $player->username,
+                    'score' => $player->score,
+                ];
+            });
+
+            event(new PlayerWon($session, $activePlayer->username, $scores));
 
             return null;
         }
@@ -122,19 +130,19 @@ class GameController extends Controller
     {
         $amountOfPlayers = $session->players->count();
 
-        $players = Player::where('game_session_id',$session->id)->get();
+        $players = Player::where('game_session_id', $session->id)->get();
 
         $players->each(function ($player) use ($amountOfPlayers, $winner) {
             $objectsLeftCount = $this->makeJson($player->objects)->count();
-            $objectsFound = 24 / $amountOfPlayers - $objectsLeftCount;
+            $objectsFound = 24 / $amountOfPlayers - ($objectsLeftCount + 1);
 
             $score = 10 * $amountOfPlayers * $objectsFound;
 
-            if ($player->id === $winner->id){
+            if ($player->id === $winner->id) {
                 $score = 10 * $amountOfPlayers * $objectsFound * $amountOfPlayers;
             }
 
-            Player::where('id',$player->id)->update(['score' => $score]);
+            Player::where('id', $player->id)->update(['score' => $score]);
         });
     }
 }

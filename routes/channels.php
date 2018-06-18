@@ -12,7 +12,7 @@
 */
 
 Broadcast::channel('game.{session}', function ($player, \App\GameSession $session) {
-    if ($session->players()->where('id',$player->id)->exists()) {
+    if ($session->players()->where('id', $player->id)->exists()) {
         return [
             'id' => $player->id,
             'username' => $player->username,

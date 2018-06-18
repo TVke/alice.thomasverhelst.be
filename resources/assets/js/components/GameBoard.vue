@@ -122,8 +122,8 @@ export default {
             .listen('PlayerChanged', ({ pawn }) => {
                 Event.$emit('player-changed', pawn);
             })
-            .listen('PlayerWon', ({ username }) => {
-                Event.$emit('player-won', username);
+            .listen('PlayerWon', data => {
+                Event.$emit('player-won', data);
             });
 
         window.axios.get('/game/tiles').then(({ data }) => {

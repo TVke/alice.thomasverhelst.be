@@ -24,14 +24,14 @@
             }">
                 <img class="block p-1" :src="`/storage/images/pawns/${player.pawn}.svg`" :alt="`${player.pawn} pawn`">
             </div>
-            <p class="my-auto p-2 truncate w-full md:w-3/4">{{ player.username }}</p>
+            <p class="my-auto p-2 truncate w-full md:w-3/4 whitespace-normal">{{ player.username }}</p>
         </div>
         <div class="flex" :class="{
             'pin-t flex-col-reverse': placement.top,
             'pin-b flex-col': placement.bottom,
             'pin-l ml-4 items-start': placement.left,
             'pin-r mr-4 items-end': placement.right,
-            'z-50': current.object && current.pawn === player.pawn,
+            'z-40': current.object && current.pawn === player.pawn,
         }">
             <object-card v-for="card in objectsToShow"
                          :placement="placement"

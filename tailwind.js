@@ -1153,6 +1153,9 @@ module.exports = {
         },
         function ({addUtilities}) {
             const transformSpecifics = {
+                '.whitespace-normal': {
+                    whiteSpace: 'normal',
+                },
                 '.filter-gray': {
                     filter: 'grayscale()',
                 },
