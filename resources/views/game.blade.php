@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <noscript class="flex absolute pin">
+    <noscript class="flex absolute pin bg-white z-10 pointer-events-auto overflow-hidden">
         <p class="m-auto">This game only works with Javascript turned on.</p>
     </noscript>
 

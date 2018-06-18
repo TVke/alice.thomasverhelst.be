@@ -40,7 +40,6 @@ body {
 
 article,
 header,
-nav,
 section {
   display: block;
 }
@@ -63,7 +62,8 @@ h1 {
  * 1. Add the correct display in IE.
  */
 
-
+figcaption,
+figure,
 main {
   /* 1 */
   display: block;
@@ -72,6 +72,10 @@ main {
 /**
  * Add the correct margin in IE 8.
  */
+
+figure {
+  margin: 1em 40px;
+}
 
 /**
  * 1. Add the correct box sizing in Firefox.
@@ -399,6 +403,7 @@ html {
 h1,
 h2,
 h3,
+figure,
 p {
   margin: 0;
 }
@@ -678,6 +683,10 @@ button,
   border-top-width: 0;
 }
 
+.border-t {
+  border-top-width: 1px;
+}
+
 .cursor-default {
   cursor: default;
 }
@@ -811,6 +820,11 @@ button,
   height: 2rem;
 }
 
+.h-24 {
+  height: 96px;
+  height: 6rem;
+}
+
 .h-2\/5 {
   height: 40%;
 }
@@ -849,6 +863,13 @@ button,
   margin-left: .5rem;
   margin-right: 8px;
   margin-right: .5rem;
+}
+
+.my-4 {
+  margin-top: 16px;
+  margin-top: 1rem;
+  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .my-8 {
@@ -917,16 +938,16 @@ button,
   margin-bottom: 1.5rem;
 }
 
+.mt-auto {
+  margin-top: auto;
+}
+
 .mr-auto {
   margin-right: auto;
 }
 
 .mb-auto {
   margin-bottom: auto;
-}
-
-.ml-auto {
-  margin-left: auto;
 }
 
 .max-h-cards {
@@ -1016,6 +1037,11 @@ button,
   padding: .75rem;
 }
 
+.p-4 {
+  padding: 16px;
+  padding: 1rem;
+}
+
 .p-6 {
   padding: 24px;
   padding: 1.5rem;
@@ -1067,6 +1093,13 @@ button,
   padding-right: 2rem;
 }
 
+.py-16 {
+  padding-top: 64px;
+  padding-top: 4rem;
+  padding-bottom: 64px;
+  padding-bottom: 4rem;
+}
+
 .px-16 {
   padding-left: 64px;
   padding-left: 4rem;
@@ -1114,9 +1147,19 @@ button,
   padding-right: 1.5rem;
 }
 
+.pt-8 {
+  padding-top: 32px;
+  padding-top: 2rem;
+}
+
 .pr-8 {
   padding-right: 32px;
   padding-right: 2rem;
+}
+
+.pb-8 {
+  padding-bottom: 32px;
+  padding-bottom: 2rem;
 }
 
 .pt-16 {
@@ -1422,6 +1465,11 @@ button,
 .w-12 {
   width: 48px;
   width: 3rem;
+}
+
+.w-24 {
+  width: 96px;
+  width: 6rem;
 }
 
 .w-48 {

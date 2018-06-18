@@ -16,7 +16,7 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body class="font-sans pointer-events-none">
-<a href="{{ route('info') }}" class="text-black no-underline absolute pin-t pin-x z-10 px-4 w-1/2 mx-auto rounded-b-lg pointer-events-auto">
+<a href="{{ route('info') }}" class="text-black no-underline absolute pin-t pin-x z-20 px-4 w-1/2 mx-auto rounded-b-lg pointer-events-auto">
     <header class="pt-2 mx-auto">
         <h1 class="text-center flex-auto font-noteworthy text-xl md:text-3xl flex flex-wrap justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410.64 550" class="w-4 md:w-8 h-full block mr-4">
