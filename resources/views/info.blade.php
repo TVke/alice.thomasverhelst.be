@@ -44,30 +44,30 @@
         </figure>
         <figure>
             <div class="flex flex-wrap w-full justify-between px-4 border-t">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/bottle.svg') }}" alt="bottle">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/cake.svg') }}" alt="cake">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/cardsoldiers.svg') }}" alt="cardsoldiers">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/crown.svg') }}" alt="crown">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/doorknob.svg') }}" alt="doorknob">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/golfbal.svg') }}" alt="golfbal">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/golfmallets.svg') }}" alt="golfmallets">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/hammer.svg') }}" alt="hammer">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/hats.svg') }}" alt="hats">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/key.svg') }}" alt="key">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/mirror.svg') }}" alt="mirror">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/pocketwatch.svg') }}" alt="pocketwatch">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/diamonds.svg') }}" alt="diamonds">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/clubs.svg') }}" alt="clubs">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/hearts.svg') }}" alt="hearts">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/spades.svg') }}" alt="spades">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/redrose.svg') }}" alt="redrose">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/shoe.svg') }}" alt="shoe">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/singingflower.svg') }}" alt="singing flower">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/teacup.svg') }}" alt="teacup">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/teapot.svg') }}" alt="teapot">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/tree.svg') }}" alt="tree">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/waterpipe.svg') }}" alt="waterpipe">
-                <img class="block p-4 w-24 h-24" src="{{ url('/images/objects/whiterose.svg') }}" alt="white rose">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/bottle.svg') }}" alt="bottle">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/cake.svg') }}" alt="cake">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/cardsoldiers.svg') }}" alt="cardsoldiers">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/crown.svg') }}" alt="crown">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/doorknob.svg') }}" alt="doorknob">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/golfbal.svg') }}" alt="golfbal">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/golfmallets.svg') }}" alt="golfmallets">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/hammer.svg') }}" alt="hammer">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/hats.svg') }}" alt="hats">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/key.svg') }}" alt="key">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/mirror.svg') }}" alt="mirror">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/pocketwatch.svg') }}" alt="pocketwatch">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/diamonds.svg') }}" alt="diamonds">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/clubs.svg') }}" alt="clubs">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/hearts.svg') }}" alt="hearts">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/spades.svg') }}" alt="spades">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/redrose.svg') }}" alt="redrose">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/shoe.svg') }}" alt="shoe">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/singingflower.svg') }}" alt="singing flower">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/teacup.svg') }}" alt="teacup">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/teapot.svg') }}" alt="teapot">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/tree.svg') }}" alt="tree">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/waterpipe.svg') }}" alt="waterpipe">
+                <img class="block p-4 w-24 h-24" src="{{ url('/storage/images/objects/whiterose.svg') }}" alt="white rose">
             </div>
             <figcaption class="text-center p-2 w-full bg-black-transparent text-white my-4">The objects</figcaption>
         </figure>

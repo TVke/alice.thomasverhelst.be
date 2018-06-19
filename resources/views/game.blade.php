@@ -124,39 +124,49 @@
 
     <audio id="tileSound" src="{{ url('/storage/audio/tile.mp3') }}" preload="auto"></audio>
     <audio id="pawnSound" src="{{ url('/storage/audio/pawn.mp3') }}" preload="auto"></audio>
-    <audio id="objectSound" src="{{ url('/storage/audio/object.mp3') }}" preload="auto"></audio>
+{{--    <audio id="objectSound" src="{{ url('/storage/audio/object.mp3') }}" preload="auto"></audio>--}}
 
-    {{--@if(Auth::check() && Auth::user()->pawn === 'Alice')--}}
-        {{--<audio id="welcomeSound" src="{{ url("/storage/audio/Alice/welcome.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="rotateSound" src="{{ url("/storage/audio/Alice/rotate.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="moveSound" src="{{ url("/storage/audio/Alice/movePawn.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="foundSound" src="{{ url("/storage/audio/Alice/objectFound.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="waitingSound" src="{{ url("/storage/audio/Alice/waiting.mp3") }}" preload="auto"></audio>--}}
-    {{--@endif--}}
+    @if(Auth::check() && Auth::user()->pawn === 'Alice')
+        <audio id="welcomeSound" src="{{ url("/storage/audio/Alice/welcome.mp3") }}" preload="auto"></audio>
+        <audio id="rotateSound" src="{{ url("/storage/audio/Alice/rotate.mp3") }}" preload="auto"></audio>
+        <audio id="moveSound" src="{{ url("/storage/audio/Alice/movePawn.mp3") }}" preload="auto"></audio>
+        <audio id="objectSound" src="{{ url("/storage/audio/object.mp3") }}" preload="auto"></audio>
+{{--        <audio id="objectSound" src="{{ url("/storage/audio/Alice/object.mp3") }}" preload="auto"></audio>--}}
+        <audio id="timeSound" src="{{ url("/storage/audio/Alice/time.mp3") }}" preload="auto"></audio>
+        <audio id="winSound" src="{{ url("/storage/audio/Alice/win.mp3") }}" preload="auto"></audio>
+        <audio id="looseSound" src="{{ url("/storage/audio/Alice/loose.mp3") }}" preload="auto"></audio>
+    @endif
 
-    {{--@if(Auth::check() && Auth::user()->pawn === 'Mad Hatter')--}}
-        {{--<audio id="welcomeSound" src="{{ url("/storage/audio/Mad Hatter/welcome.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="rotateSound" src="{{ url("/storage/audio/Mad Hatter/rotate.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="moveSound" src="{{ url("/storage/audio/Mad Hatter/movePawn.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="foundSound" src="{{ url("/storage/audio/Mad Hatter/objectFound.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="waitingSound" src="{{ url("/storage/audio/Mad Hatter/waiting.mp3") }}" preload="auto"></audio>--}}
-    {{--@endif--}}
+    @if(Auth::check() && Auth::user()->pawn === 'Mad Hatter')
+        <audio id="welcomeSound" src="{{ url("/storage/audio/Mad Hatter/welcome.mp3") }}" preload="auto"></audio>
+        <audio id="rotateSound" src="{{ url("/storage/audio/Mad Hatter/rotate.mp3") }}" preload="auto"></audio>
+        <audio id="moveSound" src="{{ url("/storage/audio/Mad Hatter/movePawn.mp3") }}" preload="auto"></audio>
+        <audio id="objectSound" src="{{ url("/storage/audio/Mad Hatter/object.mp3") }}" preload="auto"></audio>
+        <audio id="timeSound" src="{{ url("/storage/audio/Mad Hatter/time.mp3") }}" preload="auto"></audio>
+        <audio id="winSound" src="{{ url("/storage/audio/Mad Hatter/win.mp3") }}" preload="auto"></audio>
+        <audio id="looseSound" src="{{ url("/storage/audio/Mad Hatter/loose.mp3") }}" preload="auto"></audio>
+    @endif
 
-    {{--@if(Auth::check() && Auth::user()->pawn === 'Queen of Hearts')--}}
-        {{--<audio id="welcomeSound" src="{{ url("/storage/audio/Queen of Hearts/welcome.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="rotateSound" src="{{ url("/storage/audio/Queen of Hearts/rotate.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="moveSound" src="{{ url("/storage/audio/Queen of Hearts/movePawn.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="foundSound" src="{{ url("/storage/audio/Queen of Hearts/objectFound.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="waitingSound" src="{{ url("/storage/audio/Queen of Hearts/waiting.mp3") }}" preload="auto"></audio>--}}
-    {{--@endif--}}
+    @if(Auth::check() && Auth::user()->pawn === 'Queen of Hearts')
+        <audio id="welcomeSound" src="{{ url("/storage/audio/Queen of Hearts/welcome.mp3") }}" preload="auto"></audio>
+        <audio id="rotateSound" src="{{ url("/storage/audio/Queen of Hearts/rotate.mp3") }}" preload="auto"></audio>
+        <audio id="moveSound" src="{{ url("/storage/audio/Queen of Hearts/movePawn.mp3") }}" preload="auto"></audio>
+        <audio id="objectSound" src="{{ url("/storage/audio/Queen of Hearts/object.mp3") }}" preload="auto"></audio>
+        <audio id="timeSound" src="{{ url("/storage/audio/Queen of Hearts/time.mp3") }}" preload="auto"></audio>
+        <audio id="winSound" src="{{ url("/storage/audio/Queen of Hearts/win.mp3") }}" preload="auto"></audio>
+        <audio id="looseSound" src="{{ url("/storage/audio/Queen of Hearts/loose.mp3") }}" preload="auto"></audio>
+    @endif
 
-    {{--@if(Auth::check() && Auth::user()->pawn === 'White Rabbit')--}}
-        {{--<audio id="welcomeSound" src="{{ url("/storage/audio/White Rabbit/welcome.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="rotateSound" src="{{ url("/storage/audio/White Rabbit/rotate.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="moveSound" src="{{ url("/storage/audio/White Rabbit/movePawn.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="foundSound" src="{{ url("/storage/audio/White Rabbit/objectFound.mp3") }}" preload="auto"></audio>--}}
-        {{--<audio id="waitingSound" src="{{ url("/storage/audio/White Rabbit/waiting.mp3") }}" preload="auto"></audio>--}}
-    {{--@endif--}}
+    @if(Auth::check() && Auth::user()->pawn === 'White Rabbit')
+        <audio id="welcomeSound" src="{{ url("/storage/audio/White Rabbit/welcome.mp3") }}" preload="auto"></audio>
+        <audio id="rotateSound" src="{{ url("/storage/audio/White Rabbit/rotate.mp3") }}" preload="auto"></audio>
+        <audio id="moveSound" src="{{ url("/storage/audio/White Rabbit/movePawn.mp3") }}" preload="auto"></audio>
+        <audio id="objectSound" src="{{ url("/storage/audio/object.mp3") }}" preload="auto"></audio>
+{{--        <audio id="objectSound" src="{{ url("/storage/audio/White Rabbit/object.mp3") }}" preload="auto"></audio>--}}
+        <audio id="timeSound" src="{{ url("/storage/audio/White Rabbit/time.mp3") }}" preload="auto"></audio>
+        <audio id="winSound" src="{{ url("/storage/audio/White Rabbit/win.mp3") }}" preload="auto"></audio>
+        <audio id="looseSound" src="{{ url("/storage/audio/White Rabbit/loose.mp3") }}" preload="auto"></audio>
+    @endif
 
     <script src="{{ mix('js/app.js') }}"></script>
 @endsection

@@ -18,7 +18,7 @@ class GameController extends Controller
         if ($session) {
             session(['game_token' => $session->session]);
 
-            if ($session->started) {
+            if ($session->started && Auth::user()->session->session !== $session->session) {
                 return view('errors.started');
             }
         }
@@ -32,6 +32,14 @@ class GameController extends Controller
         }
 
         $players = $session->players()->get();
+
+        if ($session && $session->started) {
+//            event(new GameStarted($session, $session->players));
+
+            $activePlayer = $session->players()->where('active', true)->first()->pawn;
+
+            event(new PlayerChanged($session, $activePlayer));
+        }
 
         return view('game', compact('players'));
     }

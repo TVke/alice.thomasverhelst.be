@@ -74,6 +74,8 @@ export default {
             winner: '',
             scores: [],
             objectSound: null,
+            winSound: null,
+            looseSound: null,
         };
     },
     created() {
@@ -133,6 +135,8 @@ export default {
     },
     mounted() {
         this.objectSound = document.getElementById('objectSound');
+        this.winSound = document.getElementById('winSound');
+        this.looseSound = document.getElementById('looseSound');
     },
     computed: {
         buttonText() {
