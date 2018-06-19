@@ -68,6 +68,7 @@
                 moveSound: null,
                 foundSound: null,
                 waitingSound: null,
+                startTimeout: null,
             };
         },
         created() {
@@ -104,6 +105,14 @@
                     if (this.welcomeSound) {
                         this.welcomeSound.play();
                     }
+
+                    if (this.playerpawn === this.activePawn) {
+                        this.startTimeout = setTimeout(() => {
+                            if (this.rotateSound) {
+                                this.rotateSound.play();
+                            }
+                        }, 10000);
+                    }
                 })
                 .listen('TileMoved', ({tiles, players}) => {
                     this.players = this.parsePosition(players);
@@ -114,6 +123,8 @@
 
                     if (this.tileSound) {
                         this.tileSound.play();
+
+                        clearTimeout(this.startTimeout);
                     }
                 })
                 .listen('PawnMoved', ({path}) => {
@@ -122,113 +133,117 @@
                 .listen('ObjectFound', data => {
                     Event.$emit('object-found', data);
 
-                    if (this.objectSound) {
+                    if (this.allowPlay && this.objectSound) {
                         this.objectSound.play();
                     }
 
-                    if (!this.objectSound) {
-                        if (this.bottleSound) {
-                            this.bottleSound.play();
-                        }
-
-                        if (this.cakeSound) {
-                            this.cakeSound.play();
-                        }
-
-                        if (this.cardsoldiersSound) {
-                            this.cardsoldiersSound.play();
-                        }
-
-                        if (this.clubsSound) {
-                            this.clubsSound.play();
-                        }
-
-                        if (this.crownSound) {
-                            this.crownSound.play();
-                        }
-
-                        if (this.diamondsSound) {
-                            this.diamondsSound.play();
-                        }
-
-                        if (this.doorknobSound) {
-                            this.doorknobSound.play();
-                        }
-
-                        if (this.golfbalSound) {
-                            this.golfbalSound.play();
-                        }
-
-                        if (this.golfmalletsSound) {
-                            this.golfmalletsSound.play();
-                        }
-
-                        if (this.hammerSound) {
-                            this.hammerSound.play();
-                        }
-
-                        if (this.hatsSound) {
-                            this.hatsSound.play();
-                        }
-
-                        if (this.heartsSound) {
-                            this.heartsSound.play();
-                        }
-
-                        if (this.keySound) {
-                            this.keySound.play();
-                        }
-
-                        if (this.mirrorSound) {
-                            this.mirrorSound.play();
-                        }
-
-                        if (this.pocketwatchSound) {
-                            this.pocketwatchSound.play();
-                        }
-
-                        if (this.redroseSound) {
-                            this.redroseSound.play();
-                        }
-
-                        if (this.shoeSound) {
-                            this.shoeSound.play();
-                        }
-
-                        if (this.singingflowerSound) {
-                            this.singingflowerSound.play();
-                        }
-
-                        if (this.spadesSound) {
-                            this.spadesSound.play();
-                        }
-
-                        if (this.teacupSound) {
-                            this.teacupSound.play();
-                        }
-
-                        if (this.teapotSound) {
-                            this.teapotSound.play();
-                        }
-
-                        if (this.treeSound) {
-                            this.treeSound.play();
-                        }
-
-                        if (this.waterpipeSound) {
-                            this.waterpipeSound.play();
-                        }
-
-                        if (this.whiteroseSound) {
-                            this.whiteroseSound.play();
-                        }
-                    }
+                    // if (data.pawn === this.playerpawn && !this.objectSound) {
+                    //     if (this.bottleSound) {
+                    //         this.bottleSound.play();
+                    //     }
+                    //
+                    //     if (this.cakeSound) {
+                    //         this.cakeSound.play();
+                    //     }
+                    //
+                    //     if (this.cardsoldiersSound) {
+                    //         this.cardsoldiersSound.play();
+                    //     }
+                    //
+                    //     if (this.clubsSound) {
+                    //         this.clubsSound.play();
+                    //     }
+                    //
+                    //     if (this.crownSound) {
+                    //         this.crownSound.play();
+                    //     }
+                    //
+                    //     if (this.diamondsSound) {
+                    //         this.diamondsSound.play();
+                    //     }
+                    //
+                    //     if (this.doorknobSound) {
+                    //         this.doorknobSound.play();
+                    //     }
+                    //
+                    //     if (this.golfbalSound) {
+                    //         this.golfbalSound.play();
+                    //     }
+                    //
+                    //     if (this.golfmalletsSound) {
+                    //         this.golfmalletsSound.play();
+                    //     }
+                    //
+                    //     if (this.hammerSound) {
+                    //         this.hammerSound.play();
+                    //     }
+                    //
+                    //     if (this.hatsSound) {
+                    //         this.hatsSound.play();
+                    //     }
+                    //
+                    //     if (this.heartsSound) {
+                    //         this.heartsSound.play();
+                    //     }
+                    //
+                    //     if (this.keySound) {
+                    //         this.keySound.play();
+                    //     }
+                    //
+                    //     if (this.mirrorSound) {
+                    //         this.mirrorSound.play();
+                    //     }
+                    //
+                    //     if (this.pocketwatchSound) {
+                    //         this.pocketwatchSound.play();
+                    //     }
+                    //
+                    //     if (this.redroseSound) {
+                    //         this.redroseSound.play();
+                    //     }
+                    //
+                    //     if (this.shoeSound) {
+                    //         this.shoeSound.play();
+                    //     }
+                    //
+                    //     if (this.singingflowerSound) {
+                    //         this.singingflowerSound.play();
+                    //     }
+                    //
+                    //     if (this.spadesSound) {
+                    //         this.spadesSound.play();
+                    //     }
+                    //
+                    //     if (this.teacupSound) {
+                    //         this.teacupSound.play();
+                    //     }
+                    //
+                    //     if (this.teapotSound) {
+                    //         this.teapotSound.play();
+                    //     }
+                    //
+                    //     if (this.treeSound) {
+                    //         this.treeSound.play();
+                    //     }
+                    //
+                    //     if (this.waterpipeSound) {
+                    //         this.waterpipeSound.play();
+                    //     }
+                    //
+                    //     if (this.whiteroseSound) {
+                    //         this.whiteroseSound.play();
+                    //     }
+                    // }
                 })
                 .listen('RotateTile', () => {
                     Event.$emit('rotate');
                 })
                 .listen('PlayerChanged', ({pawn}) => {
                     Event.$emit('player-changed', pawn);
+
+                    if (pawn === this.playerpawn && this.rotateSound){
+                        this.rotateSound.play();
+                    }
                 })
                 .listen('PlayerWon', data => {
                     Event.$emit('player-won', data);

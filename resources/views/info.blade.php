@@ -35,10 +35,10 @@
     <div class="block pt-8 pb-8 border-t">
         <figure>
             <div class="flex w-full justify-between px-4">
-                <img class="block w-1/4 h-full" src="{{ url('/images/pawns/Alice.svg') }}" alt="Alice pawn">
-                <img class="block w-1/4 h-full" src="{{ url('/images/pawns/Mad Hatter.svg') }}" alt="Mad Hatter pawn">
-                <img class="block w-1/4 h-full" src="{{ url('/images/pawns/Queen of Hearts.svg') }}" alt="Queen of Hearts pawn">
-                <img class="block w-1/4 h-full" src="{{ url('/images/pawns/White Rabbit.svg') }}" alt="White Rabbit pawn">
+                <img class="block w-1/4 h-full" src="{{ url('/storage/images/pawns/Alice.svg') }}" alt="Alice pawn">
+                <img class="block w-1/4 h-full" src="{{ url('/storage/images/pawns/Mad Hatter.svg') }}" alt="Mad Hatter pawn">
+                <img class="block w-1/4 h-full" src="{{ url('/storage/images/pawns/Queen of Hearts.svg') }}" alt="Queen of Hearts pawn">
+                <img class="block w-1/4 h-full" src="{{ url('/storage/images/pawns/White Rabbit.svg') }}" alt="White Rabbit pawn">
             </div>
             <figcaption class="text-center p-2 w-full bg-black-transparent text-white my-4">The pawns</figcaption>
         </figure>

@@ -25,10 +25,12 @@ export default {
             xPos: this.x,
             yPos: this.y,
             tileSound: null,
+            moveSound: null,
         };
     },
     mounted() {
         this.tileSound = document.getElementById('tileSound');
+        this.moveSound = document.getElementById('moveSound');
     },
     computed: {
         tileDescription() {
@@ -46,8 +48,13 @@ export default {
     methods: {
         handleTileClick() {
             this.$emit('add-tile', { x: this.xPos, y: this.yPos });
+
             if (this.tileSound) {
                 this.tileSound.play();
+            }
+
+            if (this.moveSound) {
+                this.moveSound.play();
             }
         },
         handleTileRotation() {

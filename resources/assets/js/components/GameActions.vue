@@ -129,8 +129,16 @@ export default {
 
         Event.$on('player-won', ({ username, scores }) => {
             this.winner = username;
-            console.log(scores);
+
             this.scores = scores;
+
+            if (this.activePawn === this.playerpawn && this.winSound) {
+                this.winSound.play();
+            }
+
+            if (this.activePawn !== this.playerpawn && this.looseSound) {
+                this.looseSound.play();
+            }
         });
     },
     mounted() {
