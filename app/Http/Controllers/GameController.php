@@ -33,13 +33,13 @@ class GameController extends Controller
 
         $players = $session->players()->get();
 
-        if ($session && $session->started) {
+//        if ($session && $session->started) {
 //            event(new GameStarted($session, $session->players));
-
-            $activePlayer = $session->players()->where('active', true)->first()->pawn;
-
-            event(new PlayerChanged($session, $activePlayer));
-        }
+//
+//            $activePlayer = $session->players()->where('active', true)->first()->pawn;
+//
+//            event(new PlayerChanged($session, $activePlayer));
+//        }
 
         return view('game', compact('players'));
     }
