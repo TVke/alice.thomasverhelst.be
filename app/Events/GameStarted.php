@@ -18,11 +18,15 @@ class GameStarted implements ShouldBroadcast
 
     public $players;
 
-    public function __construct(GameSession $gameSession, $players)
+    public $activePlayer;
+
+    public function __construct(GameSession $gameSession, $players, $activePlayer)
     {
         $this->gameSession = $gameSession;
 
         $this->players = $players;
+
+        $this->activePlayer = $activePlayer;
     }
 
     public function broadcastOn()

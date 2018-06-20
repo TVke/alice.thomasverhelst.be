@@ -18,7 +18,7 @@ class GameController extends Controller
         if ($session) {
             session(['game_token' => $session->session]);
 
-            if ($session->started && Auth::user()->session->session !== $session->session) {
+            if ($session->started && Auth::check() && Auth::user()->session->session !== $session->session) {
                 return view('errors.started');
             }
         }
@@ -70,9 +70,9 @@ class GameController extends Controller
             Player::where('id', $player->id)->update(compact('objects', 'current_object'));
         });
 
-        event(new GameStarted($session, $session->players));
+        event(new GameStarted($session, $session->players, $randomPlayer->pawn));
 
-        event(new PlayerChanged($session, $randomPlayer->pawn));
+//        event(new PlayerChanged($session, $randomPlayer->pawn));
     }
 
     public function firstObject(Request $request)

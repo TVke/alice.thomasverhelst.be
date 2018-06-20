@@ -58,130 +58,134 @@
 </template>
 
 <script>
-export default {
-    name: 'GameActions',
-    props: ['playerpawn'],
-    data() {
-        return {
-            moveMazeMode: false,
-            paused: true,
-            showObject: false,
-            actionHappening: false,
-            object: {},
-            objectOwner: '',
-            feedback: '',
-            activePawn: '',
-            winner: '',
-            scores: [],
-            objectSound: null,
-            winSound: null,
-            looseSound: null,
-        };
-    },
-    created() {
-        Event.$on('game-started', () => {
-            this.paused = false;
-
-            this.moveMazeMode = true;
-        });
-
-        Event.$on('maze-moved', () => {
-            this.moveMazeMode = false;
-        });
-
-        Event.$on('object-found', ({ object, pawn }) => {
-            setTimeout(() => {
-                this.object = {};
-
-                this.showObject = false;
-
-                this.objectOwner = '';
-            }, 2500);
-
-            setTimeout(() => {
-                this.objectOwner = pawn;
-            }, 2000);
-
-            setTimeout(() => {
-                this.showObject = true;
-
-                if (this.objectSound) {
-                    this.objectSound.play();
-                }
-            }, 250);
-
-            this.object = object;
-        });
-
-        Event.$on('pawn-moving', () => {
-            this.actionHappening = true;
-        });
-
-        Event.$on('player-may-change', () => {
-            this.actionHappening = false;
-        });
-
-        Event.$on('player-changed', pawn => {
-            this.activePawn = pawn;
-
-            this.moveMazeMode = true;
-        });
-
-        Event.$on('player-won', ({ username, scores }) => {
-            this.winner = username;
-
-            this.scores = scores;
-
-            if (this.activePawn === this.playerpawn && this.winSound) {
-                this.winSound.play();
-            }
-
-            if (this.activePawn !== this.playerpawn && this.looseSound) {
-                this.looseSound.play();
-            }
-        });
-    },
-    mounted() {
-        this.objectSound = document.getElementById('objectSound');
-        this.winSound = document.getElementById('winSound');
-        this.looseSound = document.getElementById('looseSound');
-    },
-    computed: {
-        buttonText() {
-            if (!this.allowPlay) {
-                const article = this.activePawn === 'Alice' ? '' : ' the';
-
-                return `waiting on${article} ${this.activePawn} ...`;
-            }
-
-            if (this.moveMazeMode) {
-                return 'rotate the tile';
-            }
-
-            return 'next player';
+    export default {
+        name: 'GameActions',
+        props: ['playerpawn'],
+        data() {
+            return {
+                moveMazeMode: false,
+                paused: true,
+                showObject: false,
+                actionHappening: false,
+                object: {},
+                objectOwner: '',
+                feedback: '',
+                activePawn: '',
+                winner: '',
+                scores: [],
+                objectSound: null,
+                winSound: null,
+                looseSound: null,
+            };
         },
-        allowPlay() {
-            return this.activePawn === this.playerpawn;
-        },
-    },
-    methods: {
-        handleAction() {
-            if (this.moveMazeMode) {
-                Event.$emit('rotate');
+        created() {
+            Event.$on('game-started', () => {
+                this.paused = false;
+
+                this.moveMazeMode = true;
+            });
+
+            Event.$on('maze-moved', () => {
+                this.moveMazeMode = false;
+            });
+
+            Event.$on('object-found', ({object, pawn}) => {
+                setTimeout(() => {
+                    this.object = {};
+
+                    this.showObject = false;
+
+                    this.objectOwner = '';
+                }, 2500);
 
                 setTimeout(() => {
-                    this.feedback = '';
-                }, 1000);
+                    this.objectOwner = pawn;
+                }, 2000);
 
-                this.feedback = 'rotated';
+                setTimeout(() => {
+                    this.showObject = true;
 
-                window.axios.post('/rotate/tile');
+                    if (this.playerpawn === this.activePawn && this.objectSound) {
+                        this.objectSound.play();
+                    }
+                }, 250);
 
-                return;
-            }
+                this.object = object;
+            });
 
-            window.axios.post('/next/player');
+            Event.$on('pawn-moving', () => {
+                this.actionHappening = true;
+            });
+
+            Event.$on('player-may-change', () => {
+                this.actionHappening = false;
+            });
+
+            Event.$on('player-changed', pawn => {
+                this.activePawn = pawn;
+
+                this.moveMazeMode = true;
+            });
+
+            Event.$on('player-won', ({username, scores}) => {
+                this.winner = username;
+
+                this.scores = scores;
+
+                if (this.objectSound) {
+                    this.objectSound.addEventListener('ended', () => {
+                        if (this.activePawn === this.playerpawn && this.winSound) {
+                            this.winSound.play();
+                        }
+                    })
+                }
+
+                if (this.activePawn !== this.playerpawn && this.looseSound) {
+                    this.looseSound.play();
+                }
+            });
         },
-    },
-};
+        mounted() {
+            this.objectSound = document.getElementById('objectSound');
+            this.winSound = document.getElementById('winSound');
+            this.looseSound = document.getElementById('looseSound');
+        },
+        computed: {
+            buttonText() {
+                if (!this.allowPlay) {
+                    const article = this.activePawn === 'Alice' ? '' : ' the';
+
+                    return `waiting on${article} ${this.activePawn} ...`;
+                }
+
+                if (this.moveMazeMode) {
+                    return 'rotate the tile';
+                }
+
+                return 'next player';
+            },
+            allowPlay() {
+                return this.activePawn === this.playerpawn;
+            },
+        },
+        methods: {
+            handleAction() {
+                if (this.moveMazeMode) {
+                    Event.$emit('rotate');
+
+                    setTimeout(() => {
+                        this.feedback = '';
+                    }, 1000);
+
+                    this.feedback = 'rotated';
+
+                    window.axios.post('/rotate/tile');
+
+                    return;
+                }
+
+                window.axios.post('/next/player');
+            },
+        },
+    };
 </script>

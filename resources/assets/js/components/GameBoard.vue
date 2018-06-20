@@ -68,7 +68,6 @@
                 moveSound: null,
                 foundSound: null,
                 waitingSound: null,
-                startTimeout: null,
             };
         },
         created() {
@@ -95,23 +94,22 @@
                     if (this.paused) {
                         window.axios.delete(`/delete/player/${pawnOfPlayer}`);
                     }
+
                     this.$emit('remove-player', playerIndex);
                 })
-                .listen('GameStarted', ({players}) => {
-                    console.log(players);
-
+                .listen('GameStarted', ({players, activePlayer}) => {
                     Event.$emit('game-started', this.parsePosition(players));
 
-                    if (this.welcomeSound) {
-                        this.welcomeSound.play();
-                    }
+                    Event.$emit('player-changed', activePlayer);
 
-                    if (this.playerpawn === this.activePawn) {
-                        this.startTimeout = setTimeout(() => {
-                            if (this.rotateSound) {
+                    if (this.welcomeSound) {
+                        this.welcomeSound.addEventListener('ended', ()=>{
+                            if ((this.allowPlay && this.moveMazeMode) && this.rotateSound){
                                 this.rotateSound.play();
                             }
-                        }, 10000);
+                        });
+
+                        this.welcomeSound.play();
                     }
                 })
                 .listen('TileMoved', ({tiles, players}) => {
@@ -123,8 +121,6 @@
 
                     if (this.tileSound) {
                         this.tileSound.play();
-
-                        clearTimeout(this.startTimeout);
                     }
                 })
                 .listen('PawnMoved', ({path}) => {
@@ -132,108 +128,6 @@
                 })
                 .listen('ObjectFound', data => {
                     Event.$emit('object-found', data);
-
-                    if (this.allowPlay && this.objectSound) {
-                        this.objectSound.play();
-                    }
-
-                    // if (data.pawn === this.playerpawn && !this.objectSound) {
-                    //     if (this.bottleSound) {
-                    //         this.bottleSound.play();
-                    //     }
-                    //
-                    //     if (this.cakeSound) {
-                    //         this.cakeSound.play();
-                    //     }
-                    //
-                    //     if (this.cardsoldiersSound) {
-                    //         this.cardsoldiersSound.play();
-                    //     }
-                    //
-                    //     if (this.clubsSound) {
-                    //         this.clubsSound.play();
-                    //     }
-                    //
-                    //     if (this.crownSound) {
-                    //         this.crownSound.play();
-                    //     }
-                    //
-                    //     if (this.diamondsSound) {
-                    //         this.diamondsSound.play();
-                    //     }
-                    //
-                    //     if (this.doorknobSound) {
-                    //         this.doorknobSound.play();
-                    //     }
-                    //
-                    //     if (this.golfbalSound) {
-                    //         this.golfbalSound.play();
-                    //     }
-                    //
-                    //     if (this.golfmalletsSound) {
-                    //         this.golfmalletsSound.play();
-                    //     }
-                    //
-                    //     if (this.hammerSound) {
-                    //         this.hammerSound.play();
-                    //     }
-                    //
-                    //     if (this.hatsSound) {
-                    //         this.hatsSound.play();
-                    //     }
-                    //
-                    //     if (this.heartsSound) {
-                    //         this.heartsSound.play();
-                    //     }
-                    //
-                    //     if (this.keySound) {
-                    //         this.keySound.play();
-                    //     }
-                    //
-                    //     if (this.mirrorSound) {
-                    //         this.mirrorSound.play();
-                    //     }
-                    //
-                    //     if (this.pocketwatchSound) {
-                    //         this.pocketwatchSound.play();
-                    //     }
-                    //
-                    //     if (this.redroseSound) {
-                    //         this.redroseSound.play();
-                    //     }
-                    //
-                    //     if (this.shoeSound) {
-                    //         this.shoeSound.play();
-                    //     }
-                    //
-                    //     if (this.singingflowerSound) {
-                    //         this.singingflowerSound.play();
-                    //     }
-                    //
-                    //     if (this.spadesSound) {
-                    //         this.spadesSound.play();
-                    //     }
-                    //
-                    //     if (this.teacupSound) {
-                    //         this.teacupSound.play();
-                    //     }
-                    //
-                    //     if (this.teapotSound) {
-                    //         this.teapotSound.play();
-                    //     }
-                    //
-                    //     if (this.treeSound) {
-                    //         this.treeSound.play();
-                    //     }
-                    //
-                    //     if (this.waterpipeSound) {
-                    //         this.waterpipeSound.play();
-                    //     }
-                    //
-                    //     if (this.whiteroseSound) {
-                    //         this.whiteroseSound.play();
-                    //     }
-                    // }
                 })
                 .listen('RotateTile', () => {
                     Event.$emit('rotate');
@@ -288,31 +182,6 @@
             this.waitingSound = document.getElementById('timeSound');
             this.winSound = document.getElementById('winSound');
             this.looseSound = document.getElementById('looseSound');
-
-            this.bottleSound = document.getElementById('bottleSound');
-            this.cakeSound = document.getElementById('cakeSound');
-            this.cardsoldiersSound = document.getElementById('cardsoldiersSound');
-            this.clubsSound = document.getElementById('clubsSound');
-            this.crownSound = document.getElementById('crownSound');
-            this.diamondsSound = document.getElementById('diamondsSound');
-            this.doorknobSound = document.getElementById('doorknobSound');
-            this.golfbalSound = document.getElementById('golfbalSound');
-            this.golfmalletsSound = document.getElementById('golfmalletsSound');
-            this.hammerSound = document.getElementById('hammerSound');
-            this.hatsSound = document.getElementById('hatsSound');
-            this.heartsSound = document.getElementById('heartsSound');
-            this.keySound = document.getElementById('keySound');
-            this.mirrorSound = document.getElementById('mirrorSound');
-            this.pocketwatchSound = document.getElementById('pocketwatchSound');
-            this.redroseSound = document.getElementById('redroseSound');
-            this.shoeSound = document.getElementById('shoeSound');
-            this.singingflowerSound = document.getElementById('singingflowerSound');
-            this.spadesSound = document.getElementById('spadesSound');
-            this.teacupSound = document.getElementById('teacupSound');
-            this.teapotSound = document.getElementById('teapotSound');
-            this.treeSound = document.getElementById('treeSound');
-            this.waterpipeSound = document.getElementById('waterpipeSound');
-            this.whiteroseSound = document.getElementById('whiteroseSound');
         },
         computed: {
             activePlayerIndex() {
