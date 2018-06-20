@@ -16,7 +16,7 @@
         <h2>The game</h2>
         <p>Alice's magical maze is a multiplayer boardgame.
             This game is set in the maze of the Queen of Hearts from the book "Alice's adventures in Wonderland".
-            Inside the magical maze there are different objects from book that need to be found.
+            Inside the magical maze there are different objects from the book that need to be found.
             You can choose to be Alice, the Mad Hatter, the White Rabbit and the Queen of Hearts when you enter the maze.
             Of course this maze is inside Wonderland so it is not what it seems, the maze changes every turn in the game.
             This provides you with a surprising and fun treasurehunt inside the magical maze. </p>
@@ -24,7 +24,7 @@
     <section class="p-4 pb-4">
         <h3>The goal of the game</h3>
         <p>The goal of the game is to find all your objects inside the maze.
-            If one player wins it is the end of the game en everybody get's a score based on the objects every player found.</p>
+            If one player wins it is the end of the game en everybody gets a score based on the objects every player found.</p>
     </section>
     <section class="p-4 pb-8">
         <h3>One turn</h3>
