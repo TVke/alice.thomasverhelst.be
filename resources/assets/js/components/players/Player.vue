@@ -15,7 +15,7 @@
                  'right-out': paused && placement.right,
                  'translateX-0': !paused,
         }">
-            <div class="h-full rounded-full w-12 md:w-1/4 bg-white filter-gray"
+            <div class="rounded-full w-12 md:w-1/4 bg-white filter-gray"
                  :class="{
                      'no-filter border border-pawn-blue shadow-blue-active': active === player.pawn && player.pawn === 'Alice',
                      'no-filter border border-pawn-green shadow-green-active': active === player.pawn && player.pawn === 'Mad Hatter',
