@@ -11,8 +11,8 @@
         :src="`/storage/images/tiles/${this.tile.type}.svg`"
         :alt="tileDescription">
         <img class="absolute w-2/5 h-2/5 pin m-auto block transition transition-property-transform" v-if="this.tile.object"
-        :src="`/storage/images/objects/${this.tile.object.name}.svg`"
-        :alt="this.tile.object.description">
+        :src="`/storage/images/objects/${this.tile.object}.svg`"
+        :alt="this.tile.object">
     </a>
 </template>
 

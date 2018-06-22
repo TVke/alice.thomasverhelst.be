@@ -61,7 +61,7 @@ class Tile
                 $tiles[$x][$y] = [
                     'x' => $x,
                     'y' => $y,
-                    'object' => $object,
+                    'object' => collect($object)->get('name'),
                     'type' => $type->get('type'),
                     'rotation' => $rotation,
                 ];
@@ -79,7 +79,7 @@ class Tile
         return collect($tiles)->flatten(1)->push(collect([
             'x' => -1,
             'y' => -1,
-            'object' => $object,
+            'object' => collect($object)->get('name'),
             'type' => $extraTile->get('type'),
             'rotation' => 0,
         ]));

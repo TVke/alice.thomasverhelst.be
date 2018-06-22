@@ -499,7 +499,7 @@
                 return false;
             },
             getTileobject(x, y) {
-                let tileObject = {};
+                let tileObject = '';
 
                 this.tiles.forEach(tile => {
                     if (tile.x === x && tile.y === y) {
@@ -512,7 +512,7 @@
             objectIsAt(x, y) {
                 const object = this.getTileobject(x, y).object;
 
-                return object && object.name === this.newObject.name;
+                return object === this.newObject.name;
             },
             getDirection(positionOne, positionTwo) {
                 if (positionOne.x === positionTwo.x) {
