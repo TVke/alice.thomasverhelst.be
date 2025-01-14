@@ -26,7 +26,7 @@
         "eslint-plugin-vue": "^4.5.0",
         "glhd-tailwindcss-transitions": "^0.3.0",
         "laravel-echo": "^1.4.0",
-        "laravel-mix": "^2.1.11",
+        "laravel-mix": "^6.0.49",
         "laravel-mix-purgecss": "^2.2.0",
         "postcss-cssnext": "^3.1.0",
         "postcss-easy-import": "^3.0.0",
